@@ -7,7 +7,7 @@ import "@mantine/core/styles.css";
 import { MantineProvider } from "@mantine/core";
 import { Provider } from "react-redux";
 import { store } from "./store.js";
-import "./index.css";
+import "./styles/App.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -16,5 +16,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <App />
       </MantineProvider>
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
