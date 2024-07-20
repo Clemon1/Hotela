@@ -2,7 +2,6 @@ import { Box, Flex, Select, Stack, Text } from "@mantine/core";
 import hostelRoom from "../../assets/hostelRoom.jpg";
 import PopularDestination from "../../features/dashboard/PopularDestination";
 import HostelLovedByGuest from "../../features/dashboard/HostelLovedByGuest";
-import Demo from "../../features/dashboard/Demo";
 
 const Dashboard = () => {
   return (
@@ -93,7 +92,6 @@ const Dashboard = () => {
 
       <PopularDestination />
       <HostelLovedByGuest />
-      <Demo />
     </Flex>
   );
 };
