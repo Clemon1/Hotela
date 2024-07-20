@@ -79,7 +79,6 @@ const items = [
 
 function HostelLovedByGuest() {
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const theme = useMantineTheme();
 
   return (
     <Box mt={6} mb={10}>

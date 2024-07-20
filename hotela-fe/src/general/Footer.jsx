@@ -1,11 +1,9 @@
 import {
-  Box,
   Flex,
   Stack,
   Text,
   Title,
   Group,
-  Divider,
   useMantineTheme,
 } from "@mantine/core";
 import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
@@ -23,12 +21,7 @@ function Footer() {
         width: "100%",
       }}
     >
-      <Flex
-        justify="space-between"
-        align="flex-start"
-        wrap="wrap"
-        style={{ marginBottom: 30 }}
-      >
+      <Flex justify="space-between" align="flex-start" wrap="wrap">
         <Stack gap={10} style={{ maxWidth: 300 }}>
           <Title order={3} c={theme.colors.blue[6]}>
             Hotela
@@ -36,7 +29,7 @@ function Footer() {
           <Text size="sm">Your favorite booking experience since 2024</Text>
         </Stack>
 
-        <Stack spacing="md">
+        <Stack gap={10}>
           <Title order={4} c={theme.colors.blue[6]}>
             Follow Us
           </Title>
