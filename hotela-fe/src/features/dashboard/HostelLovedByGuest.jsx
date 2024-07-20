@@ -1,82 +1,85 @@
 import { Box, Image, Stack, Text, Flex } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
+import { useMediaQuery } from "@mantine/hooks";
 import dashBoardRoom1 from "../../assets/dashBoardRoom1.jpg";
 import { FaAngleRight } from "react-icons/fa";
 
 const items = [
   {
     id: 1,
-    name: "Holo Hotel",
-    location: "Islington",
-    price: "from $100/night",
+    name: "Cozy Cottage",
+    location: "Camden",
+    price: "from $90/night",
     image: dashBoardRoom1,
   },
   {
     id: 2,
-    name: "Holo Hotel",
-    location: "Islington",
-    price: "from $120/night",
-    image: dashBoardRoom1,
-  },
-  {
-    id: 3,
-    name: "Holo Hotel",
-    location: "Islington",
-    price: "from $130/night",
-    image: dashBoardRoom1,
-  },
-  {
-    id: 4,
-    name: "Holo Hotel",
-    location: "Islington",
-    price: "from $140/night",
-    image: dashBoardRoom1,
-  },
-  {
-    id: 5,
-    name: "Holo Hotel",
-    location: "Islington",
+    name: "Elegant Estate",
+    location: "Kensington",
     price: "from $150/night",
     image: dashBoardRoom1,
   },
   {
-    id: 6,
-    name: "Holo Hotel",
-    location: "Islington",
-    price: "from $160/night",
+    id: 3,
+    name: "Modern Apartment",
+    location: "Chelsea",
+    price: "from $200/night",
     image: dashBoardRoom1,
   },
   {
-    id: 7,
-    name: "Holo Hotel",
-    location: "Islington",
-    price: "from $170/night",
+    id: 4,
+    name: "Classic Villa",
+    location: "Hampstead",
+    price: "from $250/night",
     image: dashBoardRoom1,
   },
   {
-    id: 8,
-    name: "Holo Hotel",
-    location: "Islington",
+    id: 5,
+    name: "Beach House",
+    location: "Brighton",
     price: "from $180/night",
     image: dashBoardRoom1,
   },
   {
+    id: 6,
+    name: "Country Inn",
+    location: "Oxford",
+    price: "from $120/night",
+    image: dashBoardRoom1,
+  },
+  {
+    id: 7,
+    name: "Luxury Loft",
+    location: "Mayfair",
+    price: "from $300/night",
+    image: dashBoardRoom1,
+  },
+  {
+    id: 8,
+    name: "Rustic Retreat",
+    location: "Cotswolds",
+    price: "from $110/night",
+    image: dashBoardRoom1,
+  },
+  {
     id: 9,
-    name: "Holo Hotel",
-    location: "Islington",
-    price: "from $190/night",
+    name: "Urban Studio",
+    location: "Soho",
+    price: "from $130/night",
     image: dashBoardRoom1,
   },
   {
     id: 10,
-    name: "Holo Hotel",
-    location: "Islington",
-    price: "from $200/night",
+    name: "Historic Mansion",
+    location: "Greenwich",
+    price: "from $220/night",
     image: dashBoardRoom1,
   },
 ];
 
 function HostelLovedByGuest() {
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
   return (
     <Box mt={20} mb={10}>
       <Text fw={600} mb={10}>
@@ -84,20 +87,23 @@ function HostelLovedByGuest() {
       </Text>
 
       <Carousel
-        withIndicators
-        height={300}
-        slideSize="20%"
+        height={260}
+        slideSize="25%"
         slideGap="md"
-        loop
-        align="start"
-        controlSize={32}
+        align={isMobile ? "center" : "start"}
+        controlSize={40}
+        controlsOffset="sm"
+        py={20}
+        loop={true}
+        pl={{ base: 0, md: 25 }}
+        withControls={!isMobile}
       >
         {items.map((item) => (
-          <Carousel.Slide key={item.id}>
+          <Carousel.Slide key={item.id} px={4}>
             <Stack
               w={250}
               h={250}
-              p={5}
+              p={10}
               gap={0}
               style={{
                 boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.4)",
@@ -110,16 +116,27 @@ function HostelLovedByGuest() {
                 <Image radius={15} src={item.image} />
               </Box>
 
-              <Box>
-                <Text>{item.name}</Text>
-                <Text>{item.location}</Text>
+              <Box mt={8} style={{ cursor: "default" }}>
+                <Text fz={16} fw={600} c="black">
+                  {item.name}
+                </Text>
+                <Text fz={12} mt={-5}>
+                  {item.location}
+                </Text>
               </Box>
 
               <Flex
                 align="center"
-                style={{ width: "100%", justifyContent: "space-between" }}
+                mt={10}
+                style={{
+                  width: "100%",
+                  justifyContent: "space-between",
+                  cursor: "pointer",
+                }}
               >
-                <Text>{item.price}</Text>
+                <Text fz={15} fw={700}>
+                  {item.price}
+                </Text>
                 <FaAngleRight size={20} />
               </Flex>
             </Stack>

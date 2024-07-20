@@ -2,6 +2,8 @@ import { Box, Flex, Select, Stack, Text } from "@mantine/core";
 import hostelRoom from "../../assets/hostelRoom.jpg";
 import PopularDestination from "../../features/dashboard/PopularDestination";
 import HostelLovedByGuest from "../../features/dashboard/HostelLovedByGuest";
+// import PopularDestination from "../../features/dashboard/PopularDestination";
+// import HostelLovedByGuest from "../../features/dashboard/HostelLovedByGuest";
 
 const Dashboard = () => {
   return (
