@@ -1,4 +1,4 @@
-import { Box, Image, Stack, Text, Flex } from "@mantine/core";
+import { Box, Image, Stack, Text, Flex, useMantineTheme } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { useMediaQuery } from "@mantine/hooks";
 import dashBoardRoom1 from "../../assets/dashBoardRoom1.jpg";
@@ -79,12 +79,11 @@ const items = [
 
 function HostelLovedByGuest() {
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const theme = useMantineTheme();
 
   return (
-    <Box mt={20} mb={10}>
-      <Text fw={600} mb={10}>
-        Hostel Loved By Guest
-      </Text>
+    <Box mt={6} mb={10}>
+      <Text fw={600}>Hostel Loved By Guest</Text>
 
       <Carousel
         height={260}
