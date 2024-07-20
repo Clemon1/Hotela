@@ -19,6 +19,10 @@ const hotelSchema = new Schema(
       },
     ],
     location: { type: Schema.Types.ObjectId, ref: "Location", required: true },
+    coordinates: {
+      lat: { type: Number, required: true },
+      lng: { type: Number, required: true },
+    },
     rating: {
       type: Number,
       default: 0,

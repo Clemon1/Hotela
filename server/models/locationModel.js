@@ -6,10 +6,7 @@ const LocationSchema = new Schema({
   state: { type: String },
   country: { type: String, required: true },
   postalCode: { type: String },
-  coordinates: {
-    lat: { type: Number, required: true },
-    lng: { type: Number, required: true },
-  },
+
   createdAt: { type: Date, default: Date.now },
 });
 
