@@ -1,30 +1,47 @@
 import { Select } from "@mantine/core";
-import "../../styles/App.css"; // Import your custom CSS file
 
-function CustomSelect() {
+function CustomSelect({ label, placeholder, data, showBorder }) {
+  const icon = <></>;
+
   return (
-    <>
-      <Select
-        placeholder="Location"
-        data={["London", "Manchester", "Birmingham"]}
-        styles={(theme) => ({
-          placeholder: {
-            color: "blue", // Style for the "Location" placeholder
-            fontSize: "16px",
-          },
-        })}
-      />
-      <Select
-        placeholder="Where are you going?"
-        data={["London", "Manchester", "Birmingham"]}
-        styles={(theme) => ({
-          placeholder: {
-            color: "green", // Style for the "Where are you going?" placeholder
-            fontSize: "20px",
-          },
-        })}
-      />
-    </>
+    <Select
+      variant="unstyled"
+      rightSection={icon}
+      label={label}
+      placeholder={placeholder}
+      data={data}
+      comboboxProps={{
+        transitionProps: { transition: "pop", duration: 200 },
+      }}
+      // bg="red"
+      searchable
+      nothingFoundMessage="Nothing found..."
+      clearable
+      styles={(theme) => ({
+        root: {
+          borderRight: showBorder ? `1px solid ${theme.colors.gray[5]}` : "", // Add left border
+          height: "50px", // Set the desired height
+          display: "flex",
+          alignItems: "center", // Center vertically
+          flexDirection: "column",
+        },
+        input: {
+          border: "none", // Remove border
+          boxShadow: "none", // Remove shadow
+          padding: 0, // Remove padding
+          marginTop: -7,
+        },
+        label: {
+          textAlign: "start", // Align label to start
+          marginBottom: 0, // Space between label and input
+          marginRight: 105,
+        },
+        placeholder: {
+          color: theme.colors.gray[5], // Placeholder text color
+          textAlign: "start", // Align placeholder text to start
+        },
+      })}
+    />
   );
 }
 
