@@ -1,12 +1,9 @@
 import { Schema, model } from "mongoose";
 
 const LocationSchema = new Schema({
-  address: { type: String, required: true },
-  city: { type: String, required: true },
-  state: { type: String },
+  name: { type: String, required: true },
   country: { type: String, required: true },
   postalCode: { type: String },
-
   createdAt: { type: Date, default: Date.now },
 });
 
