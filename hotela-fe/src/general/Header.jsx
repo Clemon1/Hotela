@@ -20,7 +20,7 @@ function Header() {
     <>
       <Flex h={60} align="center" justify="space-between">
         <Group gap="70">
-          <Title order={2} fw={700}>
+          <Title order={2} fw={700} c={theme.colors.blue[6]}>
             Hotela
           </Title>
 
