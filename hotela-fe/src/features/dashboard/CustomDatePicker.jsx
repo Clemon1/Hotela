@@ -1,21 +1,21 @@
 import { useState } from "react";
-import { DateInput, DatePickerInput } from "@mantine/dates";
-import { Box } from "@mantine/core";
+import { DatePickerInput } from "@mantine/dates";
+import { Box, Flex } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 
 function CustomDatePicker({ label, placeholder }) {
   const [value, setValue] = useState();
+  const isMobile = useMediaQuery("(max-width: 767px)"); // Adjusted for mobile view
 
   return (
-    <Box
-      w={110}
-      //   bg="red"
+    <Flex
+      w={{ base: "100%", sm: 110 }}
+      p={{ base: 2, sm: 0 }}
       style={{
-        borderRight: "1px solid #d1d1d1", // Add right border
-        height: "50px", // Set the desired height
-        display: "flex",
-        alignItems: "center", // Center vertically
+        borderRight: !isMobile && "1px solid #d1d1d1", // Add right border if not mobile
+        height: isMobile ? "auto" : "50px", // Set height for non-mobile
         flexDirection: "column",
-        justifyContent: "center",
+        border: isMobile ? "1px solid #d1d1d1" : "", // Apply border if mobile
       }}
     >
       <DatePickerInput
@@ -26,15 +26,17 @@ function CustomDatePicker({ label, placeholder }) {
         variant="unstyled"
         styles={(theme) => ({
           input: {
-            border: "none", // Remove border
             boxShadow: "none", // Remove shadow
             padding: 0, // Remove padding
-            marginTop: -7,
+            marginTop: !isMobile && -7,
+            width: "100%", // Ensure the input takes the full width
+            border: isMobile ? "1px solid gray" : "none", // Add blue border on mobile
           },
           label: {
             textAlign: "start", // Align label to start
             marginBottom: 0, // Space between label and input
-            marginRight: 40,
+            alignSelf: "flex-start", // Ensure the label aligns at the start
+            width: "100%", // Make sure the label takes full width
           },
           placeholder: {
             color: theme.colors.gray[5], // Placeholder text color
@@ -42,7 +44,7 @@ function CustomDatePicker({ label, placeholder }) {
           },
         })}
       />
-    </Box>
+    </Flex>
   );
 }
 

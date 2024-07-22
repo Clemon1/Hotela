@@ -14,7 +14,7 @@ import { NavLink } from "react-router-dom";
 function Header() {
   const theme = useMantineTheme();
   const [drawerOpened, setDrawerOpened] = useState(false);
-  const isMobile = useMediaQuery("(max-width: 700px)"); // Adjusted for mobile view
+  const isMobile = useMediaQuery("(max-width: 767px)"); // Adjusted for mobile view
 
   return (
     <>
