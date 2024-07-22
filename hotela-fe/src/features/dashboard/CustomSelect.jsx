@@ -27,10 +27,10 @@ function CustomSelect({ label, placeholder, data, showBorder }) {
           display: "flex",
           flexDirection: "column",
           width: isMobile && "100%", // Ensure the root element takes full width
-          border: isMobile ? `1px solid ${theme.colors.gray[6]}` : "none", // Add blue border on mobile
+          border: isMobile ? `1px solid ${theme.colors.blue[6]}` : "none", // Add blue border on mobile
         },
         input: {
-          border: isMobile ? "1px solid gray" : "none", // Add blue border on mobile
+          border: isMobile ? `1px solid ${theme.colors.blue[6]}` : "none", // Add blue border on mobile
           boxShadow: "none", // Remove shadow
           padding: 0, // Remove padding
           marginTop: !isMobile && -7,
@@ -40,7 +40,7 @@ function CustomSelect({ label, placeholder, data, showBorder }) {
           textAlign: "start", // Align label to start
           marginBottom: 0, // Space between label and input
           alignSelf: !isMobile && "flex-start", // Ensure the label aligns at the start
-          color: theme.colors.gray[7], // Label color
+          color: theme.colors.blue[6], // Label color
         },
         placeholder: {
           color: theme.colors.gray[5], // Placeholder text color

@@ -1,8 +1,9 @@
-import { Box, Flex, Stack, Text } from "@mantine/core";
+import { Box, Button, Flex, Stack, Text } from "@mantine/core";
 import hostelRoom from "../../assets/hostelRoom.jpg";
 import CustomSelect from "./CustomSelect";
 import CustomDatePicker from "./CustomDatePicker";
 import { useMediaQuery } from "@mantine/hooks";
+import { FaArrowRight } from "react-icons/fa";
 
 function DashBoardMain() {
   const isMobile = useMediaQuery("(max-width: 767px)"); // Adjusted for mobile view
@@ -13,7 +14,7 @@ function DashBoardMain() {
         direction="column"
         align="center"
         justify="center"
-        h={{ base: "30vh", md: "50vh" }}
+        h={{ base: "30vh", sm: "50vh" }}
         style={{
           width: "100%",
           backgroundImage: `url(${hostelRoom})`,
@@ -36,11 +37,16 @@ function DashBoardMain() {
             padding: "20px", // Padding inside the content area
           }}
         >
-          <Stack align="center" justify="center" dir="column" gap="sm">
-            <Text c="white" fw={600} fz={{ base: "20px", md: "40px" }}>
+          <Stack
+            align="center"
+            justify="center"
+            dir="column"
+            gap={{ base: "xs", sm: "sm" }}
+          >
+            <Text c="white" fw={600} fz={{ base: "23px", sm: "40px" }}>
               Book your stay with Hotela
             </Text>
-            <Text c="white" fz={{ base: "10px", md: "20px" }}>
+            <Text c="white" fz={{ base: "10px", sm: "20px" }}>
               1,480,021 rooms around london are waiting for you!
             </Text>
           </Stack>
@@ -54,12 +60,14 @@ function DashBoardMain() {
         py={{ base: 10 }}
         gap={{ base: 0, sm: 20 }}
         align="center"
+        justify="center"
         style={{
           borderRadius: !isMobile && "100px",
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Add shadow
         }}
         h={{ base: "100%", sm: 70 }}
         direction={{ base: "column", sm: "row" }}
+        pos={"relative"}
       >
         <CustomSelect
           label="Location"
@@ -72,9 +80,28 @@ function DashBoardMain() {
         <CustomSelect
           label="Guest"
           placeholder="Numbers of guest"
-          data={["London", "Manchester", "Birmingham"]}
+          data={["1", "2", "3", "4", "5"]}
           showBorder={false}
         />
+        <Button
+          w={{ base: "100%", sm: 60 }}
+          h={{ base: 50, sm: 60 }}
+          px={10}
+          pos={{ base: "static", sm: "absolute" }}
+          right={isMobile ? "auto" : 10}
+          style={{
+            borderRadius: isMobile ? "" : "50%",
+            margin: isMobile ? "10px 0" : "0",
+          }}
+        >
+          {isMobile ? (
+            <Text fw={600} fz={20}>
+              Search
+            </Text>
+          ) : (
+            <FaArrowRight size={30} />
+          )}
+        </Button>
       </Flex>
     </Box>
   );

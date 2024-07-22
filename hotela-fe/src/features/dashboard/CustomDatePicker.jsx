@@ -11,12 +11,12 @@ function CustomDatePicker({ label, placeholder }) {
     <Flex
       w={{ base: "100%", sm: 110 }}
       p={{ base: 2, sm: 0 }}
-      style={{
-        borderRight: !isMobile && "1px solid #d1d1d1", // Add right border if not mobile
+      style={(theme) => ({
+        borderRight: !isMobile && `1px solid ${theme.colors.blue[6]}`, // Add right border if not mobile
         height: isMobile ? "auto" : "50px", // Set height for non-mobile
         flexDirection: "column",
-        border: isMobile ? "1px solid #d1d1d1" : "", // Apply border if mobile
-      }}
+        border: isMobile ? `1px solid ${theme.colors.blue[6]}` : "", // Apply border if mobile
+      })}
     >
       <DatePickerInput
         value={value}
@@ -30,13 +30,14 @@ function CustomDatePicker({ label, placeholder }) {
             padding: 0, // Remove padding
             marginTop: !isMobile && -7,
             width: "100%", // Ensure the input takes the full width
-            border: isMobile ? "1px solid gray" : "none", // Add blue border on mobile
+            border: isMobile ? `1px solid ${theme.colors.blue[6]}` : "none", // Add blue border on mobile
           },
           label: {
             textAlign: "start", // Align label to start
             marginBottom: 0, // Space between label and input
             alignSelf: "flex-start", // Ensure the label aligns at the start
             width: "100%", // Make sure the label takes full width
+            color: `${theme.colors.blue[6]}`,
           },
           placeholder: {
             color: theme.colors.gray[5], // Placeholder text color
