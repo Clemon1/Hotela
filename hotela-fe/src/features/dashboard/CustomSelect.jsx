@@ -27,7 +27,7 @@ function CustomSelect({ label, placeholder, data, showBorder }) {
           display: "flex",
           flexDirection: "column",
           width: isMobile && "100%", // Ensure the root element takes full width
-          border: isMobile ? `1px solid ${theme.colors.blue[6]}` : "none", // Add blue border on mobile
+          border: isMobile ? `1px solid ${theme.colors.gray[6]}` : "none", // Add blue border on mobile
         },
         input: {
           border: isMobile ? `1px solid ${theme.colors.blue[6]}` : "none", // Add blue border on mobile
