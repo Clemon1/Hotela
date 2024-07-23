@@ -1,147 +1,176 @@
-import { Box, Image, Stack, Text, Flex, useMantineTheme } from "@mantine/core";
+import {
+  Box,
+  Image,
+  Stack,
+  Text,
+  Flex,
+  useMantineTheme,
+  Badge,
+} from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { useMediaQuery } from "@mantine/hooks";
 import dashBoardRoom1 from "../../assets/dashBoardRoom1.jpg";
-import { FaAngleRight } from "react-icons/fa";
 
 const items = [
   {
     id: 1,
     name: "Cozy Cottage",
     location: "Camden",
-    price: "from $90/night",
+    price: "$90",
     image: dashBoardRoom1,
+    reviews: [9, 8, 10, 7, 9],
   },
   {
     id: 2,
     name: "Elegant Estate",
     location: "Kensington",
-    price: "from $150/night",
+    price: "$150",
     image: dashBoardRoom1,
+    reviews: [9, 9, 8, 10, 8],
   },
   {
     id: 3,
     name: "Modern Apartment",
     location: "Chelsea",
-    price: "from $200/night",
+    price: "$200",
     image: dashBoardRoom1,
+    reviews: [10, 9, 8, 10, 9],
   },
   {
     id: 4,
     name: "Classic Villa",
     location: "Hampstead",
-    price: "from $250/night",
+    price: "$250",
     image: dashBoardRoom1,
+    reviews: [9, 9, 10, 9, 10],
   },
   {
     id: 5,
     name: "Beach House",
     location: "Brighton",
-    price: "from $180/night",
+    price: "$180",
     image: dashBoardRoom1,
+    reviews: [8, 8, 9, 8, 8],
   },
   {
     id: 6,
     name: "Country Inn",
     location: "Oxford",
-    price: "from $120/night",
+    price: "$120",
     image: dashBoardRoom1,
+    reviews: [7, 8, 7, 8, 7],
   },
   {
     id: 7,
     name: "Luxury Loft",
     location: "Mayfair",
-    price: "from $300/night",
+    price: "$300",
     image: dashBoardRoom1,
+    reviews: [10, 10, 10, 9, 10],
   },
   {
     id: 8,
     name: "Rustic Retreat",
     location: "Cotswolds",
-    price: "from $110/night",
+    price: "$110",
     image: dashBoardRoom1,
+    reviews: [7, 7, 8, 7, 8],
   },
   {
     id: 9,
     name: "Urban Studio",
     location: "Soho",
-    price: "from $130/night",
+    price: "$130",
     image: dashBoardRoom1,
+    reviews: [9, 8, 8, 9, 9],
   },
   {
     id: 10,
     name: "Historic Mansion",
     location: "Greenwich",
-    price: "from $220/night",
+    price: "$220",
     image: dashBoardRoom1,
+    reviews: [9, 9, 9, 8, 9],
   },
 ];
 
+const getAverageRating = (reviews) => {
+  const sum = reviews.reduce((a, b) => a + b, 0);
+  return (sum / reviews.length).toFixed(1);
+};
+
+const getRatingCategory = (average) => {
+  if (average >= 9) return "Wonderful";
+  if (average >= 8) return "Very Good";
+  if (average >= 7) return "Good";
+  return "Bad";
+};
+
 function HostelLovedByGuest() {
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const theme = useMantineTheme();
 
   return (
-    <Box mt={6} mb={10}>
-      <Text fw={600} c={"#000814"}>
-        Hostel Loved By Guest
+    <Box mt={6} mb={20}>
+      <Text fw={700} color={theme.colors.dark[9]} fz="xl" mb="md">
+        Hostel Loved By Guests
       </Text>
-
       <Carousel
-        height={260}
-        slideSize="25%"
+        height={"100%"}
+        slideSize={isMobile ? "90%" : "25%"}
         slideGap="md"
-        align={isMobile ? "center" : "start"}
+        align="start"
         controlSize={40}
         controlsOffset="sm"
         py={20}
         loop={true}
-        pl={{ base: 0, md: 25 }}
         withControls={!isMobile}
       >
-        {items.map((item) => (
-          <Carousel.Slide key={item.id} px={4}>
-            <Stack
-              w={250}
-              h={250}
-              p={10}
-              gap={0}
-              style={{
-                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.4)",
-                borderRadius: "15px",
-                alignItems: "flex-start",
-                display: "flex",
-              }}
-            >
-              <Box style={{ borderRadius: "15px", overflow: "hidden" }}>
-                <Image radius={15} src={item.image} />
-              </Box>
-
-              <Box mt={8} style={{ cursor: "default" }}>
-                <Text fz={16} fw={600} c="black">
-                  {item.name}
-                </Text>
-                <Text fz={12} mt={-5}>
-                  {item.location}
-                </Text>
-              </Box>
-
-              <Flex
-                align="center"
-                mt={10}
+        {items.map((item) => {
+          const averageRating = getAverageRating(item.reviews);
+          const ratingCategory = getRatingCategory(averageRating);
+          return (
+            <Carousel.Slide key={item.id}>
+              <Stack
+                w={250}
+                h={"100%"}
+                spacing={0}
                 style={{
-                  width: "100%",
-                  justifyContent: "space-between",
+                  boxShadow: theme.shadows.md,
+                  borderRadius: theme.radius.md,
+                  backgroundColor: theme.white,
+                  overflow: "hidden",
                   cursor: "pointer",
+                  transition: "transform 0.2s ease",
+                  "&:hover": {
+                    transform: "scale(1.05)",
+                  },
                 }}
               >
-                <Text fz={15} fw={700}>
-                  {item.price}
-                </Text>
-                <FaAngleRight size={20} />
-              </Flex>
-            </Stack>
-          </Carousel.Slide>
-        ))}
+                <Image src={item.image} height="60%" />
+                <Box p="sm">
+                  <Flex justify="space-between" align="center" mb="xs">
+                    <Badge color="#000814" radius="sm" size="md">
+                      {averageRating}/10
+                    </Badge>
+                    <Text size="sm" weight={500} color="dimmed">
+                      {ratingCategory} ({item.reviews.length} reviews)
+                    </Text>
+                  </Flex>
+                  <Text size="lg" weight={700} color="dark">
+                    {item.name}
+                  </Text>
+                  <Text size="sm" color="dimmed" mb="xs">
+                    {item.location}
+                  </Text>
+                  <Text size="xl" weight={700} color="primary">
+                    {item.price}
+                  </Text>
+                </Box>
+              </Stack>
+            </Carousel.Slide>
+          );
+        })}
       </Carousel>
     </Box>
   );
