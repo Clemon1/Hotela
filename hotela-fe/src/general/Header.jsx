@@ -11,7 +11,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
-function Header() {
+function Header({ openLoginModal, openSignUpModal }) {
   const theme = useMantineTheme();
   const [drawerOpened, setDrawerOpened] = useState(false);
   const isMobile = useMediaQuery("(max-width: 767px)"); // Adjusted for mobile view
@@ -59,10 +59,10 @@ function Header() {
 
         {!isMobile ? (
           <Group>
-            <Button variant="outline" radius="xl">
+            <Button variant="outline" radius="xl" onClick={openSignUpModal}>
               Sign up
             </Button>
-            <Button variant="filled" radius="xl">
+            <Button variant="filled" radius="xl" onClick={openLoginModal}>
               Login
             </Button>
           </Group>
@@ -119,10 +119,22 @@ function Header() {
         >
           Popular
         </NavLink>
-        <Button fullWidth mt="md" onClick={() => setDrawerOpened(false)}>
+        <Button
+          fullWidth
+          mt="md"
+          onClick={() => {
+            setDrawerOpened(false), openSignUpModal();
+          }}
+        >
           Sign up
         </Button>
-        <Button fullWidth mt="md" onClick={() => setDrawerOpened(false)}>
+        <Button
+          fullWidth
+          mt="md"
+          onClick={() => {
+            setDrawerOpened(false), openLoginModal();
+          }}
+        >
           Login
         </Button>
       </Drawer>

@@ -82,7 +82,9 @@ function HostelLovedByGuest() {
 
   return (
     <Box mt={6} mb={10}>
-      <Text fw={600}>Hostel Loved By Guest</Text>
+      <Text fw={600} c={"#000814"}>
+        Hostel Loved By Guest
+      </Text>
 
       <Carousel
         height={260}
