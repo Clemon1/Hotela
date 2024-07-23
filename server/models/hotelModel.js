@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { type } from "os";
 
 const hotelSchema = new Schema(
   {
@@ -19,9 +20,17 @@ const hotelSchema = new Schema(
       },
     ],
     location: { type: Schema.Types.ObjectId, ref: "Location", required: true },
-    coordinates: {
-      lat: { type: Number, required: true },
-      lng: { type: Number, required: true },
+    geoLocation: {
+      type: {
+        type: String,
+        default: "Point",
+        required: true,
+      },
+      coordinates: {
+        type: [Number],
+        index: "2dsphere",
+        required: true,
+      },
     },
     rating: {
       type: Number,
