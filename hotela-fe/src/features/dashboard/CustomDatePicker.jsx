@@ -37,7 +37,7 @@ function CustomDatePicker({ label, placeholder }) {
             marginBottom: 0, // Space between label and input
             alignSelf: "flex-start", // Ensure the label aligns at the start
             width: "100%", // Make sure the label takes full width
-            color: `${theme.colors.blue[6]}`,
+            color: "#000814",
           },
           placeholder: {
             color: theme.colors.gray[5], // Placeholder text color

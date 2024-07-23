@@ -40,7 +40,7 @@ function CustomSelect({ label, placeholder, data, showBorder }) {
           textAlign: "start", // Align label to start
           marginBottom: 0, // Space between label and input
           alignSelf: !isMobile && "flex-start", // Ensure the label aligns at the start
-          color: theme.colors.blue[6], // Label color
+          color: "#000814", // Label color
         },
         placeholder: {
           color: theme.colors.gray[5], // Placeholder text color

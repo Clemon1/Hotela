@@ -14,7 +14,7 @@ function DashBoardMain() {
         direction="column"
         align="center"
         justify="center"
-        h={{ base: "30vh", sm: "50vh" }}
+        h={{ base: "55vh", sm: "55vh" }}
         style={{
           width: "100%",
           backgroundImage: `url(${hostelRoom})`,
