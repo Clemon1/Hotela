@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Box, Button, TextInput, Title, Stack } from "@mantine/core";
-import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 function ResetPassword({ onClose, onCloseForgotPassword, onOpenLogin }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
   const handlePasswordChange = (event) => {
     setPassword(event.currentTarget.value);
@@ -90,5 +89,11 @@ function ResetPassword({ onClose, onCloseForgotPassword, onOpenLogin }) {
     </Box>
   );
 }
+
+ResetPassword.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  onCloseForgotPassword: PropTypes.func.isRequired,
+  onOpenLogin: PropTypes.func.isRequired,
+};
 
 export default ResetPassword;

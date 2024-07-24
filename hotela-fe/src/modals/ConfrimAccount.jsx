@@ -111,7 +111,7 @@ function ConfrimAccount({
 
 ConfrimAccount.propTypes = {
   onClose: PropTypes.func.isRequired,
-  onOpenSigUp: PropTypes.func.isRequired,
+  onOpenResetPassword: PropTypes.func.isRequired,
   onOpenForgotPassword: PropTypes.func.isRequired,
 };
 

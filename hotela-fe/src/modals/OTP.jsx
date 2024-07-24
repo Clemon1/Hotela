@@ -1,19 +1,9 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import {
-  Box,
-  Button,
-  Group,
-  Title,
-  useMantineTheme,
-  PinInput,
-  Text,
-} from "@mantine/core";
+import { Box, Button, Group, Title, PinInput, Text } from "@mantine/core";
 import { IoClose } from "react-icons/io5";
-// import { motion } from "framer-motion";
 
 function OTP({ onClose, onOpenSigUp }) {
-  const theme = useMantineTheme();
   const [otp, setOtp] = useState("");
   const [error, setError] = useState(null);
 

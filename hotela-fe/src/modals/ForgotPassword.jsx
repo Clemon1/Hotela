@@ -1,6 +1,7 @@
 import { Box, Button, Group, Text, TextInput, Title } from "@mantine/core";
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
+import PropTypes from "prop-types";
 
 function ForgotPassword({ onClose, onOpenLogin, onOpenConfirmAccount }) {
   const [email, setEmail] = useState("");
@@ -108,5 +109,11 @@ function ForgotPassword({ onClose, onOpenLogin, onOpenConfirmAccount }) {
     </Box>
   );
 }
+
+ForgotPassword.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  onOpenConfirmAccount: PropTypes.func.isRequired,
+  onOpenLogin: PropTypes.func.isRequired,
+};
 
 export default ForgotPassword;
