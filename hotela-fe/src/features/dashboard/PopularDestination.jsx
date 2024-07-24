@@ -67,7 +67,7 @@ function PopularDestination() {
 
   return (
     <Box mt={20} mb={10}>
-      <Text fw={600} mb={10} c={"#000814"}>
+      <Text fw={600} mb={10} fz="xl" c={"#000814"}>
         Popular Destination
       </Text>
       <SimpleGrid cols={{ base: 1, xs: 4 }}>

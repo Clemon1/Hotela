@@ -3,7 +3,7 @@ import "./styles/App.css";
 // import Applayout from "./ui/Applayout";
 import Dashboard from "./pages/Dashboard";
 import Applayout from "./general/Applayout";
-import Login from "./pages/Login";
+import Login from "./modals/Login";
 
 // import Home from "./pages/Home/home";
 // import Properties from "./pages/Properties";

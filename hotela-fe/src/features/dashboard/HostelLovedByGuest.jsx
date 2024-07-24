@@ -112,17 +112,17 @@ function HostelLovedByGuest() {
 
   return (
     <Box mt={6} mb={20}>
-      <Text fw={700} color={theme.colors.dark[9]} fz="xl" mb="md">
+      <Text fw={600} c={"#000814"} fz="xl" mb="xs">
         Hostel Loved By Guests
       </Text>
       <Carousel
         height={"100%"}
-        slideSize={isMobile ? "90%" : "25%"}
+        slideSize={isMobile ? "20%" : "25%"}
         slideGap="md"
         align="start"
         controlSize={40}
         controlsOffset="sm"
-        py={20}
+        pb={20}
         loop={true}
         withControls={!isMobile}
       >
@@ -132,12 +132,12 @@ function HostelLovedByGuest() {
           return (
             <Carousel.Slide key={item.id}>
               <Stack
-                w={250}
+                w={280}
                 h={"100%"}
-                spacing={0}
+                bd={2}
                 style={{
-                  boxShadow: theme.shadows.md,
-                  borderRadius: theme.radius.md,
+                  boxShadow: theme.shadows.sm,
+                  borderRadius: theme.radius.xl,
                   backgroundColor: theme.white,
                   overflow: "hidden",
                   cursor: "pointer",

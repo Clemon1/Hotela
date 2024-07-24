@@ -1,25 +1,19 @@
-import {
-  Flex,
-  Stack,
-  Text,
-  Title,
-  Group,
-  useMantineTheme,
-} from "@mantine/core";
+import { Flex, Stack, Text, Title, Group } from "@mantine/core";
 import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
 
 function Footer() {
-  const theme = useMantineTheme();
   return (
     <Flex
       direction="column"
       bg="#000814" // Light gray color
-      py={20}
+      // py={20}
+      justify={"center"}
       px={{ base: 10, sm: 80 }}
       style={{
         borderTop: "1px solid #e0e0e0",
         width: "100%",
       }}
+      h={180}
       c={"white"}
     >
       <Flex justify="space-between" align="flex-start" wrap="wrap">
