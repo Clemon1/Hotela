@@ -1,21 +1,37 @@
-import { AppShell, Modal, Button } from "@mantine/core";
+import { AppShell, Modal, ScrollArea } from "@mantine/core";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
-import Login from "../pages/Login";
-import SignUp from "../pages/SignUp";
-import OTP from "../pages/OTP";
+import Login from "../modals/Login";
+import SignUp from "../modals/SignUp";
+import OTP from "../modals/OTP";
+import ForgotPassword from "../modals/ForgotPassword";
+import ConfrimAccount from "../modals/ConfrimAccount";
+import ResetPassword from "../modals/ResetPassword";
 
 function AppLayout() {
+  // Check if the viewport width is less than or equal to 767px
   const isMobile = useMediaQuery("(max-width: 767px)");
 
-  // Initialize the modal states
+  // Initialize modal states and handlers using useDisclosure hook
   const [loginOpened, { open: openLogin, close: closeLogin }] =
     useDisclosure(false);
   const [signUpOpened, { open: openSignUp, close: closeSignUp }] =
     useDisclosure(false);
-  const [otpOpened, { open: openOtp, close: closeOtp }] = useDisclosure(true);
+  const [otpOpened, { open: openOtp, close: closeOtp }] = useDisclosure(false);
+  const [
+    forgetPasswordOpened,
+    { open: openforgetPassword, close: closeForgetPassword },
+  ] = useDisclosure(false);
+  const [
+    confirmAccountOpened,
+    { open: openConfirmAccount, close: closeConfirmAccount },
+  ] = useDisclosure(false);
+  const [
+    resetPasswordOpened,
+    { open: openResetPassword, close: closeResetPassword },
+  ] = useDisclosure(false);
 
   return (
     <>
@@ -29,30 +45,98 @@ function AppLayout() {
           },
         }}
       >
+        {/* Login Modal */}
         <Modal
           opened={loginOpened}
           onClose={closeLogin}
           withCloseButton={false}
           fullScreen={isMobile}
+          radius={"xl"}
         >
-          <Login onClose={closeLogin} />
+          <Login
+            onClose={closeLogin}
+            onOpenSigUp={openSignUp}
+            onOpenForgotPassword={openforgetPassword}
+          />
         </Modal>
+
+        {/* Sign Up Modal */}
         <Modal
           opened={signUpOpened}
           onClose={closeSignUp}
           withCloseButton={false}
           fullScreen={isMobile}
+          radius={"xl"}
+          scrollAreaComponent={ScrollArea.Autosize}
         >
-          <SignUp onClose={closeSignUp} onSignUpSuccess={openOtp} />
+          <SignUp
+            onClose={closeSignUp}
+            onOpenLogin={openLogin}
+            onSignUpSuccess={openOtp}
+          />
         </Modal>
+
+        {/* OTP Modal */}
         <Modal
           opened={otpOpened}
           onClose={closeOtp}
           withCloseButton={false}
           fullScreen={isMobile}
+          radius={"xl"}
+          closeOnClickOutside={false}
         >
-          <OTP onClose={closeOtp} />
+          <OTP onClose={closeOtp} onOpenSigUp={openSignUp} />
         </Modal>
+
+        {/* Forgot Password Modal */}
+        <Modal
+          opened={forgetPasswordOpened}
+          onClose={closeForgetPassword}
+          withCloseButton={false}
+          fullScreen={isMobile}
+          radius={"xl"}
+        >
+          <ForgotPassword
+            onClose={closeForgetPassword}
+            onOpenLogin={openLogin}
+            onOpenConfirmAccount={openConfirmAccount}
+          />
+        </Modal>
+
+        {/* Confirm Account Modal */}
+        <Modal
+          opened={confirmAccountOpened}
+          onClose={closeConfirmAccount}
+          withCloseButton={false}
+          fullScreen={isMobile}
+          radius={"xl"}
+          closeOnClickOutside={false}
+        >
+          <ConfrimAccount
+            onClose={closeConfirmAccount}
+            onOpenForgotPassword={openforgetPassword}
+            onOpenResetPassword={openResetPassword}
+          />
+        </Modal>
+
+        {/* Reset Password Modal */}
+        <Modal
+          opened={resetPasswordOpened}
+          onClose={closeResetPassword}
+          withCloseButton={false}
+          fullScreen={isMobile}
+          radius={"xl"}
+          closeOnClickOutside={false}
+        >
+          <ResetPassword
+            onClose={closeResetPassword}
+            onCloseForgotPassword={closeForgetPassword}
+            onOpenForgotPassword={openforgetPassword}
+            onOpenLogin={openLogin}
+          />
+        </Modal>
+
+        {/* AppShell Header */}
         <AppShell.Header
           px={{ base: 10, sm: 80 }}
           bd={0}
@@ -65,6 +149,8 @@ function AppLayout() {
             openOTPModal={openOtp}
           />
         </AppShell.Header>
+
+        {/* AppShell Main Content */}
         <AppShell.Main
           mt={70}
           mx="auto"
@@ -74,6 +160,7 @@ function AppLayout() {
         </AppShell.Main>
       </AppShell>
 
+      {/* Footer Component */}
       <Footer />
     </>
   );

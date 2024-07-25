@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import {
   Box,
   Button,
   Group,
-  Input,
+  TextInput,
   Title,
   useMantineTheme,
-  TextInput,
+  Stack,
 } from "@mantine/core";
 import { IoClose } from "react-icons/io5";
 
-function SignUp({ onClose, onSignUpSuccess }) {
+function Login({ onClose, onOpenSigUp, onOpenForgotPassword }) {
   const theme = useMantineTheme();
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -33,8 +33,6 @@ function SignUp({ onClose, onSignUpSuccess }) {
     if (!validateEmail(email)) {
       setError("Invalid email address");
     } else {
-      onClose();
-      onSignUpSuccess(); // Open the OTP modal after successful sign-up
       setError("");
       alert("Email: " + email + "\nPassword: " + password);
     }
@@ -45,8 +43,28 @@ function SignUp({ onClose, onSignUpSuccess }) {
     return emailRegex.test(email);
   };
 
+  const handleSignUpClick = () => {
+    onClose();
+    onOpenSigUp();
+  };
+
+  const handleForgotPasswordClick = () => {
+    onClose();
+    onOpenForgotPassword();
+  };
+
   return (
-    <Box c={"#000814"}>
+    <Box
+      c={"#000814"}
+      pb={30}
+      p={20}
+      style={{
+        borderRadius: "12px",
+        maxWidth: 400,
+        margin: "0 auto",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Added boxShadow
+      }}
+    >
       <Group align="center" justify="space-between">
         <Title order={2} fw={700} c={theme.colors.blue[6]}>
           Hotela
@@ -55,7 +73,7 @@ function SignUp({ onClose, onSignUpSuccess }) {
       </Group>
 
       <Title order={2} fw={600} ta={"center"} my={"20"}>
-        Create your account
+        Log in to your account
       </Title>
 
       <form
@@ -73,6 +91,8 @@ function SignUp({ onClose, onSignUpSuccess }) {
           onChange={handleEmailChange}
           error={error}
           required
+          withAsterisk={false}
+          data-autofocus
         />
         <TextInput
           label="Password"
@@ -81,16 +101,42 @@ function SignUp({ onClose, onSignUpSuccess }) {
           value={password}
           onChange={handlePasswordChange}
           required
+          withAsterisk={false}
         />
-        <Button type="submit">Sign Up</Button>
+        <Stack gap={5}>
+          <Button type="submit" h={50} fz={20} radius="xl">
+            Log in
+          </Button>
+          <Button
+            onClick={handleForgotPasswordClick}
+            variant="white"
+            size="md"
+            fz={15}
+            radius="xl"
+          >
+            Forgot Password?
+          </Button>
+        </Stack>
       </form>
+      <Stack mt="xl">
+        <Button
+          onClick={handleSignUpClick}
+          variant="outline"
+          size="md"
+          radius="xl"
+          fz={15}
+        >
+          Create your account
+        </Button>
+      </Stack>
     </Box>
   );
 }
 
-SignUp.propTypes = {
+Login.propTypes = {
   onClose: PropTypes.func.isRequired,
-  onSignUpSuccess: PropTypes.func.isRequired,
+  onOpenSigUp: PropTypes.func.isRequired,
+  onOpenForgotPassword: PropTypes.func.isRequired,
 };
 
-export default SignUp;
+export default Login;
