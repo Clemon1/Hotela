@@ -3,8 +3,7 @@ import Hotel from "../models/hotelModel.js";
 // Get all hotels
 export const getAllHotels = async (res, req) => {
   try {
-    const { location } = req.query;
-    const hotels = await Hotel.find();
+    const hotels = await Hotel.find({ isDeleted: false });
     res.status(200).json(hotels);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -58,7 +57,7 @@ export const geoHotels = async (res, req) => {
 export const getHotelByID = async (res, req) => {
   try {
     const { id } = req.params;
-    const data = await Hotel.findById(id);
+    const data = await Hotel.findById(id).populate("location").exec();
     res.status(200).json(data);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -70,6 +69,7 @@ export const createHotel = async (req, res) => {
   try {
     const { name, description, address, amenities } = req.body;
 
+    // login for multiple images
     const { images } = req.files["photos"]
       ? req.files["photos"].map((file) => file.path)
       : null;
@@ -83,6 +83,37 @@ export const createHotel = async (req, res) => {
       geoLocation,
     });
     res.status(201).json(newHotel);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// update hotel data
+export const updateHotel = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedData = await Hotel.findByIdAndUpdate(
+      id,
+      {
+        $set: req.body,
+      },
+      { new: true },
+    );
+    res.status(200).json(updatedData);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Delete a hotel (Using soft delete method)
+export const deleteHotel = async (req, res) => {
+  try {
+    // Performing soft delete
+    const { id } = req.params;
+    await Hotel.findByIdAndUpdate(id, {
+      $set: { isDeleted: true },
+    });
+    res.status(200).json("Deleted Successfully");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

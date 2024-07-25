@@ -41,6 +41,10 @@ const hotelSchema = new Schema(
         type: String,
       },
     ],
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

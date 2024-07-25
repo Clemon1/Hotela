@@ -1,6 +1,47 @@
-import { Schema, mod } from "mongoose";
+import { Schema, model } from "mongoose";
 const bookingShema = new Schema(
-  {},
+  {
+    user: [
+      {
+        firstName: String,
+        lastName: String,
+        email: String,
+        phoneNumber: String,
+        userType: {
+          type: String,
+          enum: ["User", "Guest"],
+          default: "User",
+        },
+      },
+    ],
+
+    hotel: {
+      type: Schema.Types.ObjectId,
+      ref: "Hotels",
+      required: true,
+    },
+    rooms: {
+      type: Schema.Types.ObjectId,
+      ref: "Rooms",
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    checkIn: {
+      type: Date,
+      required: true,
+    },
+    checkOut: {
+      type: Date,
+      required: true,
+    },
+    paymentStatus: {
+      type: String,
+      enum: ["Pending", "Success", "Failed"],
+      default: "Pending",
+    },
+  },
   {
     timestamps: true,
   },

@@ -4,7 +4,7 @@ const RoomSchema = new Schema(
   {
     hotel: { type: Schema.Types.ObjectId, ref: "Hotels", required: true },
     roomType: { type: Schema.Types.ObjectId, ref: "RoomType", required: true },
-    pricePerNight: { type: Number, required: true },
+    price: { type: Number, required: true },
     description: { type: String },
     amenities: [String],
     images: [String],
@@ -16,5 +16,5 @@ const RoomSchema = new Schema(
   },
 );
 
-const rooms = model("Room", RoomSchema);
+const rooms = model("Rooms", RoomSchema);
 export default rooms;
