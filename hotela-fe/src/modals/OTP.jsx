@@ -34,21 +34,18 @@ function OTP({ onClose, onOpenSigUp }) {
         backgroundColor: "#fff",
         padding: "20px",
         borderRadius: "10px",
-        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
         maxWidth: "400px",
         margin: "auto",
         fontFamily: "Inter, sans-serif",
         position: "relative",
-      }}
-    >
-      <Group justify="space-between">
+      }}>
+      <Group justify='space-between'>
         <Title
           order={2}
           style={{
             marginBottom: "20px",
             fontFamily: "Inter, sans-serif",
-          }}
-        >
+          }}>
           Verify OTP
         </Title>
         <IoClose
@@ -69,19 +66,18 @@ function OTP({ onClose, onOpenSigUp }) {
           flexDirection: "column",
           gap: "20px",
           alignItems: "center",
-        }}
-      >
+        }}>
         <PinInput
-          size="xl"
+          size='xl'
           length={5}
-          placeholder="-"
-          type="number"
+          placeholder='-'
+          type='number'
           value={otp}
           onChange={handleOtpChange}
           error={error}
         />
-        {error && <Text c="red">{error}</Text>}
-        <Button type="submit" h={50} fz={15} radius="xl" fullWidth>
+        {error && <Text c='red'>{error}</Text>}
+        <Button type='submit' h={50} fz={15} radius='xl' fullWidth>
           Verify
         </Button>
       </form>

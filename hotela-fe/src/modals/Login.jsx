@@ -57,15 +57,14 @@ function Login({ onClose, onOpenSigUp, onOpenForgotPassword }) {
     <Box
       c={"#000814"}
       pb={30}
-      p={20}
+      py={15}
+      px={20}
       style={{
         borderRadius: "12px",
         maxWidth: 400,
         margin: "0 auto",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Added boxShadow
-      }}
-    >
-      <Group align="center" justify="space-between">
+      }}>
+      <Group align='center' justify='space-between'>
         <Title order={2} fw={700} c={theme.colors.blue[6]}>
           Hotela
         </Title>
@@ -82,11 +81,10 @@ function Login({ onClose, onOpenSigUp, onOpenForgotPassword }) {
           display: "flex",
           flexDirection: "column",
           gap: "10px",
-        }}
-      >
+        }}>
         <TextInput
-          label="Email Address"
-          placeholder="Enter your email address"
+          label='Email Address'
+          placeholder='Enter your email address'
           value={email}
           onChange={handleEmailChange}
           error={error}
@@ -95,37 +93,35 @@ function Login({ onClose, onOpenSigUp, onOpenForgotPassword }) {
           data-autofocus
         />
         <TextInput
-          label="Password"
-          placeholder="Enter your password"
-          type="password"
+          label='Password'
+          placeholder='Enter your password'
+          type='password'
           value={password}
           onChange={handlePasswordChange}
           required
           withAsterisk={false}
         />
         <Stack gap={5}>
-          <Button type="submit" h={50} fz={20} radius="xl">
+          <Button type='submit' h={40} fz={18} radius='xl'>
             Log in
           </Button>
           <Button
             onClick={handleForgotPasswordClick}
-            variant="white"
-            size="md"
+            variant='white'
+            size='md'
             fz={15}
-            radius="xl"
-          >
+            radius='xl'>
             Forgot Password?
           </Button>
         </Stack>
       </form>
-      <Stack mt="xl">
+      <Stack mt='xl'>
         <Button
           onClick={handleSignUpClick}
-          variant="outline"
-          size="md"
-          radius="xl"
-          fz={15}
-        >
+          variant='outline'
+          size='md'
+          radius='xl'
+          fz={15}>
           Create your account
         </Button>
       </Stack>

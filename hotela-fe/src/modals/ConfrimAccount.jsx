@@ -39,21 +39,19 @@ function ConfrimAccount({
         backgroundColor: "#fff",
         padding: "20px",
         borderRadius: "10px",
-        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+
         maxWidth: "400px",
         margin: "auto",
         fontFamily: "Inter, sans-serif",
         position: "relative",
-      }}
-    >
-      <Group justify="space-between">
+      }}>
+      <Group justify='space-between'>
         <Title
           order={2}
           style={{
             marginBottom: "20px",
             fontFamily: "Inter, sans-serif",
-          }}
-        >
+          }}>
           Find your account
         </Title>
         <IoClose
@@ -69,21 +67,20 @@ function ConfrimAccount({
 
       <form
         onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: "15px" }}
-      >
+        style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
         <PinInput
-          size="xl"
+          size='xl'
           length={5}
-          placeholder="-"
-          type="number"
+          placeholder='-'
+          type='number'
           value={otp}
           onChange={handleOtpChange}
           error={error}
         />
-        {error && <Text c="red">{error}</Text>}
+        {error && <Text c='red'>{error}</Text>}
 
         <Button
-          type="submit"
+          type='submit'
           style={{
             height: "50px",
             fontSize: "20px",
@@ -100,8 +97,7 @@ function ConfrimAccount({
           onMouseLeave={(e) => {
             e.currentTarget.style.backgroundColor = "#007BFF";
             e.currentTarget.style.transform = "scale(1)";
-          }}
-        >
+          }}>
           Continue
         </Button>
       </form>

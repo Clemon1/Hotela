@@ -43,12 +43,11 @@ function ResetPassword({ onClose, onCloseForgotPassword, onOpenLogin }) {
         borderRadius: "12px",
         maxWidth: 400,
         margin: "0 auto",
-        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+
         display: "flex",
         flexDirection: "column",
         gap: "15px",
-      }}
-    >
+      }}>
       <Title order={2} fw={600} ta={"center"}>
         Reset your password
       </Title>
@@ -59,21 +58,20 @@ function ResetPassword({ onClose, onCloseForgotPassword, onOpenLogin }) {
           display: "flex",
           flexDirection: "column",
           gap: "10px",
-        }}
-      >
+        }}>
         <TextInput
-          label="New Password"
-          placeholder="Enter your new password"
-          type="password"
+          label='New Password'
+          placeholder='Enter your new password'
+          type='password'
           value={password}
           onChange={handlePasswordChange}
           required
           withAsterisk={false}
         />
         <TextInput
-          label="Confirm Password"
-          placeholder="Confirm your new password"
-          type="password"
+          label='Confirm Password'
+          placeholder='Confirm your new password'
+          type='password'
           value={confirmPassword}
           onChange={handleConfirmPasswordChange}
           required
@@ -81,7 +79,7 @@ function ResetPassword({ onClose, onCloseForgotPassword, onOpenLogin }) {
           error={error}
         />
         <Stack gap={5}>
-          <Button type="submit" h={50} fz={15} radius="xl">
+          <Button type='submit' h={45} fz={15} radius='xl'>
             Reset Password
           </Button>
         </Stack>
