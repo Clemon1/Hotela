@@ -1,4 +1,4 @@
-import { Box, Button, Group, TextInput, Title } from "@mantine/core";
+import { Box, Button, Group, Text, TextInput, Title } from "@mantine/core";
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import PropTypes from "prop-types";
@@ -40,18 +40,21 @@ function ForgotPassword({ onClose, onOpenLogin, onOpenConfirmAccount }) {
         backgroundColor: "#fff",
         padding: "20px",
         borderRadius: "10px",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
         maxWidth: "400px",
         margin: "auto",
         fontFamily: "Inter, sans-serif",
         position: "relative",
-      }}>
-      <Group justify='space-between'>
+      }}
+    >
+      <Group justify="space-between">
         <Title
           order={2}
           style={{
             marginBottom: "20px",
             fontFamily: "Inter, sans-serif",
-          }}>
+          }}
+        >
           Find your account
         </Title>
         <IoClose
@@ -61,12 +64,17 @@ function ForgotPassword({ onClose, onOpenLogin, onOpenConfirmAccount }) {
         />
       </Group>
 
+      <Text style={{ marginBottom: "10px", fontFamily: "Inter, sans-serif" }}>
+        Enter your email
+      </Text>
+
       <form
         onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+        style={{ display: "flex", flexDirection: "column", gap: "15px" }}
+      >
         <TextInput
-          label='Email Address'
-          placeholder='Enter your email address'
+          label="Email Address"
+          placeholder="Enter your email address"
           value={email}
           onChange={handleEmailChange}
           error={error}
@@ -76,9 +84,9 @@ function ForgotPassword({ onClose, onOpenLogin, onOpenConfirmAccount }) {
         />
 
         <Button
-          type='submit'
+          type="submit"
           style={{
-            height: "45px",
+            height: "50px",
             fontSize: "20px",
             borderRadius: "25px",
             backgroundColor: "#007BFF",
@@ -93,7 +101,8 @@ function ForgotPassword({ onClose, onOpenLogin, onOpenConfirmAccount }) {
           onMouseLeave={(e) => {
             e.currentTarget.style.backgroundColor = "#007BFF";
             e.currentTarget.style.transform = "scale(1)";
-          }}>
+          }}
+        >
           Continue
         </Button>
       </form>

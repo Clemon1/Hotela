@@ -4,6 +4,7 @@ import "./styles/App.css";
 import Dashboard from "./pages/Dashboard";
 import Applayout from "./general/Applayout";
 import Login from "./modals/Login";
+import NotFound from "./pages/NotFound";
 
 // import Home from "./pages/Home/home";
 // import Properties from "./pages/Properties";
@@ -20,6 +21,10 @@ function App() {
         {
           path: "/login",
           element: <Login />,
+        },
+        {
+          path: "*",
+          element: <NotFound />,
         },
       ],
     },
