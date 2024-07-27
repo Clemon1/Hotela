@@ -32,13 +32,21 @@ const hotelSchema = new Schema(
         required: true,
       },
     },
-    rating: {
-      type: Number,
-      default: 0,
-    },
-    comments: [
+
+    visitors: [
       {
-        type: String,
+        userId: {
+          type: Schema.Types.ObjectId,
+          ref: "users",
+        },
+        comments: {
+          type: String,
+        },
+        rating: {
+          type: Number,
+          default: 1,
+          max: 5,
+        },
       },
     ],
     isDeleted: {

@@ -58,7 +58,15 @@ export const getHotelByID = async (res, req) => {
   try {
     const { id } = req.params;
     const data = await Hotel.findById(id).populate("location").exec();
-    res.status(200).json(data);
+    const ratings = data.visitors.map((vistor) =>
+      vistor.rating.reduce((acc, vistor) => acc + vistor.rating, 0),
+    );
+    console.log("Hotel Rating", ratings);
+    const formattedDATA = {
+      ...data,
+      rating: ratings,
+    };
+    res.status(200).json(formattedDATA);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -100,6 +108,32 @@ export const updateHotel = async (req, res) => {
       { new: true },
     );
     res.status(200).json(updatedData);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Rate and comment a hotel
+export const rateAndComment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { userId, comment, rating } = req.body;
+
+    const hotela = await Hotel.findById(id);
+    // Check if a user has rated and commented in a specific hotel
+    const existingRating = hotela.visitors.some((check) =>
+      check.userId.equals(userId),
+    );
+    if (existingRating) {
+      return res.status(401).json({ message: "Your feedback exist" });
+    }
+    // Comment and rate
+    const newData = await Hotel.findByIdAndUpdate(id, {
+      $push: {
+        visitors: { userId, comment, rating },
+      },
+    });
+    res.status(200).json(newData);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

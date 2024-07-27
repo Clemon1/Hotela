@@ -1,7 +1,11 @@
 import { Schema, model } from "mongoose";
 const bookingShema = new Schema(
   {
-    user: [
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
+    userDetails: [
       {
         firstName: String,
         lastName: String,
@@ -46,3 +50,7 @@ const bookingShema = new Schema(
     timestamps: true,
   },
 );
+
+const bookings = model("bookings", bookingShema);
+
+export default bookings;
