@@ -55,7 +55,7 @@ function ForgotPassword({ onClose, onOpenLogin, onOpenConfirmAccount }) {
             fontFamily: "Inter, sans-serif",
           }}
         >
-          Find your account
+          Forget Password
         </Title>
         <IoClose
           style={{ cursor: "pointer", marginBottom: "20px" }}

@@ -1,8 +1,14 @@
 import { useState } from "react";
-import { Box, Button, TextInput, Title, Stack } from "@mantine/core";
+import { Box, Button, TextInput, Title, Stack, Group } from "@mantine/core";
 import PropTypes from "prop-types";
+import { IoClose } from "react-icons/io5";
 
-function ResetPassword({ onClose, onCloseForgotPassword, onOpenLogin }) {
+function ResetPassword({
+  onClose,
+  onCloseForgotPassword,
+  onOpenLogin,
+  openConfirmAccount,
+}) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
@@ -19,6 +25,11 @@ function ResetPassword({ onClose, onCloseForgotPassword, onOpenLogin }) {
     if (error) {
       setError("");
     }
+  };
+
+  const handlecloseModal = () => {
+    onClose();
+    openConfirmAccount();
   };
 
   const handleSubmit = (event) => {
@@ -47,10 +58,18 @@ function ResetPassword({ onClose, onCloseForgotPassword, onOpenLogin }) {
         display: "flex",
         flexDirection: "column",
         gap: "15px",
-      }}>
-      <Title order={2} fw={600} ta={"center"}>
-        Reset your password
-      </Title>
+      }}
+    >
+      <Group justify="space-between" align="center">
+        <Title order={2} fw={600} ta={"center"}>
+          Reset your password
+        </Title>
+        <IoClose
+          style={{ cursor: "pointer", marginTop: "5px" }}
+          size={35}
+          onClick={handlecloseModal}
+        />
+      </Group>
 
       <form
         onSubmit={handleSubmit}
@@ -58,20 +77,21 @@ function ResetPassword({ onClose, onCloseForgotPassword, onOpenLogin }) {
           display: "flex",
           flexDirection: "column",
           gap: "10px",
-        }}>
+        }}
+      >
         <TextInput
-          label='New Password'
-          placeholder='Enter your new password'
-          type='password'
+          label="New Password"
+          placeholder="Enter your new password"
+          type="password"
           value={password}
           onChange={handlePasswordChange}
           required
           withAsterisk={false}
         />
         <TextInput
-          label='Confirm Password'
-          placeholder='Confirm your new password'
-          type='password'
+          label="Confirm Password"
+          placeholder="Confirm your new password"
+          type="password"
           value={confirmPassword}
           onChange={handleConfirmPasswordChange}
           required
@@ -79,7 +99,7 @@ function ResetPassword({ onClose, onCloseForgotPassword, onOpenLogin }) {
           error={error}
         />
         <Stack gap={5}>
-          <Button type='submit' h={45} fz={15} radius='xl'>
+          <Button type="submit" h={45} fz={15} radius="xl">
             Reset Password
           </Button>
         </Stack>
@@ -92,6 +112,7 @@ ResetPassword.propTypes = {
   onClose: PropTypes.func.isRequired,
   onCloseForgotPassword: PropTypes.func.isRequired,
   onOpenLogin: PropTypes.func.isRequired,
+  openConfirmAccount: PropTypes.func.isRequired,
 };
 
 export default ResetPassword;

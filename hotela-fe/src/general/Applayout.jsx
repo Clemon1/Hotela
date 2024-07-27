@@ -3,12 +3,12 @@ import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
-import Login from "../modals/Login";
-import SignUp from "../modals/SignUp";
-import OTP from "../modals/OTP";
-import ForgotPassword from "../modals/ForgotPassword";
-import ConfrimAccount from "../modals/ConfrimAccount";
-import ResetPassword from "../modals/ResetPassword";
+import Login from "../features/modals/Login";
+import SignUp from "../features/modals/SignUp";
+import OTP from "..//features/modals/OTP";
+import ForgotPassword from "../features/modals/ForgotPassword";
+import ConfrimAccount from "../features/modals/ConfrimAccount";
+import ResetPassword from "../features/modals/ResetPassword";
 
 function AppLayout() {
   // Check if the viewport width is less than or equal to 767px
@@ -132,13 +132,13 @@ function AppLayout() {
             onClose={closeResetPassword}
             onCloseForgotPassword={closeForgetPassword}
             onOpenForgotPassword={openforgetPassword}
-            onOpenLogin={openLogin}
+            openConfirmAccount={openConfirmAccount}
           />
         </Modal>
 
         {/* AppShell Header */}
         <AppShell.Header
-          px={{ base: 10, sm: 80 }}
+          px={{ base: 10 }}
           bd={0}
           mx="auto"
           style={{ width: "100%", maxWidth: "1200px" }}

@@ -182,6 +182,7 @@ function SignUp({ onClose, onSignUpSuccess, onOpenLogin }) {
 SignUp.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSignUpSuccess: PropTypes.func.isRequired,
+  onOpenLogin: PropTypes.func.isRequired,
 };
 
 export default SignUp;
