@@ -28,7 +28,7 @@ function Info() {
       <Title order={2} mb={20} style={{ color: "#2c3e50" }}>
         About Radisson Hotel Casa Grande
       </Title>
-      <Text mb={20} style={{ lineHeight: 1.6 }}>
+      <Text mb={20} fz={"sm"} style={{ lineHeight: 1.6 }}>
         Stay at the Best of Hotels in Casa Grande, AZ now 100% Non-Smoking. If
         you want to avoid the hustle and bustle of a big city but remain close
         by, head to the Holiday Inn Casa Grande which is just a short drive from
