@@ -29,7 +29,7 @@ function Overview() {
     >
       <Group align="start" justify="space-between">
         <Box>
-          <Title order={4} fz={24} mb={20}>
+          <Title order={2} mb={20}>
             Property Overview
           </Title>
           <Group align="start" gap={{ base: 0, sm: 50 }}>
