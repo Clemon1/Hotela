@@ -27,7 +27,12 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    favourite: [],
+    favourites: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Hotels",
+      },
+    ],
     phoneNumber: String,
     otp: {
       type: String,

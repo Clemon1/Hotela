@@ -1,6 +1,7 @@
 import { getMonthlyCounts } from "../middlewares/Analytics/analytics.js";
 import { generateToken } from "../middlewares/JWT.js";
 import { OTP } from "../middlewares/OTP/otpMiddleware.js";
+import Hotel from "../models/hotelModel.js";
 import users from "../models/userModel.js";
 import bcrypt from "bcrypt";
 
@@ -189,5 +190,39 @@ export const getUserAnalysis = async (req, res) => {
     res.status(200).json(getNoUSER);
   } catch (err) {
     res.status(500).json(err.message);
+  }
+};
+
+// add hotel to favourite
+export const addToFavourite = async (req, res) => {
+  try {
+    const { userId, hotelId } = req.params;
+    // verify user
+    const existingUser = await users.findById(userId);
+    if (!existingUser) {
+      return res.status(401).json({ message: "User not found" });
+    }
+    //verify hotel
+    const existingHotel = await Hotel.findById(hotelId);
+    if (!existingHotel) {
+      return res.status(401).json({ message: "Hotel not found" });
+    }
+    //check if the hotel id already exists
+    const favourites = existingUser.favourites.includes(hotelId);
+    //check if hotel id exist in remove from favorites
+    if (favourites) {
+      await users.findByIdAndUpdate(userId, {
+        $pull: { favourites: hotelId },
+      });
+      return res.status(200).json("Hotel removed from favorites");
+    } else {
+      //check if hotel id does not exist in add to favorites
+      await users.findByIdAndUpdate(userId, {
+        $push: { favourites: hotelId },
+      });
+      return res.status(200).json("Hotel added to favorites");
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };

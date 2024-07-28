@@ -5,19 +5,17 @@ const bookingShema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "users",
     },
-    userDetails: [
-      {
-        firstName: String,
-        lastName: String,
-        email: String,
-        phoneNumber: String,
-        userType: {
-          type: String,
-          enum: ["User", "Guest"],
-          default: "User",
-        },
+    userDetails: {
+      firstName: String,
+      lastName: String,
+      email: String,
+      phoneNumber: String,
+      userType: {
+        type: String,
+        enum: ["User", "Guest"],
+        default: "User",
       },
-    ],
+    },
 
     hotel: {
       type: Schema.Types.ObjectId,
