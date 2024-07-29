@@ -23,7 +23,7 @@ function HotelInfo() {
               1000 reviews
             </Text>
           </Stack>
-          <Badge variant="light" color="green" fz={16}>
+          <Badge variant="light" color="green" fz={16} py={20} radius={"md"}>
             9.6
           </Badge>
         </Group>
