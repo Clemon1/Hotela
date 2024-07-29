@@ -30,6 +30,7 @@ const bookingShema = new Schema(
       type: Number,
       required: true,
     },
+
     checkIn: {
       type: Date,
       required: true,
