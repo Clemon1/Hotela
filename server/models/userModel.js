@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-
 // Defining database schema
 const userSchema = new Schema(
   {

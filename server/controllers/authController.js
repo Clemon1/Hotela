@@ -120,7 +120,7 @@ export const resendOTP = async (req, res) => {
     res.status(500).json(err.message);
   }
 };
-// Verify OTP
+// Verify a user account with OTP
 export const verifyOTP = async (req, res) => {
   try {
     const { otp } = req.body;
@@ -193,7 +193,7 @@ export const getUserAnalysis = async (req, res) => {
   }
 };
 
-// add hotel to favourite
+// add hotel to user favourite or Wishlist
 export const addToFavourite = async (req, res) => {
   try {
     const { userId, hotelId } = req.params;
