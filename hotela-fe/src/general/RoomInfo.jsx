@@ -23,6 +23,7 @@ function RoomInfo() {
       shadow="md"
       radius="md"
       p="lg"
+      c={"#000814"}
       style={{
         maxWidth: 800,
         margin: "auto",
@@ -71,19 +72,29 @@ function RoomInfo() {
       </Carousel>
 
       <Box mt="md">
-        <Title order={3} mb="xs" c={"#000814"}>
-          Deluxe Room
-        </Title>
-        <Text size="sm" c="dimmed">
-          Type: Deluxe
-        </Text>
-        <Text size="sm" c="dimmed">
-          Check-in: 2:00 PM
-        </Text>
-        <Text size="sm" c="dimmed">
-          Check-out: 11:00 AM
-        </Text>
+        <Stack spacing={4}>
+          <Title order={3} c={"#000814"}>
+            Hotel Norrebo
+          </Title>
+          <Text size="sm" color="dimmed">
+            3-star hotel located in the heart of Copenhagen
+          </Text>
+        </Stack>
+
+        <Stack spacing={4} mt={20}>
+          <Text size="sm">
+            <strong>Check-in:</strong>
+            <span style={{ marginLeft: "30px" }}>Friday, 09 December 2022</span>
+          </Text>
+          <Text size="sm">
+            <strong>Check-out:</strong>
+            <span style={{ marginLeft: "20px" }}>Monday, 12 December 2022</span>
+          </Text>
+        </Stack>
         <Divider my="sm" />
+        <Title order={4} c={"#000814"}>
+          Standard Double Room
+        </Title>
         <Group justify="space-between" mt="sm" c={"#000814"}>
           <Text size="sm">
             <strong>Number of nights:</strong> {numberOfNights}

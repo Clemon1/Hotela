@@ -20,7 +20,7 @@ import {
 
 function PropertyDetails() {
   return (
-    <Box my="md">
+    <Box my="md" c={"#000814"}>
       <Box>
         <Title order={3} mb="md">
           Step 2: Property Details
@@ -33,7 +33,7 @@ function PropertyDetails() {
               mb="sm"
               style={{ display: "flex", alignItems: "center" }}
             >
-              <FaHome size={24} style={{ marginRight: "10px" }} />
+              <FaHome color="green" size={24} style={{ marginRight: "10px" }} />
               Property Information
             </Title>
             <Text>
@@ -54,10 +54,14 @@ function PropertyDetails() {
                 </ThemeIcon>
               }
             >
-              <List.Item icon={<FaWifi />}>WiFi</List.Item>
-              <List.Item icon={<FaSnowflake />}>Air Conditioning</List.Item>
-              <List.Item icon={<FaCar />}>Parking</List.Item>
-              <List.Item icon={<FaSwimmingPool />}>Pool</List.Item>
+              <List.Item icon={<FaWifi color="green" />}>WiFi</List.Item>
+              <List.Item icon={<FaSnowflake color="green" />}>
+                Air Conditioning
+              </List.Item>
+              <List.Item icon={<FaCar color="green" />}>Parking</List.Item>
+              <List.Item icon={<FaSwimmingPool color="green" />}>
+                Pool
+              </List.Item>
             </List>
           </Box>
 
@@ -67,14 +71,18 @@ function PropertyDetails() {
               mb="sm"
               style={{ display: "flex", alignItems: "center" }}
             >
-              <FaExclamationCircle size={24} style={{ marginRight: "10px" }} />
+              <FaExclamationCircle
+                color="green"
+                size={24}
+                style={{ marginRight: "10px" }}
+              />
               House Rules
             </Title>
             <List
               spacing="sm"
               size="sm"
               icon={
-                <ThemeIcon color="black" size={24} radius="xl">
+                <ThemeIcon color="green" size={24} radius="xl">
                   <FaCheckCircle size={16} />
                 </ThemeIcon>
               }

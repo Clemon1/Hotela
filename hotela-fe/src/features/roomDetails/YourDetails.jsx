@@ -10,7 +10,7 @@ import {
 
 function YourDetails() {
   return (
-    <Box>
+    <Box c={"#000814"}>
       <Title order={2}>Book Hotel 1</Title>
       <Box my="sm">
         <Title order={4} mb="sm">
