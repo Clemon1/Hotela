@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import Applayout from "./general/Applayout";
 import NotFound from "./pages/NotFound";
 import HotelDetail from "./pages/HotelDetails";
+import RoomDetails from "./pages/RoomDetails";
 
 function App() {
   const router = createBrowserRouter([
@@ -13,8 +14,12 @@ function App() {
       children: [
         { path: "/", element: <Dashboard /> },
         {
-          path: "/HostelDetail",
+          path: "/HotelDetails",
           element: <HotelDetail />,
+        },
+        {
+          path: "roomDetails",
+          element: <RoomDetails />,
         },
         {
           path: "*",

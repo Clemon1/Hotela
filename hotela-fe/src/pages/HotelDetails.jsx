@@ -1,12 +1,12 @@
-import { Badge, Flex, Group, Stack, Text, Title } from "@mantine/core";
+import { Flex } from "@mantine/core";
 import { IoArrowBack } from "react-icons/io5";
-import HostelImages from "../features/HotelDetails/HotelImages";
-import HotelInfo from "../features/HotelDetails/HotelInfo";
-import HostelRooms from "../features/HotelDetails/HostelRooms";
+import HostelImages from "../features/hotelDetails/HotelImages";
+import HostelRooms from "../features/hotelDetails/HostelRooms";
+import HotelInfo from "../features/hotelDetails/HotelInfo";
 
 function HotelDetails() {
   return (
-    <Flex w={"100%"} direction={"column"}>
+    <Flex w={"100%"} direction={"column"} mb={50}>
       <IoArrowBack size={30} />
       <HostelImages />
       <HotelInfo />

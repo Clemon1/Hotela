@@ -9,18 +9,11 @@ import {
   Button,
   Paper,
   SimpleGrid,
-  Divider,
   Badge,
 } from "@mantine/core";
-import {
-  FaBed,
-  FaArrowsAltV,
-  FaUsers,
-  FaMoneyBillWave,
-  FaRegCalendarAlt,
-  FaRegCheckCircle,
-  FaTimesCircle,
-} from "react-icons/fa";
+import { FaBed, FaArrowsAltV, FaUsers } from "react-icons/fa";
+import hotelDetails1 from "../../assets/hotelDetails1.jpg";
+import PropTypes from "prop-types";
 
 // Sample data for rooms
 const rooms = [
@@ -36,7 +29,7 @@ const rooms = [
     taxesFees: "includes taxes & fees",
     priceDetails: "€22 per night",
     availability: "We have 4 left",
-    image: "https://via.placeholder.com/400x300",
+    image: hotelDetails1,
   },
   {
     id: 2,
@@ -50,7 +43,7 @@ const rooms = [
     taxesFees: "includes taxes & fees",
     priceDetails: "€30 per night",
     availability: "We have 3 left",
-    image: "https://via.placeholder.com/400x300",
+    image: hotelDetails1,
   },
   {
     id: 3,
@@ -64,7 +57,7 @@ const rooms = [
     taxesFees: "includes taxes & fees",
     priceDetails: "€40 per night",
     availability: "We have 2 left",
-    image: "https://via.placeholder.com/400x300",
+    image: hotelDetails1,
   },
 ];
 
@@ -72,9 +65,7 @@ function RoomCard({ room }) {
   return (
     <Paper shadow="xs" p="md" radius="md">
       <Box mb="md" style={{ position: "relative" }}>
-        {/* <Image src={room.image} alt={room.name} radius="md" height={300} />
-         */}
-        <Carousel withIndicators height={200} loop>
+        <Carousel h={300} loop>
           <Carousel.Slide>
             <Image src={room.image} alt={room.name} radius="md" height={300} />
           </Carousel.Slide>
@@ -84,7 +75,6 @@ function RoomCard({ room }) {
           <Carousel.Slide>
             <Image src={room.image} alt={room.name} radius="md" height={300} />
           </Carousel.Slide>
-          {/* ...other slides */}
         </Carousel>
         <Badge
           color="red"
@@ -114,7 +104,7 @@ function RoomCard({ room }) {
         </Text>
 
         <Group align="center">
-          <Text fz="40" weight={700} color="green">
+          <Text fz="32" fw={600} c="green">
             €{room.price}
           </Text>
           <Text fz="sm" c="gray" style={{ textDecoration: "line-through" }}>
@@ -142,6 +132,9 @@ function RoomCard({ room }) {
     </Paper>
   );
 }
+RoomCard.propTypes = {
+  room: PropTypes.func.isRequired,
+};
 
 function HostelRooms() {
   return (
@@ -150,7 +143,7 @@ function HostelRooms() {
         Hostel Rooms
       </Title>
       <SimpleGrid
-        cols={3}
+        cols={{ base: 1, md: 2, lg: 3 }}
         spacing="lg"
         breakpoints={[
           { maxWidth: 980, cols: 2, spacing: "md" },

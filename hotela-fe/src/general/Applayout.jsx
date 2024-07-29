@@ -1,4 +1,4 @@
-import { AppShell, Modal, ScrollArea } from "@mantine/core";
+import { AppShell, Divider, Modal, ScrollArea } from "@mantine/core";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { Outlet } from "react-router-dom";
 import Header from "./Header";

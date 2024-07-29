@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   Box,
-  Button,
   Group,
   Stack,
   Text,
@@ -10,8 +9,11 @@ import {
   Rating,
   Paper,
   Divider,
+  Pagination,
+  Flex,
 } from "@mantine/core";
 import { IoStar, IoStarOutline } from "react-icons/io5";
+import PropTypes from "prop-types";
 
 // Sample data for reviews
 const reviews = [
@@ -39,13 +41,19 @@ const reviews = [
       "Perfect experience! The location was convenient and the food was delicious.",
     avatar: "https://randomuser.me/api/portraits/women/2.jpg",
   },
-  // Additional sample reviews for demonstration
   {
     name: "Michael Brown",
     date: "December 25, 2023",
     rating: 3.5,
     comment: "Good hotel but room service was slow.",
     avatar: "https://randomuser.me/api/portraits/men/3.jpg",
+  },
+  {
+    name: "Emily Davis",
+    date: "November 15, 2023",
+    rating: 4.8,
+    comment: "Amazing stay, will definitely come back!",
+    avatar: "https://randomuser.me/api/portraits/women/3.jpg",
   },
   {
     name: "Emily Davis",
@@ -89,32 +97,53 @@ function ReviewCard({ name, date, rating, comment, avatar }) {
   );
 }
 
+ReviewCard.propTypes = {
+  name: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  rating: PropTypes.number.isRequired,
+  comment: PropTypes.string.isRequired,
+  avatar: PropTypes.string.isRequired,
+};
+
+function chunk(array, size) {
+  if (!array.length) {
+    return [];
+  }
+  const head = array.slice(0, size);
+  const tail = array.slice(size);
+  return [head, ...chunk(tail, size)];
+}
+
+const data = chunk(reviews, 3);
+
 function Reviews() {
-  const [showAll, setShowAll] = useState(false);
-  const reviewsToShow = showAll ? reviews : reviews.slice(0, 3);
+  const [activePage, SetActivePage] = useState(1);
 
   return (
     <Box
       mt={20}
       px={20}
       py={30}
-      style={{ backgroundColor: "#f8f9fa", borderRadius: "10px" }}
+      style={{
+        backgroundColor: "#f8f9fa",
+        borderRadius: "10px",
+      }}
     >
       <Title order={2} mb={20} style={{ color: "#2c3e50" }}>
         Customer Reviews
       </Title>
       <Divider my="lg" />
-      {reviewsToShow.map((review, index) => (
+      {data[activePage - 1].map((review, index) => (
         <ReviewCard key={index} {...review} />
       ))}
-      <Button
-        fullWidth
-        variant="outline"
-        mt={20}
-        onClick={() => setShowAll(!showAll)}
-      >
-        {showAll ? "Show Less" : "Show All Reviews"}
-      </Button>
+      <Flex align={"center"} justify={"center"}>
+        <Pagination
+          total={data.length}
+          value={activePage}
+          onChange={SetActivePage}
+          mt="sm"
+        />
+      </Flex>
     </Box>
   );
 }

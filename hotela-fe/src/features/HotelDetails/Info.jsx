@@ -1,21 +1,5 @@
-import {
-  Box,
-  Stack,
-  Text,
-  Title,
-  Group,
-  Divider,
-  Anchor,
-  Button,
-  Paper,
-} from "@mantine/core";
-import {
-  IoCall,
-  IoMail,
-  IoLocationSharp,
-  IoCalendar,
-  IoCheckmarkCircleSharp,
-} from "react-icons/io5";
+import { Box, Stack, Text, Title, Group, Divider, Paper } from "@mantine/core";
+import { IoCall, IoMail, IoLocationSharp } from "react-icons/io5";
 
 function Info() {
   return (
@@ -52,24 +36,6 @@ function Info() {
       </Text>
 
       <Divider my="lg" />
-
-      <Paper
-        shadow="xs"
-        p="md"
-        mb={20}
-        style={{ backgroundColor: "#fff", borderRadius: "10px" }}
-      >
-        <Group align="center">
-          <IoCalendar size={30} color="#3498db" />
-          <Stack spacing={0}>
-            <Text fw={600} size="lg">
-              Arrival / Departure
-            </Text>
-            <Text size="sm">Check in: 15:00</Text>
-            <Text size="sm">Check out: 11:00</Text>
-          </Stack>
-        </Group>
-      </Paper>
 
       <Paper
         shadow="xs"
@@ -122,16 +88,6 @@ function Info() {
           </Stack>
         </Group>
       </Paper>
-
-      <Anchor href="https://www.radissonhotel.com" target="_blank" mt={20}>
-        <Button
-          variant="light"
-          color="blue"
-          leftIcon={<IoCheckmarkCircleSharp />}
-        >
-          Visit Official Site
-        </Button>
-      </Anchor>
     </Box>
   );
 }
