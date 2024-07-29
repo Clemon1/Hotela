@@ -5,6 +5,7 @@ import Applayout from "./general/Applayout";
 import NotFound from "./pages/NotFound";
 import HotelDetail from "./pages/HotelDetails";
 import RoomDetails from "./pages/RoomDetails";
+import SearchResults from "./pages/SearchResults";
 
 function App() {
   const router = createBrowserRouter([
@@ -20,6 +21,10 @@ function App() {
         {
           path: "roomDetails",
           element: <RoomDetails />,
+        },
+        {
+          path: "searchResult",
+          element: <SearchResults />,
         },
         {
           path: "*",
