@@ -1,7 +1,7 @@
 import { Container, Grid, SimpleGrid, rem, Image, Box } from "@mantine/core";
 import hotelDetails1 from "../../assets/hotelDetails1.jpg";
 
-const HostelImages = () => {
+const HotelImages = () => {
   const PRIMARY_COL_HEIGHT = rem(350);
   const SECONDARY_COL_HEIGHT = `calc(${PRIMARY_COL_HEIGHT} / 2 - var(--mantine-spacing-md) / 2)`;
   return (
@@ -63,4 +63,4 @@ const HostelImages = () => {
   );
 };
 
-export default HostelImages;
+export default HotelImages;

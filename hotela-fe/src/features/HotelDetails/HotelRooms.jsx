@@ -90,7 +90,7 @@ RoomCard.propTypes = {
   room: PropTypes.object.isRequired,
 };
 
-function HostelRooms() {
+function HotelRooms() {
   // Sample data for rooms
   const rooms = [
     {
@@ -156,4 +156,4 @@ function HostelRooms() {
   );
 }
 
-export default HostelRooms;
+export default HotelRooms;
