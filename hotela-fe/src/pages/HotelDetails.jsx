@@ -1,6 +1,6 @@
 import { Flex } from "@mantine/core";
 import { IoArrowBack } from "react-icons/io5";
-import HostelImages from "../features/HotelDetails/HostelImages";
+import HostelImages from "../features/HotelDetails/HotelImages";
 import HostelRooms from "../features/HotelDetails/HostelRooms";
 import HotelInfo from "../features/HotelDetails/HotelInfo";
 
