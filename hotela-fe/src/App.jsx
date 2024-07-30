@@ -3,7 +3,7 @@ import "./styles/App.css";
 import Dashboard from "./pages/Dashboard";
 import Applayout from "./general/Applayout";
 import NotFound from "./pages/NotFound";
-import HotelDetail from "./pages/HotelDetails";
+import HotelDetails from "./pages/HotelDetails";
 import RoomDetails from "./pages/RoomDetails";
 import SearchResults from "./pages/SearchResults";
 
@@ -16,7 +16,7 @@ function App() {
         { path: "/", element: <Dashboard /> },
         {
           path: "/HotelDetails",
-          element: <HotelDetail />,
+          element: <HotelDetails />,
         },
         {
           path: "roomDetails",

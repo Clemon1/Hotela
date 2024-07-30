@@ -42,7 +42,7 @@ function RoomCard({ room }) {
           % OFF
         </Badge>
       </Box>
-      <Stack gap={10}>
+      <Stack gap={10} px='md' pb={"xl"}>
         <Title order={3} c={"#000814"}>
           {room.name}
         </Title>
@@ -75,7 +75,7 @@ function RoomCard({ room }) {
         <Text fz='sm' c={"#000814"}>
           {room.taxesFees}
         </Text>
-        <Text fz='xs' weight={500} color='red'>
+        <Text fz='xs' weight={500} c='red'>
           {room.availability}
         </Text>
         <Button fullWidth color='blue' mt='md' size='md' radius='xl' fz={15}>
@@ -85,8 +85,9 @@ function RoomCard({ room }) {
     </Paper>
   );
 }
+
 RoomCard.propTypes = {
-  room: PropTypes.func.isRequired,
+  room: PropTypes.object.isRequired,
 };
 
 function HostelRooms() {
