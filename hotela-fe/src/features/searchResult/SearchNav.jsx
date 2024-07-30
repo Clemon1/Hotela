@@ -12,6 +12,8 @@ import {
   RadioGroup,
   Radio,
   Badge,
+  RangeSlider,
+  Text,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { useState } from "react";
@@ -22,6 +24,11 @@ function SearchNav() {
   const theme = useMantineTheme();
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm}px)`);
   const [selectedStar, setSelectedStar] = useState(null);
+  const [range, setRange] = useState([1, 600]);
+
+  const handleRangeChange = (value) => {
+    setRange(value);
+  };
 
   const handleStarClick = (star) => {
     setSelectedStar(star);
@@ -41,8 +48,13 @@ function SearchNav() {
           <IoArrowBack
             style={{ display: isMobile ? "none" : "block" }}
             size={30}
+            color={"#000814"}
           />
-          <Title order={2} style={{ flexGrow: 1, textAlign: "center" }}>
+          <Title
+            order={2}
+            style={{ flexGrow: 1, textAlign: "center" }}
+            c={"#000814"}
+          >
             Your Search
           </Title>
         </Group>
@@ -73,7 +85,7 @@ function SearchNav() {
               required
               withAsterisk={false}
             />
-            <Button fullWidth radius={"xl"}>
+            <Button fullWidth radius={"xl"} c={"#000814"}>
               Search
             </Button>
           </Stack>
@@ -82,39 +94,43 @@ function SearchNav() {
 
       <Divider mb="md" />
 
+      <Stack spacing="md" gap={10}>
+        <Title order={4} c={"#000814"}>
+          Your budget (Per night)
+        </Title>
+        <Group>
+          <Text c={"#000814"}>${range[0]}</Text> -{" "}
+          <Text c={"#000814"}>${range[1]}</Text>
+        </Group>
+        <RangeSlider
+          size="md"
+          showLabelOnHover={false}
+          minRange={100}
+          min={0}
+          max={1000}
+          step={1}
+          value={range}
+          onChange={handleRangeChange}
+        />
+      </Stack>
+
+      <Divider my="md" />
       <Stack spacing="md">
-        <Title order={3}>Popular Searches</Title>
-        <Checkbox label="Budget hostel" />
-        <Checkbox label="Breakfast included" />
-        <Checkbox label="Free airport shuttle" />
-        <Checkbox label="Pet friendly" />
+        <Title order={4} c={"#000814"}>
+          Popular Searches
+        </Title>
+        <Checkbox label="Budget hostel" c={"#000814"} />
+        <Checkbox label="Breakfast included" c={"#000814"} />
+        <Checkbox label="Free airport shuttle" c={"#000814"} />
+        <Checkbox label="Pet friendly" c={"#000814"} />
       </Stack>
 
       <Divider my="md" />
 
       <Stack spacing="md">
-        <Title order={3}>Price per night</Title>
-        <Checkbox label="Less than $50" />
-        <Checkbox label="$50 to $100" />
-        <Checkbox label="$100 to $200" />
-        <Checkbox label="$500 and more" />
-      </Stack>
-
-      <Divider my="md" />
-
-      <Stack spacing="md">
-        <Title order={3}>Guest Rating</Title>
-        <Checkbox label="Any" />
-        <Checkbox label="Excellent" />
-        <Checkbox label="Very good" />
-        <Checkbox label="Good" />
-        <Checkbox label="Fair" />
-      </Stack>
-
-      <Divider my="md" />
-
-      <Stack spacing="md">
-        <Title order={3}>Property Class</Title>
+        <Title order={3} c={"#000814"}>
+          Property Class
+        </Title>
         <Group>
           {["Any", "5", "4", "3", "2", "1"].map((star, index) => (
             <Badge
@@ -133,9 +149,11 @@ function SearchNav() {
               {star === "Any" ? (
                 "Any"
               ) : (
-                <AiFillStar style={{ marginRight: 4 }} />
+                <>
+                  <AiFillStar style={{ marginRight: 4 }} color={"#000814"} />
+                  {star}
+                </>
               )}
-              {star !== "Any" && star}
             </Badge>
           ))}
         </Group>
