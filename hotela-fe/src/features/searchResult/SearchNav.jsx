@@ -35,7 +35,7 @@ function SearchNav() {
   };
 
   return (
-    <Box>
+    <Box c={"#000814"}>
       <Box
         style={{
           backgroundColor: theme.colors.gray[1],
@@ -48,13 +48,8 @@ function SearchNav() {
           <IoArrowBack
             style={{ display: isMobile ? "none" : "block" }}
             size={30}
-            color={"#000814"}
           />
-          <Title
-            order={2}
-            style={{ flexGrow: 1, textAlign: "center" }}
-            c={"#000814"}
-          >
+          <Title order={2} style={{ flexGrow: 1, textAlign: "center" }}>
             Your Search
           </Title>
         </Group>
@@ -85,7 +80,7 @@ function SearchNav() {
               required
               withAsterisk={false}
             />
-            <Button fullWidth radius={"xl"} c={"#000814"}>
+            <Button fullWidth radius={"xl"}>
               Search
             </Button>
           </Stack>
@@ -94,13 +89,10 @@ function SearchNav() {
 
       <Divider mb="md" />
 
-      <Stack spacing="md" gap={10}>
-        <Title order={4} c={"#000814"}>
-          Your budget (Per night)
-        </Title>
+      <Stack spacing="md" gap={0}>
+        <Title order={4}>Your budget (Per night)</Title>
         <Group>
-          <Text c={"#000814"}>${range[0]}</Text> -{" "}
-          <Text c={"#000814"}>${range[1]}</Text>
+          <Text>${range[0]}</Text> - <Text>${range[1]}</Text>
         </Group>
         <RangeSlider
           size="md"
@@ -116,21 +108,17 @@ function SearchNav() {
 
       <Divider my="md" />
       <Stack spacing="md">
-        <Title order={4} c={"#000814"}>
-          Popular Searches
-        </Title>
-        <Checkbox label="Budget hostel" c={"#000814"} />
-        <Checkbox label="Breakfast included" c={"#000814"} />
-        <Checkbox label="Free airport shuttle" c={"#000814"} />
-        <Checkbox label="Pet friendly" c={"#000814"} />
+        <Title order={4}>Popular Searches</Title>
+        <Checkbox label="Budget hostel" />
+        <Checkbox label="Breakfast included" />
+        <Checkbox label="Free airport shuttle" />
+        <Checkbox label="Pet friendly" />
       </Stack>
 
       <Divider my="md" />
 
       <Stack spacing="md">
-        <Title order={3} c={"#000814"}>
-          Property Class
-        </Title>
+        <Title order={3}>Property Class</Title>
         <Group>
           {["Any", "5", "4", "3", "2", "1"].map((star, index) => (
             <Badge
@@ -149,11 +137,9 @@ function SearchNav() {
               {star === "Any" ? (
                 "Any"
               ) : (
-                <>
-                  <AiFillStar style={{ marginRight: 4 }} color={"#000814"} />
-                  {star}
-                </>
+                <AiFillStar style={{ marginRight: 4 }} />
               )}
+              {star !== "Any" && star}
             </Badge>
           ))}
         </Group>
