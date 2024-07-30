@@ -1,43 +1,96 @@
-import {
-  Box,
-  Stack,
-  Text,
-  TextInput,
-  Title,
-  Button,
-  Divider,
-} from "@mantine/core";
+import { Box, Stack, TextInput, Title, Select } from "@mantine/core";
+import { useState, useEffect } from "react";
+
+const data = {
+  firstName: "Temidayo",
+  lastName: "Lawal",
+  email: "lawaltemidayoo@gmail.com",
+};
 
 function YourDetails() {
+  const [selectedTraveler, setSelectedTraveler] = useState(
+    `${data.lastName} ${data.firstName}`
+  );
+  const [firstName, setFirstName] = useState(data.firstName);
+  const [lastName, setLastName] = useState(data.lastName);
+  const [email, setEmail] = useState(data.email);
+  const [isEditable, setIsEditable] = useState(false);
+
+  const handleTravelerChange = (value) => {
+    setSelectedTraveler(value);
+    if (value === `${data.lastName} ${data.firstName}`) {
+      setFirstName(data.firstName);
+      setLastName(data.lastName);
+      setEmail(data.email);
+      setIsEditable(false);
+    } else {
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setIsEditable(true);
+    }
+  };
+
   return (
     <Box c={"#000814"}>
-      <Title order={2}>Book Hotel 1</Title>
+      <Title order={2}>Who is checking in?</Title>
       <Box my="sm">
         <Title order={4} mb="sm">
           Step 1: Your details
         </Title>
         <form>
           <Stack spacing="md">
+            <Select
+              w={{ base: "100%", sm: "50%" }}
+              label="Traveler name"
+              value={selectedTraveler}
+              data={[
+                {
+                  group: "New Traveler",
+                  items: [
+                    { value: "Add new traveler", label: "Add new traveler" },
+                  ],
+                },
+                {
+                  group: "Select from my account",
+                  items: [
+                    {
+                      value: `${data.lastName} ${data.firstName}`,
+                      label: `${data.lastName} ${data.firstName}`,
+                    },
+                  ],
+                },
+              ]}
+              onChange={handleTravelerChange}
+            />
             <TextInput
-              label="First and Last name"
+              label="First name"
               w={{ base: "100%", sm: "70%" }}
-              placeholder="Enter your full name"
+              placeholder="Enter your first name"
+              value={firstName}
+              onChange={(event) => setFirstName(event.currentTarget.value)}
+              disabled={!isEditable}
               required
               withAsterisk={false}
             />
             <TextInput
-              label="Email address"
+              label="Last name"
+              w={{ base: "100%", sm: "70%" }}
+              placeholder="Enter your last name"
+              value={lastName}
+              onChange={(event) => setLastName(event.currentTarget.value)}
+              disabled={!isEditable}
+              required
+              withAsterisk={false}
+            />
+            <TextInput
+              label="Email"
               w={{ base: "100%", sm: "70%" }}
               placeholder="Enter your email"
               type="email"
-              required
-              withAsterisk={false}
-            />
-            <TextInput
-              label="Phone number"
-              w={{ base: "100%", sm: "70%" }}
-              placeholder="Enter your phone number"
-              type="tel"
+              value={email}
+              onChange={(event) => setEmail(event.currentTarget.value)}
+              disabled={!isEditable}
               required
               withAsterisk={false}
             />

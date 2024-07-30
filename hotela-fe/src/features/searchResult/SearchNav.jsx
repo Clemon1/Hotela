@@ -89,7 +89,7 @@ function SearchNav() {
 
       <Divider mb="md" />
 
-      <Stack spacing="md" gap={0}>
+      <Stack spacing="md" gap={5}>
         <Title order={4}>Your budget (Per night)</Title>
         <Group>
           <Text>${range[0]}</Text> - <Text>${range[1]}</Text>
