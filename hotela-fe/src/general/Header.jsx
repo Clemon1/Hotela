@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Button, Flex, Group, Text, useMantineTheme } from "@mantine/core";
+import { Button, Flex, Group, Title, useMantineTheme } from "@mantine/core";
 import { NavLink } from "react-router-dom";
 
 function Header({ openLoginModal, openSignUpModal }) {
@@ -9,9 +9,9 @@ function Header({ openLoginModal, openSignUpModal }) {
     <>
       <Flex h={60} align='center' justify='space-between'>
         <NavLink to='/' style={{ textDecoration: "none" }}>
-          <Text order={2} fw={700} fz={25} c={theme.colors.blue[6]}>
+          <Title order={2} fw={700} fz={25} c={theme.colors.blue[6]}>
             Hotela
-          </Text>
+          </Title>
         </NavLink>
 
         <Group>
