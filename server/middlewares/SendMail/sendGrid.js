@@ -51,11 +51,11 @@ export const sendMail = async ({ to, subject, templateName, templateData }) => {
   const template = handlebars.compile(templateSource);
   const htmlToSend = template(templateData);
 
-  const info = await transporter.sendMail({
+  await transporter.sendMail({
     from: process.env.Email, // sender address
     to, // list of receivers
     subject, // Subject line
     html: htmlToSend,
   });
-  console.log(info.response);
+  console.log("Mail sent");
 };
