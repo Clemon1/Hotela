@@ -41,7 +41,7 @@ export const signUp = async (req, res) => {
     const token = generateToken({ user: userInfo, role: userInfo.role });
     res.status(201).json({ userInfo, token });
   } catch (err) {
-    res.status(500).json(err.message);
+    res.status(500).json({ message: err.message });
   }
 };
 //Create admin account
@@ -69,7 +69,7 @@ export const adminSignUp = async (req, res) => {
     const token = generateToken({ user: userInfo, role: userInfo.role });
     res.status(201).json({ userInfo, token });
   } catch (err) {
-    res.status(500).json(err.message);
+    res.status(500).json({ message: err.message });
   }
 };
 // User login
@@ -88,7 +88,7 @@ export const login = async (req, res) => {
     const token = generateToken({ user: userInfo, role: userInfo.role });
     res.status(200).json({ userInfo, token });
   } catch (err) {
-    res.status(500).json(err.message);
+    res.status(500).json({ message: err.message });
   }
 };
 // Admin Login
@@ -110,7 +110,7 @@ export const adminLogin = async (req, res) => {
     const token = generateToken({ user: userInfo, role: userInfo.role });
     res.status(200).json({ userInfo, token });
   } catch (err) {
-    res.status(500).json(err.message);
+    res.status(500).json({ message: err.message });
   }
 };
 // Resend OTP
@@ -128,7 +128,7 @@ export const resendOTP = async (req, res) => {
     });
     res.status(200).json(user);
   } catch (err) {
-    res.status(500).json(err.message);
+    res.status(500).json({ message: err.message });
   }
 };
 // Verify a user account with OTP
@@ -148,7 +148,7 @@ export const verifyOTP = async (req, res) => {
     });
     res.status(200).json("Successfully Verified");
   } catch (err) {
-    res.status(500).json(err.message);
+    res.status(500).json({ message: err.message });
   }
 };
 // get all users
@@ -171,7 +171,7 @@ export const getSingleUser = async (req, res) => {
     }
     res.status(200).json(user);
   } catch (err) {
-    res.status(500).json(err.message);
+    res.status(500).json({ message: err.message });
   }
 };
 // forgot password
@@ -190,7 +190,8 @@ export const forgotPassword = async (req, res) => {
     await user.save();
     res.status(200).json("Password updated successfully");
   } catch (err) {
-    res.status(500).json("Error updating password");
+    console.log(err.message);
+    res.status(500).json({ message: "Error changing password" });
   }
 };
 // user count
@@ -200,7 +201,7 @@ export const getUserAnalysis = async (req, res) => {
     const getNoUSER = await getMonthlyCounts(users, Number(year));
     res.status(200).json(getNoUSER);
   } catch (err) {
-    res.status(500).json(err.message);
+    res.status(500).json({ message: err.message });
   }
 };
 
