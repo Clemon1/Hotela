@@ -39,7 +39,7 @@ function YourDetails() {
           Step 1: Your details
         </Title>
         <form>
-          <Stack spacing="md">
+          <Stack gap="5px">
             <Select
               w={{ base: "100%", sm: "50%" }}
               label="Traveler name"
