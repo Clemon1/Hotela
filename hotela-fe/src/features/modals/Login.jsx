@@ -10,12 +10,17 @@ import {
   Stack,
 } from "@mantine/core";
 import { IoClose } from "react-icons/io5";
+import { useLoginMutation } from "../../Store/Slices/authenticationSlice";
+import { useDispatch } from "react-redux";
+import { authenticate } from "../../Store/auth/authSlice";
 
 function Login({ onClose, onOpenSigUp, onOpenForgotPassword }) {
   const theme = useMantineTheme();
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
+  const [signIn, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
 
   const handleEmailChange = (event) => {
     setEmail(event.currentTarget.value);
@@ -28,13 +33,26 @@ function Login({ onClose, onOpenSigUp, onOpenForgotPassword }) {
     setPassword(event.currentTarget.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!validateEmail(email)) {
-      setError("Invalid email address");
-    } else {
-      setError("");
-      alert("Email: " + email + "\nPassword: " + password);
+    try {
+      if (!validateEmail(email)) {
+        setError("Invalid email address");
+      } else {
+        dispatch(
+          authenticate(
+            await signIn({
+              email,
+              password,
+            }).unwrap(),
+          ),
+        );
+        setError("");
+        onClose();
+      }
+    } catch (err) {
+      setError(err.data);
+      console.log(err);
     }
   };
 
@@ -102,7 +120,7 @@ function Login({ onClose, onOpenSigUp, onOpenForgotPassword }) {
           withAsterisk={false}
         />
         <Stack gap={5}>
-          <Button type='submit' h={40} fz={18} radius='xl'>
+          <Button type='submit' h={40} loading={isLoading} fz={18} radius='xl'>
             Log in
           </Button>
           <Button
