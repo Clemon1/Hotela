@@ -1,5 +1,6 @@
 import express from "express";
 import * as dotenv from "dotenv";
+import cors from "cors";
 import { dbConnect } from "./middlewares/dbConnection.js";
 import userRouter from "./routes/userRoutes.js";
 dotenv.config();
@@ -8,6 +9,7 @@ const PORT = process.env.PORT || 5500;
 const API_PATH = "/api/v1";
 dbConnect(`${process.env.DB_URL}`);
 //middlewares
+app.use(cors());
 app.use(express.json());
 
 //routes

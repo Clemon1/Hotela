@@ -36,7 +36,7 @@ export const authApi = createApi({
     }),
     // Register Endpoints
     verifyAccount: build.mutation({
-      query(body, userId) {
+      query({ userId, ...body }) {
         return {
           url: `/OTP/${userId}/verify`,
           method: "POST",
@@ -48,5 +48,9 @@ export const authApi = createApi({
   }),
 });
 
-export const { useGetSingleUserQuery, useRegisterMutation, useLoginMutation } =
-  authApi;
+export const {
+  useGetSingleUserQuery,
+  useRegisterMutation,
+  useLoginMutation,
+  useVerifyAccountMutation,
+} = authApi;

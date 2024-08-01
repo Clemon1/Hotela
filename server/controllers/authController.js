@@ -50,7 +50,7 @@ export const adminSignUp = async (req, res) => {
     const { firstName, lastName, email, phoneNumber } = req.body;
     const existing = await users.findOne({ email });
     if (existing) {
-      return res.status(401).json("Email already in use");
+      return res.status(401).json({ message: "Email already in use" });
     }
     const hashPassword = await bcrypt.hash(req.body.password, 10);
     const generateOTP = OTP();
@@ -135,13 +135,17 @@ export const resendOTP = async (req, res) => {
 export const verifyOTP = async (req, res) => {
   try {
     const { otp } = req.body;
+
     const { userId } = req.params;
     const user = await users.findById(userId);
     if (!user) {
       return res.status(401).json("User not found");
     }
-    if (otp !== user.otp || new Date() > new Date(user.otpExpires)) {
-      return res.status(401).json("Invalid or expired OTP");
+    if (otp !== user.otp) {
+      return res.status(401).json("Invalid OTP");
+    }
+    if (new Date() > new Date(user.otpExpires)) {
+      return res.status(401).json("Expired OTP");
     }
     await users.findByIdAndUpdate(userId, {
       $set: { isVerified: true, otp: null, otpExpires: null },

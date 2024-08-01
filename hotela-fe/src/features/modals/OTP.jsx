@@ -2,25 +2,37 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { Box, Button, Group, Title, PinInput, Text } from "@mantine/core";
 import { IoClose } from "react-icons/io5";
+import { useVerifyAccountMutation } from "../../Store/Slices/authenticationSlice";
+import { currentUser } from "../../Store/auth/authSlice";
+import { useSelector } from "react-redux";
 
 function OTP({ onClose, onOpenSigUp }) {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState(null);
+  const user = useSelector(currentUser);
+  console.log(user);
+  const [verifyOTP, { isLoading }] = useVerifyAccountMutation();
 
   const handleOtpChange = (value) => {
     setOtp(value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Add your OTP verification logic here
-    if (otp.length !== 5) {
-      setError("Please enter a 5-digit OTP.");
-      return;
+    try {
+      // Add your OTP verification logic here
+      if (otp.length !== 5) {
+        setError("Please enter a 5-digit OTP.");
+        return;
+      }
+      await verifyOTP({
+        userId: user && user.userInfo && user.userInfo._id,
+        otp,
+      }).unwrap();
+      onClose(); // Close the OTP modal after verification
+    } catch (err) {
+      console.log(err);
     }
-
-    alert("OTP: " + otp);
-    onClose(); // Close the OTP modal after verification
   };
 
   const handlecloseModal = () => {
@@ -77,7 +89,13 @@ function OTP({ onClose, onOpenSigUp }) {
           error={error}
         />
         {error && <Text c='red'>{error}</Text>}
-        <Button type='submit' h={50} fz={15} radius='xl' fullWidth>
+        <Button
+          type='submit'
+          h={50}
+          fz={15}
+          loading={isLoading}
+          radius='xl'
+          fullWidth>
           Verify
         </Button>
       </form>
