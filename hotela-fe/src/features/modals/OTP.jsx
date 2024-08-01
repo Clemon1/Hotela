@@ -5,6 +5,8 @@ import { IoClose } from "react-icons/io5";
 import { useVerifyAccountMutation } from "../../Store/Slices/authenticationSlice";
 import { currentUser } from "../../Store/auth/authSlice";
 import { useSelector } from "react-redux";
+import { notifications } from "@mantine/notifications";
+import { IoMdCheckmarkCircle, IoMdCloseCircle } from "react-icons/io";
 
 function OTP({ onClose, onOpenSigUp }) {
   const [otp, setOtp] = useState("");
@@ -29,8 +31,22 @@ function OTP({ onClose, onOpenSigUp }) {
         userId: user && user.userInfo && user.userInfo._id,
         otp,
       }).unwrap();
+      notifications.show({
+        title: "Verification Successful",
+        radius: "lg",
+        message: "",
+        color: "teal",
+        icon: <IoMdCheckmarkCircle fontSize={18} />,
+      });
       onClose(); // Close the OTP modal after verification
     } catch (err) {
+      notifications.show({
+        title: "Error in verifying account!",
+        message: `${err.data}`,
+        radius: "lg",
+        color: "red",
+        icon: <IoMdCloseCircle fontSize={18} />,
+      });
       console.log(err);
     }
   };

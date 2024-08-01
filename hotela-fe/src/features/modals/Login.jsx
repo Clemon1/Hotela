@@ -13,6 +13,8 @@ import { IoClose } from "react-icons/io5";
 import { useLoginMutation } from "../../Store/Slices/authenticationSlice";
 import { useDispatch } from "react-redux";
 import { authenticate } from "../../Store/auth/authSlice";
+import { notifications } from "@mantine/notifications";
+import { IoMdCheckmarkCircle, IoMdCloseCircle } from "react-icons/io";
 
 function Login({ onClose, onOpenSigUp, onOpenForgotPassword }) {
   const theme = useMantineTheme();
@@ -47,11 +49,25 @@ function Login({ onClose, onOpenSigUp, onOpenForgotPassword }) {
             }).unwrap(),
           ),
         );
+        notifications.show({
+          title: "Logged In Successfully",
+          radius: "lg",
+          message: "",
+          color: "teal",
+          icon: <IoMdCheckmarkCircle fontSize={18} />,
+        });
         setError("");
         onClose();
       }
     } catch (err) {
-      setError(err.data);
+      notifications.show({
+        title: "Error",
+        message: `${err.data}`,
+        radius: "lg",
+        color: "red",
+        icon: <IoMdCloseCircle fontSize={18} />,
+      });
+
       console.log(err);
     }
   };

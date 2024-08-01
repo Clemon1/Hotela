@@ -78,7 +78,9 @@ function SignUp({ onClose, onSignUpSuccess, onOpenLogin }) {
           title: "Successfully",
           message: "Verification code was sent to your email",
           color: "teal",
-          icon: <IoMdCheckmarkCircle color='teal' />,
+          radius: "lg",
+
+          icon: <IoMdCheckmarkCircle fontSize={18} />,
         });
         onClose();
         onSignUpSuccess(); // Open the OTP modal after successful sign-up
@@ -90,7 +92,8 @@ function SignUp({ onClose, onSignUpSuccess, onOpenLogin }) {
         title: "Error",
         message: `${err}`,
         color: "red",
-        icon: <IoMdCloseCircle color='red' />,
+        radius: "lg",
+        icon: <IoMdCloseCircle fontSize={18} />,
       });
     }
   };
