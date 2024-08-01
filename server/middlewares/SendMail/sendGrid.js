@@ -1,9 +1,17 @@
 import nodemailer from "nodemailer";
+import handlebars from "handlebars";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+// Define __dirname for ES6 modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Email Transporter
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 587,
   port: 465,
   secure: true,
   auth: {
@@ -11,6 +19,7 @@ const transporter = nodemailer.createTransport({
     pass: process.env.Password,
   },
 });
+
 // Verify the transporter
 transporter.verify(function (error, success) {
   if (error) {
@@ -20,17 +29,33 @@ transporter.verify(function (error, success) {
   }
 });
 
-export const sendMail = async ({ fullname, email, OTP, subject, message }) => {
-  let mailMessage = {
-    from: `<${email}>`, // sender address
-    to: process.env.Email, // list of receivers
-    subject: `${subject}`, // Subject line
-    html: `
-    <body>
-    <b>Welcome ${fullname},</b>
-    <b>Your OTP : ${OTP}</b>
-     <p> ${message}</p>
-    </body>`, // html body
-  };
-  await transporter.sendMail(mailMessage);
+// Function to read the Handlebars template file
+const readHTMLFile = (filePath) => {
+  try {
+    return fs.readFileSync(filePath, "utf-8");
+  } catch (err) {
+    throw new Error("Error reading the template file");
+  }
+};
+
+export const sendMail = async ({ to, subject, templateName, templateData }) => {
+  // Read and compile the Handlebars template
+  const templatePath = path.join(
+    __dirname,
+
+    "MailTemplates",
+    `${templateName}.handlebars`,
+  );
+  console.log(`Template path: ${templatePath}`);
+  const templateSource = readHTMLFile(templatePath);
+  const template = handlebars.compile(templateSource);
+  const htmlToSend = template(templateData);
+
+  const info = await transporter.sendMail({
+    from: process.env.Email, // sender address
+    to, // list of receivers
+    subject, // Subject line
+    html: htmlToSend,
+  });
+  console.log(info.response);
 };

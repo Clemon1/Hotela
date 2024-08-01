@@ -1,6 +1,7 @@
 import { getMonthlyCounts } from "../middlewares/Analytics/analytics.js";
 import { generateToken } from "../middlewares/JWT.js";
 import { OTP } from "../middlewares/OTP/otpMiddleware.js";
+import { sendMail } from "../middlewares/SendMail/sendGrid.js";
 import Hotel from "../models/hotelModel.js";
 import users from "../models/userModel.js";
 import bcrypt from "bcrypt";
@@ -26,6 +27,16 @@ export const signUp = async (req, res) => {
       otpExpires: generateOTP.expiresIn,
     });
     const newUser = await userDetails.save();
+    let templateData = {
+      FullName: `${firstName} ${lastName}`,
+      OTPCODE: userDetails.otp,
+    };
+    await sendMail({
+      to: newUser.email,
+      subject: "Verification Code",
+      templateName: "OTP",
+      templateData,
+    });
     const { password, ...userInfo } = newUser._doc;
     const token = generateToken({ user: userInfo, role: userInfo.role });
     res.status(201).json({ userInfo, token });
