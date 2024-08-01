@@ -8,7 +8,6 @@ import {
   Text,
   Title,
   Badge,
-  Button,
   Pagination,
 } from "@mantine/core";
 import hostelRoom from "../../assets/hostelRoom.jpg";
@@ -182,20 +181,21 @@ function SearchMain() {
 
   return (
     <Box pl={40} pr={40} c={"#000814"}>
-      <Text fz="sm">140 search results for</Text>
-      <Group align="center" justify="space-between" mt={-14} mb={20}>
+      <Text fz='sm'>140 search results for</Text>
+      <Group align='center' justify='space-between' mt={-14} mb={20}>
         <Title order={4}>Copenhagen, Dec 9 - 12, 2 guests, 1 room</Title>
         <Select
-          label="Sort by"
-          defaultValue="Recommended"
-          placeholder="Pick value"
+          label='Sort by'
+          fw={600}
+          defaultValue='Recommended'
+          placeholder='Pick value'
           data={[
             "Recommended",
             "Price: high to low",
             "Price: low to high",
             "Star rating",
           ]}
-          variant="unstyled"
+          variant='unstyled'
           styles={(theme) => ({
             root: {
               width: "30%",
@@ -213,17 +213,15 @@ function SearchMain() {
         {data[activePage - 1].map((room) => (
           <Flex
             key={room.id}
-            p={10}
             style={{
               borderRadius: "15px",
               boxShadow: "1px 0px 4px 4px rgba(0, 0, 0, 0.1)",
               height: "auto",
             }}
-            gap={14}
-          >
+            gap={14}>
             <Image
               src={room.image}
-              fit="cover"
+              fit='cover'
               w={"35%"}
               h={"auto"}
               style={{
@@ -233,20 +231,20 @@ function SearchMain() {
               }}
             />
 
-            <Flex direction={"column"} gap={13} w="75%">
-              <Group justify="space-between" align="flex-start">
+            <Flex direction={"column"} p={10} gap={13} w='75%'>
+              <Group justify='space-between' align='flex-start'>
                 <Stack gap={0}>
                   <Title order={4}>{room.hotelName}</Title>
                   <Text fz={12} c={"gray"}>
                     {room.distance}
                   </Text>
-                  <Text size="xs" c="gray" mt={1}>
+                  <Text size='xs' c='gray' mt={1}>
                     {room.cancellation}
                   </Text>
                 </Stack>
 
                 <Group gap={8}>
-                  <Stack align="end" justify="center" gap="0">
+                  <Stack align='end' justify='center' gap='0'>
                     <Text fz={16} c={"green"} fw={600}>
                       {room.rating}
                     </Text>
@@ -255,26 +253,25 @@ function SearchMain() {
                     </Text>
                   </Stack>
                   <Badge
-                    variant="light"
-                    color="green"
+                    variant='light'
+                    color='green'
                     fz={16}
                     py={20}
-                    radius={"md"}
-                  >
+                    radius={"md"}>
                     {room.ratingScore}
                   </Badge>
                 </Group>
               </Group>
 
-              <Group align="center" justify="space-between">
+              <Group align='center' justify='space-between'>
                 <Stack gap={0}>
                   <Text fz={12} fw={600}>
                     {room.roomType}
                   </Text>
-                  <Text fz={12} c="gray">
+                  <Text fz={12} c='gray'>
                     {room.bedType}
                   </Text>
-                  <Text fz={12} c="gray">
+                  <Text fz={12} c='gray'>
                     {room.bathroom}
                   </Text>
                 </Stack>
@@ -282,24 +279,21 @@ function SearchMain() {
                   <Text ta={"end"} fw={600}>
                     {room.price}
                   </Text>
-                  <Text fz={12} c="gray">
+                  <Text fz={12} c='gray'>
                     {room.nights}
                   </Text>
                 </Stack>
               </Group>
 
-              <Group align="center" justify="space-between">
+              <Group align='center' justify='space-between'>
                 <Group>
-                  <Badge color="blue" variant="outline" fz={9}>
+                  <Badge color='blue' py={13} px={13} variant='outline' fz={9}>
                     {room.badges.at(0)}
                   </Badge>
-                  <Badge color="blue" variant="outline" fz={9}>
+                  <Badge color='blue' py={13} px={13} variant='outline' fz={9}>
                     {room.badges.at(1)}
                   </Badge>
                 </Group>
-                <Button radius={"xl"} size="xs" fz={"xs"}>
-                  See Booking options
-                </Button>
               </Group>
             </Flex>
           </Flex>
@@ -311,7 +305,7 @@ function SearchMain() {
           total={data.length}
           value={activePage}
           onChange={setPage}
-          mt="sm"
+          mt='sm'
         />
       </Flex>
     </Box>

@@ -6,11 +6,8 @@ import {
   Stack,
   TextInput,
   Title,
-  Container,
   Group,
   useMantineTheme,
-  RadioGroup,
-  Radio,
   Badge,
   RangeSlider,
   Text,
@@ -38,46 +35,49 @@ function SearchNav() {
     <Box c={"#000814"}>
       <Box
         style={{
-          backgroundColor: theme.colors.gray[1],
+          backgroundColor: "#f8f9fa",
           padding: theme.spacing.md,
           boxShadow: theme.shadows.sm,
         }}
-        pr={{ md: 60 }}
-      >
-        <Group justify="space-between" mb="md">
+        pr={{ md: 60 }}>
+        <Group justify='space-between' mb='md'>
           <IoArrowBack
             style={{ display: isMobile ? "none" : "block" }}
             size={30}
           />
-          <Title order={2} style={{ flexGrow: 1, textAlign: "center" }}>
+          <Title order={3} style={{ flexGrow: 1, textAlign: "center" }}>
             Your Search
           </Title>
         </Group>
 
         <form>
-          <Stack spacing="md">
+          <Stack spacing='md'>
             <TextInput
-              label="Location"
-              placeholder="Where are you going to"
+              label='Location'
+              placeholder='Where are you going to'
               required
+              radius={"xl"}
               withAsterisk={false}
             />
             <TextInput
-              label="Check in"
-              placeholder="Add date"
+              label='Check in'
+              placeholder='Add date'
               required
+              radius={"xl"}
               withAsterisk={false}
             />
             <TextInput
-              label="Check out"
-              placeholder="Add date"
+              label='Check out'
+              placeholder='Add date'
               required
+              radius={"xl"}
               withAsterisk={false}
             />
             <TextInput
-              label="Guest"
-              placeholder="Number of guests"
+              label='Guest'
+              placeholder='Number of guests'
               required
+              radius={"xl"}
               withAsterisk={false}
             />
             <Button fullWidth radius={"xl"}>
@@ -87,15 +87,15 @@ function SearchNav() {
         </form>
       </Box>
 
-      <Divider mb="md" />
+      <Divider mb='md' />
 
-      <Stack spacing="md" gap={5}>
+      <Stack spacing='md' gap={5}>
         <Title order={4}>Your budget (Per night)</Title>
         <Group>
           <Text>${range[0]}</Text> - <Text>${range[1]}</Text>
         </Group>
         <RangeSlider
-          size="md"
+          size='md'
           showLabelOnHover={false}
           minRange={100}
           min={0}
@@ -106,34 +106,33 @@ function SearchNav() {
         />
       </Stack>
 
-      <Divider my="md" />
-      <Stack spacing="md">
+      <Divider my='md' />
+      <Stack spacing='md'>
         <Title order={4}>Popular Searches</Title>
-        <Checkbox label="Budget hostel" />
-        <Checkbox label="Breakfast included" />
-        <Checkbox label="Free airport shuttle" />
-        <Checkbox label="Pet friendly" />
+        <Checkbox label='Budget hostel' />
+        <Checkbox label='Breakfast included' />
+        <Checkbox label='Free airport shuttle' />
+        <Checkbox label='Pet friendly' />
       </Stack>
 
-      <Divider my="md" />
+      <Divider my='md' />
 
-      <Stack spacing="md">
-        <Title order={3}>Property Class</Title>
+      <Stack spacing='md'>
+        <Title order={4}>Property Class</Title>
         <Group>
           {["Any", "5", "4", "3", "2", "1"].map((star, index) => (
             <Badge
               key={index}
-              variant="filled"
+              variant='filled'
               color={selectedStar === star ? "blue" : "gray"}
-              size="lg"
+              size='lg'
               onClick={() => handleStarClick(star)}
               style={{
                 display: "flex",
                 alignItems: "center",
                 cursor: "pointer",
                 transition: "background-color 0.3s ease",
-              }}
-            >
+              }}>
               {star === "Any" ? (
                 "Any"
               ) : (
