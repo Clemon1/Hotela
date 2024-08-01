@@ -1,4 +1,5 @@
 import Hotel from "../models/hotelModel.js";
+import location from "../models/locationModel.js";
 
 // Get all hotels
 export const getAllHotels = async (res, req) => {
@@ -12,15 +13,25 @@ export const getAllHotels = async (res, req) => {
 //search hotel properties
 export const searchHotels = async (res, req) => {
   try {
-    const { name, location, minRating } = req.query;
+    const { name, locationName, minRating } = req.query;
+    const area = await location.find({
+      name: { $regex: new RegExp(locationName, "i") },
+    });
     const filter = {};
+    if (name) {
+      filter.name = { $regex: new RegExp(name, "i") }; // Case-insensitive search
+    }
     if (name) {
       filter.name = { $regex: new RegExp(name, "i") }; // Case-insensitive search
     }
     if (minRating) {
       filter.rating = { $gte: parseFloat(minRating) }; // Filter by minimum rating
     }
-    const hotels = await Hotel.find(filter).populate("location").exec();
+    const hotels = await Hotel.find({
+      location: area._id,
+      filter,
+    });
+
     res.status(200).json(hotels);
   } catch (err) {
     res.status(500).json({ message: err.message });

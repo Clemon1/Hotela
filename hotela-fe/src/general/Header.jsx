@@ -11,7 +11,8 @@ import {
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { currentUser, logOut } from "../Store/auth/authSlice";
-
+import { notifications } from "@mantine/notifications";
+import { IoMdCheckmarkCircle } from "react-icons/io";
 function Header({ openLoginModal, openSignUpModal }) {
   const user = useSelector(currentUser);
   const dispatch = useDispatch();
@@ -19,6 +20,13 @@ function Header({ openLoginModal, openSignUpModal }) {
   const handleLogOut = (e) => {
     e.preventDefault();
     dispatch(logOut());
+    notifications.show({
+      title: "Logged Out",
+      radius: "lg",
+      message: "",
+      color: "teal",
+      icon: <IoMdCheckmarkCircle fontSize={18} />,
+    });
   };
 
   return (
