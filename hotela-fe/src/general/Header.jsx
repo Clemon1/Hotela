@@ -72,11 +72,17 @@ function Header({ openLoginModal, openSignUpModal }) {
                   <Tooltip
                     label='Verified!'
                     color='#eaf4ff'
+                    fz={13}
+                    withArrow
+                    arrowPosition='side'
+                    arrowOffset={5}
+                    arrowSize={7}
+                    fw={500}
                     style={{
                       color: "#000814",
                     }}
                     position='left-start'
-                    offset={{ mainAxis: -8, crossAxis: -30 }}
+                    offset={{ mainAxis: -8, crossAxis: -20 }}
                     transitionProps={{ transition: "fade-up", duration: 300 }}>
                     <Box bg={"transparent"} w={"fit-content"} h={"fit-content"}>
                       <MdVerified color='blue' fontSize={25} />
