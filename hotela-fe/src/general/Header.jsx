@@ -1,11 +1,13 @@
 import PropTypes from "prop-types";
 import {
   Avatar,
+  Box,
   Button,
   Flex,
   Group,
   Menu,
   Title,
+  Tooltip,
   useMantineTheme,
 } from "@mantine/core";
 import { NavLink } from "react-router-dom";
@@ -13,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { currentUser, logOut } from "../Store/auth/authSlice";
 import { notifications } from "@mantine/notifications";
 import { IoMdCheckmarkCircle } from "react-icons/io";
+import { MdVerified } from "react-icons/md";
 function Header({ openLoginModal, openSignUpModal }) {
   const user = useSelector(currentUser);
   const dispatch = useDispatch();
@@ -52,16 +55,42 @@ function Header({ openLoginModal, openSignUpModal }) {
             </Menu.Target>
 
             <Menu.Dropdown
+              w={{ lg: "25%!important", xl: "30%!important" }}
               style={{
                 borderRadius: "18px",
               }}>
+              <Flex w={"100%"} align={"center"} pr={10}>
+                <Flex direction={"column"} py={15} w={"100%"}>
+                  <Menu.Label fz={16} c={"#000814"}>
+                    Hi, {user && user.userInfo && user.userInfo.firstName}
+                  </Menu.Label>
+                  <Menu.Label fz={13} c={"#000814"}>
+                    {user && user.userInfo && user.userInfo.email}
+                  </Menu.Label>
+                </Flex>
+                {user && user.userInfo && user.userInfo.isVerified === true && (
+                  <Tooltip
+                    label='Verified!'
+                    color='#eaf4ff'
+                    style={{
+                      color: "#000814",
+                    }}
+                    position='left-start'
+                    offset={{ mainAxis: -8, crossAxis: -30 }}
+                    transitionProps={{ transition: "fade-up", duration: 300 }}>
+                    <Box bg={"transparent"} w={"fit-content"} h={"fit-content"}>
+                      <MdVerified color='blue' fontSize={25} />
+                    </Box>
+                  </Tooltip>
+                )}
+              </Flex>
+
               <Menu.Label>Application</Menu.Label>
               <Menu.Item leftSection={""}>Profile</Menu.Item>
+              <Menu.Item leftSection={""}>List of favorites</Menu.Item>
               <Menu.Item leftSection={""}>Notification</Menu.Item>
 
               <Menu.Divider />
-
-              <Menu.Label>Danger zone</Menu.Label>
 
               <Menu.Item color='red' leftSection={""} onClick={handleLogOut}>
                 LogOut

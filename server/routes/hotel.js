@@ -8,12 +8,17 @@ import {
   searchHotels,
   updateHotel,
 } from "../controllers/hotelController.js";
+import { upload } from "../middlewares/multer/upload.js";
 const router = Router();
 
 router.get("/search", searchHotels);
 router.get("/searchGeo", geoHotels);
 router.get("/search/:id", getHotelByID);
-router.post("/addNew", createHotel);
+router.post(
+  "/addNew",
+  upload.fields([{ name: "hotelImages", maxCount: 8 }]),
+  createHotel,
+);
 router.patch("/addRating/:id", rateAndComment);
 router.patch("/search/:id", updateHotel);
 router.patch("/removeHotel/:id", deleteHotel);

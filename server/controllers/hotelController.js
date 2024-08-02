@@ -2,7 +2,7 @@ import Hotel from "../models/hotelModel.js";
 import location from "../models/locationModel.js";
 
 // Get all hotels
-export const getAllHotels = async (res, req) => {
+export const getAllHotels = async (req, res) => {
   try {
     const hotels = await Hotel.find({ isDeleted: false });
     res.status(200).json(hotels);
@@ -11,26 +11,32 @@ export const getAllHotels = async (res, req) => {
   }
 };
 //search hotel properties
-export const searchHotels = async (res, req) => {
+export const searchHotels = async (req, res) => {
   try {
     const { name, locationName, minRating } = req.query;
-    const area = await location.find({
+
+    // Find the area based on the location name
+    const area = await location.findOne({
       name: { $regex: new RegExp(locationName, "i") },
     });
-    const filter = {};
+
+    if (!area) {
+      return res.status(404).json({ message: "Location not found" });
+    }
+
+    // Build the filter object
+    const filter = { location: area._id };
+
     if (name) {
       filter.name = { $regex: new RegExp(name, "i") }; // Case-insensitive search
     }
-    if (name) {
-      filter.name = { $regex: new RegExp(name, "i") }; // Case-insensitive search
-    }
+
     if (minRating) {
       filter.rating = { $gte: parseFloat(minRating) }; // Filter by minimum rating
     }
-    const hotels = await Hotel.find({
-      location: area._id,
-      filter,
-    });
+
+    // Find hotels based on the filter
+    const hotels = await Hotel.find(filter);
 
     res.status(200).json(hotels);
   } catch (err) {
@@ -39,25 +45,39 @@ export const searchHotels = async (res, req) => {
 };
 
 // Search by GeoLocation --Google Map or MapBOX
-export const geoHotels = async (res, req) => {
+export const geoHotels = async (req, res) => {
   try {
     // Query Params for Longitude and Latitude
     const { lng, lat } = req.query;
+
+    if (!lng || !lat) {
+      return res
+        .status(400)
+        .json({ message: "Longitude and Latitude are required" });
+    }
+
+    const longitude = parseFloat(lng);
+    const latitude = parseFloat(lat);
+
+    if (isNaN(longitude) || isNaN(latitude)) {
+      return res.status(400).json({ message: "Invalid Longitude or Latitude" });
+    }
+
     const hotels = await Hotel.aggregate([
       {
         $geoNear: {
           near: {
             type: "Point",
-            coordinates: [parseFloat(lng), parseFloat(lat)],
+            coordinates: [longitude, latitude],
           },
           distanceField: "dist.calculated",
-          maxDistance: 2,
-
+          maxDistance: 2000, // 2 kilometers
           includeLocs: "dist.location",
           spherical: true,
         },
       },
     ]);
+
     res.status(200).json(hotels);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -65,7 +85,7 @@ export const geoHotels = async (res, req) => {
 };
 
 // Get specific properties or hotel
-export const getHotelByID = async (res, req) => {
+export const getHotelByID = async (req, res) => {
   try {
     const { id } = req.params;
     const data = await Hotel.findById(id).populate("location").exec();
@@ -89,8 +109,8 @@ export const createHotel = async (req, res) => {
     const { name, description, address, amenities } = req.body;
 
     // login for multiple images
-    const { images } = req.files["photos"]
-      ? req.files["photos"].map((file) => file.path)
+    const { images } = req.files["hotelImages"]
+      ? req.files["hotelImages"].map((file) => file.path)
       : null;
     const newHotel = await Hotel.create({
       name,
