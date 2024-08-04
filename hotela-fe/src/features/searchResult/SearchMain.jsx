@@ -9,20 +9,24 @@ import {
   Title,
   Badge,
   Pagination,
+  Button,
+  Center,
 } from "@mantine/core";
 import hostelRoom from "../../assets/hostelRoom.jpg";
 import { useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
+import { useMediaQuery } from "@mantine/hooks";
 
-function SearchMain() {
+function SearchMain({ onOpen }) {
   const roomData = [
     {
       id: 1,
       image: hostelRoom,
       hotelName: "Hotel Norrebro",
       distance: "0.4 km from city centre",
-      cancellation: "Free cancellation • Breakfast included",
+      cancellation: true,
+      BreakfastIncluded: false,
       reviews: "1000 reviews",
       rating: "Excellent",
       ratingScore: "9.6",
@@ -38,7 +42,8 @@ function SearchMain() {
       image: hostelRoom,
       hotelName: "Hotel Central",
       distance: "1.2 km from city centre",
-      cancellation: "Free cancellation • Breakfast included",
+      cancellation: true,
+      BreakfastIncluded: false,
       reviews: "800 reviews",
       rating: "Very Good",
       ratingScore: "8.5",
@@ -54,7 +59,8 @@ function SearchMain() {
       image: hostelRoom,
       hotelName: "Hotel Vista",
       distance: "2.0 km from city centre",
-      cancellation: "Free cancellation • Breakfast included",
+      cancellation: true,
+      BreakfastIncluded: false,
       reviews: "500 reviews",
       rating: "Good",
       ratingScore: "7.8",
@@ -70,7 +76,8 @@ function SearchMain() {
       image: hostelRoom,
       hotelName: "Hotel Ocean",
       distance: "0.8 km from city centre",
-      cancellation: "Free cancellation • Breakfast included",
+      cancellation: true,
+      BreakfastIncluded: false,
       reviews: "1200 reviews",
       rating: "Exceptional",
       ratingScore: "9.8",
@@ -86,7 +93,8 @@ function SearchMain() {
       image: hostelRoom,
       hotelName: "Hotel Sky",
       distance: "0.3 km from city centre",
-      cancellation: "Free cancellation • Breakfast included",
+      cancellation: true,
+      BreakfastIncluded: false,
       reviews: "900 reviews",
       rating: "Excellent",
       ratingScore: "9.2",
@@ -102,7 +110,8 @@ function SearchMain() {
       image: hostelRoom,
       hotelName: "Hotel Horizon",
       distance: "1.5 km from city centre",
-      cancellation: "Free cancellation • Breakfast included",
+      cancellation: true,
+      BreakfastIncluded: false,
       reviews: "700 reviews",
       rating: "Very Good",
       ratingScore: "8.4",
@@ -118,7 +127,8 @@ function SearchMain() {
       image: hostelRoom,
       hotelName: "Hotel Garden",
       distance: "2.3 km from city centre",
-      cancellation: "Free cancellation • Breakfast included",
+      cancellation: true,
+      BreakfastIncluded: false,
       reviews: "600 reviews",
       rating: "Good",
       ratingScore: "7.9",
@@ -134,7 +144,8 @@ function SearchMain() {
       image: hostelRoom,
       hotelName: "Hotel Mountain",
       distance: "3.0 km from city centre",
-      cancellation: "Free cancellation • Breakfast included",
+      cancellation: true,
+      BreakfastIncluded: false,
       reviews: "400 reviews",
       rating: "Good",
       ratingScore: "7.5",
@@ -150,7 +161,8 @@ function SearchMain() {
       image: hostelRoom,
       hotelName: "Hotel River",
       distance: "1.0 km from city centre",
-      cancellation: "Free cancellation • Breakfast included",
+      cancellation: true,
+      BreakfastIncluded: false,
       reviews: "1100 reviews",
       rating: "Exceptional",
       ratingScore: "9.9",
@@ -192,13 +204,43 @@ function SearchMain() {
     setTimeout(() => setAnimate(null), 300);
   };
 
+  const isMobile = useMediaQuery("(max-width: 980px)"); // Adjusted for mobile view
+
   return (
-    <Box pl={40} pr={40} c={"#000814"}>
-      <Text fz="sm">140 search results for</Text>
-      <Group align="center" justify="space-between" mt={-14} mb={20}>
-        <Title order={4}>Copenhagen, Dec 9 - 12, 2 guests, 1 room</Title>
+    <Box px={{ base: 0, md: 40 }} c={"#000814"}>
+      <Title
+        order={4}
+        fz={{ base: 15, xs: 20, sm: 27 }}
+        ta={isMobile && "center"}
+        mb={isMobile && 5}
+      >
+        Copenhagen, Dec 9 - 12, 2 guests, 1 room
+      </Title>
+
+      <Flex
+        align="center"
+        justify={{ base: "center", md: "space-between" }}
+        mb={20}
+        gap={20}
+      >
+        {!isMobile && (
+          <Text fz="md" fw={500}>
+            140+ Properties
+          </Text>
+        )}
+
+        {isMobile && (
+          <Button
+            display={{ base: "block", md: "none" }}
+            w={200}
+            onClick={onOpen}
+          >
+            Filter and Map
+          </Button>
+        )}
+
         <Select
-          label="Sort by"
+          label={isMobile ? "" : "Sort by"}
           fw={600}
           defaultValue="Recommended"
           placeholder="Pick value"
@@ -210,9 +252,6 @@ function SearchMain() {
           ]}
           variant="unstyled"
           styles={(theme) => ({
-            root: {
-              width: "30%",
-            },
             input: {
               border: "1px solid gray",
               padding: "0.5rem 1rem",
@@ -220,12 +259,19 @@ function SearchMain() {
             },
           })}
         />
-      </Group>
+      </Flex>
+
+      {isMobile && (
+        <Text fz="xs" ta={"center"} mb={10} mt={-15}>
+          140+ Properties
+        </Text>
+      )}
 
       <Stack gap={20}>
         {data[activePage - 1].map((room) => (
           <Flex
             key={room.id}
+            direction={isMobile ? "column" : "row"}
             style={{
               borderRadius: "15px",
               boxShadow: "1px 0px 4px 4px rgba(0, 0, 0, 0.1)",
@@ -233,7 +279,7 @@ function SearchMain() {
             }}
             gap={14}
           >
-            <Box w={"35%"} h={"auto"} pos={"relative"}>
+            <Box w={isMobile ? "100%" : "35%"} h={"auto"} pos={"relative"}>
               <Image
                 src={room.image}
                 fit="cover"
@@ -262,23 +308,37 @@ function SearchMain() {
                 h={30}
               >
                 {room.favourite ? (
-                  <FaHeart color="white" size={16} />
+                  <FaHeart color="#dd0426" size={16} />
                 ) : (
                   <CiHeart color="white" size={16} />
                 )}
               </Box>
             </Box>
 
-            <Flex direction={"column"} p={10} gap={13} w="75%">
+            <Flex
+              direction={"column"}
+              p={10}
+              gap={13}
+              w={isMobile ? "100%" : "75%"}
+            >
               <Group justify="space-between" align="flex-start">
                 <Stack gap={0}>
                   <Title order={4}>{room.hotelName}</Title>
                   <Text fz={12} c={"gray"}>
                     {room.distance}
                   </Text>
-                  <Text size="xs" c="gray" mt={1}>
-                    {room.cancellation}
-                  </Text>
+
+                  {room.cancellation && (
+                    <Text size="xs" c="gray" mt={1}>
+                      Free cancellation
+                    </Text>
+                  )}
+
+                  {room.BreakfastIncluded && (
+                    <Text size="xs" c="gray" mt={1}>
+                      Breakfast included
+                    </Text>
+                  )}
                 </Stack>
 
                 <Group gap={8}>

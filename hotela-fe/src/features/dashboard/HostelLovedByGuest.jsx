@@ -22,7 +22,6 @@ const itemsData = [
     price: "$90",
     image: dashBoardRoom1,
     reviews: [9, 8, 10, 7, 9],
-    favourite: true,
   },
   {
     id: 2,
@@ -31,7 +30,6 @@ const itemsData = [
     price: "$150",
     image: dashBoardRoom1,
     reviews: [9, 9, 8, 10, 8],
-    favourite: false,
   },
   {
     id: 3,
@@ -40,7 +38,6 @@ const itemsData = [
     price: "$200",
     image: dashBoardRoom1,
     reviews: [10, 9, 8, 10, 9],
-    favourite: false,
   },
   {
     id: 4,
@@ -49,7 +46,6 @@ const itemsData = [
     price: "$250",
     image: dashBoardRoom1,
     reviews: [9, 9, 10, 9, 10],
-    favourite: false,
   },
   {
     id: 5,
@@ -58,7 +54,6 @@ const itemsData = [
     price: "$180",
     image: dashBoardRoom1,
     reviews: [8, 8, 9, 8, 8],
-    favourite: false,
   },
   {
     id: 6,
@@ -67,7 +62,6 @@ const itemsData = [
     price: "$120",
     image: dashBoardRoom1,
     reviews: [7, 8, 7, 8, 7],
-    favourite: false,
   },
   {
     id: 7,
@@ -76,7 +70,6 @@ const itemsData = [
     price: "$300",
     image: dashBoardRoom1,
     reviews: [10, 10, 10, 9, 10],
-    favourite: false,
   },
   {
     id: 8,
@@ -85,7 +78,6 @@ const itemsData = [
     price: "$110",
     image: dashBoardRoom1,
     reviews: [7, 7, 8, 7, 8],
-    favourite: false,
   },
   {
     id: 9,
@@ -94,7 +86,6 @@ const itemsData = [
     price: "$130",
     image: dashBoardRoom1,
     reviews: [9, 8, 8, 9, 9],
-    favourite: false,
   },
   {
     id: 10,
@@ -103,7 +94,6 @@ const itemsData = [
     price: "$220",
     image: dashBoardRoom1,
     reviews: [9, 9, 9, 8, 9],
-    favourite: false,
   },
 ];
 

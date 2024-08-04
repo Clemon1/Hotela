@@ -1,5 +1,4 @@
 import { Box, Button, Flex, Modal } from "@mantine/core";
-import { useState } from "react";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import SearchNav from "../features/searchResult/SearchNav";
 import SearchMain from "../features/searchResult/SearchMain";
@@ -15,21 +14,18 @@ function SearchResults() {
           <SearchNav />
         </Box>
         <Box w={{ base: "100%", md: "75%" }} h={"100%"}>
-          {isMobile && (
-            <Button
-              display={{ base: "block", md: "none" }}
-              onClick={() => open()}
-            >
-              Show nav
-            </Button>
-          )}
-          <SearchMain />
+          <SearchMain onOpen={open} />
         </Box>
       </Flex>
 
       {isMobile && (
-        <Modal opened={opened} onClose={close} fullScreen>
-          <SearchNav />
+        <Modal
+          opened={opened}
+          onClose={close}
+          fullScreen
+          withCloseButton={false}
+        >
+          <SearchNav onClose={close} />
         </Modal>
       )}
     </Box>
