@@ -126,7 +126,7 @@ function Login() {
           )}
         </form>
 
-        <Link to={"/"} style={{ textDecoration: "none" }}>
+        <Link to={"/forgotPassword"} style={{ textDecoration: "none" }}>
           <Text
             fz={15}
             c={"#000814"}
@@ -157,16 +157,6 @@ function Login() {
           Sign Up
         </Button>
       </Flex>
-
-      {/* <Text fz={15} ta={"center"} mt="lg" fw={600}>
-        Don't have an account? {""}
-        <Link
-          to="/signup"
-          style={{ textDecoration: "none", color: theme.colors.blue[6] }}
-        >
-          Sign Up
-        </Link>
-      </Text> */}
     </Box>
   );
 }

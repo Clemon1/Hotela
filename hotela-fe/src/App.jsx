@@ -9,6 +9,9 @@ import SearchResults from "./pages/SearchResults";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import ConfirmAccount from "./pages/ConfirmAccount";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import Profile from "./pages/Profile";
 
 function App() {
   const router = createBrowserRouter([
@@ -30,12 +33,24 @@ function App() {
           element: <SearchResults />,
         },
         {
+          path: "profile",
+          element: <Profile />,
+        },
+        {
           path: "/login",
           element: <Login />,
         },
         {
           path: "/signup",
           element: <SignUp />,
+        },
+        {
+          path: "/forgotPassword",
+          element: <ForgotPassword />,
+        },
+        {
+          path: "/resetPassword",
+          element: <ResetPassword />,
         },
         {
           path: "/ConfirmAccount",

@@ -1,11 +1,15 @@
-import { Box, Button, Group, PinInput, Text, Title } from "@mantine/core";
+import { Box, Button, PinInput, Text, Title } from "@mantine/core";
 import { useState } from "react";
-import { IoClose } from "react-icons/io5";
 import PropTypes from "prop-types";
+import { useMediaQuery } from "@mantine/hooks";
+import { useNavigate } from "react-router-dom";
 
 function ConfirmAccount() {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState(null);
+
+  const isMobile = useMediaQuery("(max-width: 767px)"); // Adjusted for mobile view
+  const navigate = useNavigate();
 
   const handleOtpChange = (value) => {
     setOtp(value);
@@ -18,6 +22,7 @@ function ConfirmAccount() {
       setError("Please enter a 5-digit OTP.");
       return;
     } else {
+      navigate("/resetpassword");
       //   onOpenResetPassword();
     }
 
@@ -30,12 +35,10 @@ function ConfirmAccount() {
       style={{
         backgroundColor: "#fff",
         padding: "20px",
-        borderRadius: "12px", // Slightly rounded corners
+        borderRadius: "10px",
+        boxShadow: !isMobile && "0 4px 6px rgba(0, 0, 0, 0.1)",
         maxWidth: "400px",
-        margin: "auto",
-        fontFamily: "Inter, sans-serif",
-        position: "relative",
-        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)", // Added shadow for better depth
+        width: "100%",
       }}
     >
       <Title

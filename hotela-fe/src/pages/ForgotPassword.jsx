@@ -1,11 +1,14 @@
-import { Box, Button, Group, Text, TextInput, Title } from "@mantine/core";
-import { useCallback, useEffect, useState } from "react";
-import { IoClose } from "react-icons/io5";
-import PropTypes from "prop-types";
+import { Box, Button, Text, TextInput, Title } from "@mantine/core";
+import { useState } from "react";
+import { useMediaQuery } from "@mantine/hooks";
+import { useNavigate } from "react-router-dom";
 
-function ForgotPassword({ onClose, onOpenLogin }) {
-  const [email, setEmail] = useState("");
+function ForgotPassword() {
+  const [email, setEmail] = useState("La@g.com");
   const [error, setError] = useState("");
+
+  const isMobile = useMediaQuery("(max-width: 767px)"); // Adjusted for mobile view
+  const navigate = useNavigate();
 
   const handleEmailChange = (event) => {
     setEmail(event.currentTarget.value);
@@ -27,31 +30,9 @@ function ForgotPassword({ onClose, onOpenLogin }) {
       setError("");
       alert("Email: " + email);
       // Proceed to the next step or close the modal
+      navigate("/confirmAccount");
     }
   };
-
-  const handleCloseModal = useCallback(() => {
-    onClose();
-    onOpenLogin();
-  }, [onClose, onOpenLogin]);
-
-  useEffect(() => {
-    window.history.pushState({ modalOpen: "forgetPassword" }, "");
-
-    const handlePopState = (event) => {
-      if (event.state && event.state.modalOpen === "forgetPassword") {
-        handleCloseModal();
-      } else {
-        window.history.go(1);
-      }
-    };
-
-    window.addEventListener("popstate", handlePopState);
-
-    return () => {
-      window.removeEventListener("popstate", handlePopState);
-    };
-  }, [handleCloseModal]);
 
   return (
     <Box
@@ -59,32 +40,22 @@ function ForgotPassword({ onClose, onOpenLogin }) {
         backgroundColor: "#fff",
         padding: "20px",
         borderRadius: "10px",
-        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+        boxShadow: !isMobile && "0 4px 6px rgba(0, 0, 0, 0.1)",
         maxWidth: "400px",
-        margin: "auto",
-        fontFamily: "Inter, sans-serif",
-        position: "relative",
+        width: "100%",
       }}
     >
-      <Group justify="space-between">
-        <Title
-          order={2}
-          style={{
-            marginBottom: "20px",
-            fontFamily: "Inter, sans-serif",
-          }}
-        >
-          Forgot Password
-        </Title>
-        <IoClose
-          style={{ cursor: "pointer", marginBottom: "20px" }}
-          size={35}
-          onClick={handleCloseModal}
-        />
-      </Group>
+      <Title
+        order={2}
+        style={{
+          marginBottom: "10px",
+        }}
+      >
+        Forgot Password
+      </Title>
 
-      <Text style={{ marginBottom: "10px", fontFamily: "Inter, sans-serif" }}>
-        Enter your email
+      <Text style={{ marginBottom: "10px" }}>
+        Enter your email to reset your password
       </Text>
 
       <form
@@ -96,9 +67,9 @@ function ForgotPassword({ onClose, onOpenLogin }) {
           placeholder="Enter your email address"
           value={email}
           onChange={handleEmailChange}
-          error={error}
+          error={error ? error : null}
           required
-          style={{ fontFamily: "Inter, sans-serif" }}
+          aria-invalid={!!error}
           withAsterisk={false}
         />
 
@@ -128,10 +99,5 @@ function ForgotPassword({ onClose, onOpenLogin }) {
     </Box>
   );
 }
-
-ForgotPassword.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  onOpenLogin: PropTypes.func.isRequired,
-};
 
 export default ForgotPassword;
