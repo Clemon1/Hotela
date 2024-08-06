@@ -1,35 +1,31 @@
-import PropTypes from "prop-types";
 import { Button, Flex, Group, Title, useMantineTheme } from "@mantine/core";
 import { NavLink } from "react-router-dom";
 
-function Header({ openLoginModal, openSignUpModal }) {
+function Header() {
   const theme = useMantineTheme();
 
   return (
-    <>
-      <Flex h={60} align='center' justify='space-between'>
-        <NavLink to='/' style={{ textDecoration: "none" }}>
-          <Title order={2} fw={700} fz={25} c={theme.colors.blue[6]}>
-            Hotela
-          </Title>
-        </NavLink>
+    <Flex h={60} align="center" justify="space-between" p="md">
+      <NavLink to="/" style={{ textDecoration: "none" }}>
+        <Title order={2} fw={700} fz={25} c={theme.colors.blue[6]}>
+          Hotela
+        </Title>
+      </NavLink>
 
-        <Group>
-          <Button variant='outline' radius='xl' onClick={openSignUpModal}>
+      <Group spacing="md">
+        <NavLink to="/signup" style={{ textDecoration: "none" }}>
+          <Button variant="outline" radius="xl">
             Sign up
           </Button>
-          <Button variant='filled' radius='xl' onClick={openLoginModal}>
+        </NavLink>
+        <NavLink to="/login" style={{ textDecoration: "none" }}>
+          <Button variant="filled" radius="xl">
             Login
           </Button>
-        </Group>
-      </Flex>
-    </>
+        </NavLink>
+      </Group>
+    </Flex>
   );
 }
-
-Header.propTypes = {
-  openLoginModal: PropTypes.func.isRequired,
-  openSignUpModal: PropTypes.func.isRequired,
-};
 
 export default Header;

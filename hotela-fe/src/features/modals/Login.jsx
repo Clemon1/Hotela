@@ -1,5 +1,4 @@
-import { useState } from "react";
-import PropTypes from "prop-types";
+import { useState, useCallback, useEffect } from "react";
 import {
   Box,
   Button,
@@ -11,11 +10,11 @@ import {
 } from "@mantine/core";
 import { IoClose } from "react-icons/io5";
 
-function Login({ onClose, onOpenSigUp, onOpenForgotPassword }) {
+function Login() {
   const theme = useMantineTheme();
   const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleEmailChange = (event) => {
     setEmail(event.currentTarget.value);
@@ -43,16 +42,6 @@ function Login({ onClose, onOpenSigUp, onOpenForgotPassword }) {
     return emailRegex.test(email);
   };
 
-  const handleSignUpClick = () => {
-    onClose();
-    onOpenSigUp();
-  };
-
-  const handleForgotPasswordClick = () => {
-    onClose();
-    onOpenForgotPassword();
-  };
-
   return (
     <Box
       c={"#000814"}
@@ -63,8 +52,9 @@ function Login({ onClose, onOpenSigUp, onOpenForgotPassword }) {
         borderRadius: "12px",
         maxWidth: 400,
         margin: "0 auto",
-      }}>
-      <Group align='center' justify='space-between'>
+      }}
+    >
+      <Group align="center" justify="space-between">
         <Title order={2} fw={700} c={theme.colors.blue[6]}>
           Hotela
         </Title>
@@ -81,10 +71,11 @@ function Login({ onClose, onOpenSigUp, onOpenForgotPassword }) {
           display: "flex",
           flexDirection: "column",
           gap: "10px",
-        }}>
+        }}
+      >
         <TextInput
-          label='Email Address'
-          placeholder='Enter your email address'
+          label="Email Address"
+          placeholder="Enter your email address"
           value={email}
           onChange={handleEmailChange}
           error={error}
@@ -93,46 +84,25 @@ function Login({ onClose, onOpenSigUp, onOpenForgotPassword }) {
           data-autofocus
         />
         <TextInput
-          label='Password'
-          placeholder='Enter your password'
-          type='password'
+          label="Password"
+          placeholder="Enter your password"
+          type="password"
           value={password}
           onChange={handlePasswordChange}
           required
           withAsterisk={false}
         />
         <Stack gap={5}>
-          <Button type='submit' h={40} fz={18} radius='xl'>
+          <Button type="submit" h={40} fz={18} radius="xl">
             Log in
           </Button>
-          <Button
-            onClick={handleForgotPasswordClick}
-            variant='white'
-            size='md'
-            fz={15}
-            radius='xl'>
+          <Button variant="white" size="md" fz={15} radius="xl">
             Forgot Password?
           </Button>
         </Stack>
       </form>
-      <Stack mt='xl'>
-        <Button
-          onClick={handleSignUpClick}
-          variant='outline'
-          size='md'
-          radius='xl'
-          fz={15}>
-          Create your account
-        </Button>
-      </Stack>
     </Box>
   );
 }
-
-Login.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  onOpenSigUp: PropTypes.func.isRequired,
-  onOpenForgotPassword: PropTypes.func.isRequired,
-};
 
 export default Login;

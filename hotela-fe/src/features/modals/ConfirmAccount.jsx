@@ -1,57 +1,37 @@
-import { Box, Button, Group, Text, TextInput, Title } from "@mantine/core";
-import { useCallback, useEffect, useState } from "react";
+import { Box, Button, Group, PinInput, Text, Title } from "@mantine/core";
+import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import PropTypes from "prop-types";
 
-function ForgotPassword({ onClose, onOpenLogin }) {
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-
-  const handleEmailChange = (event) => {
-    setEmail(event.currentTarget.value);
-    if (error) {
-      setError("");
-    }
+function ConfirmAccount({
+  onOpenForgotPassword,
+  onClose,
+  onOpenResetPassword,
+}) {
+  const [otp, setOtp] = useState("");
+  const [error, setError] = useState(null);
+  const handlecloseModal = () => {
+    onClose();
+    onOpenForgotPassword();
   };
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+  const handleOtpChange = (value) => {
+    setOtp(value);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!validateEmail(email)) {
-      setError("Invalid email address");
+    // Add your OTP verification logic here
+    if (otp.length !== 5) {
+      setError("Please enter a 5-digit OTP.");
+      return;
     } else {
-      setError("");
-      alert("Email: " + email);
-      // Proceed to the next step or close the modal
+      onOpenResetPassword();
     }
+
+    alert("OTP: " + otp);
+    onClose(); // Close the OTP modal after verification
   };
-
-  const handleCloseModal = useCallback(() => {
-    onClose();
-    onOpenLogin();
-  }, [onClose, onOpenLogin]);
-
-  useEffect(() => {
-    window.history.pushState({ modalOpen: "forgetPassword" }, "");
-
-    const handlePopState = (event) => {
-      if (event.state && event.state.modalOpen === "forgetPassword") {
-        handleCloseModal();
-      } else {
-        window.history.go(1);
-      }
-    };
-
-    window.addEventListener("popstate", handlePopState);
-
-    return () => {
-      window.removeEventListener("popstate", handlePopState);
-    };
-  }, [handleCloseModal]);
 
   return (
     <Box
@@ -59,7 +39,6 @@ function ForgotPassword({ onClose, onOpenLogin }) {
         backgroundColor: "#fff",
         padding: "20px",
         borderRadius: "10px",
-        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
         maxWidth: "400px",
         margin: "auto",
         fontFamily: "Inter, sans-serif",
@@ -74,33 +53,33 @@ function ForgotPassword({ onClose, onOpenLogin }) {
             fontFamily: "Inter, sans-serif",
           }}
         >
-          Forgot Password
+          Verify Code
         </Title>
         <IoClose
           style={{ cursor: "pointer", marginBottom: "20px" }}
           size={35}
-          onClick={handleCloseModal}
+          onClick={handlecloseModal}
         />
       </Group>
 
       <Text style={{ marginBottom: "10px", fontFamily: "Inter, sans-serif" }}>
-        Enter your email
+        We sent a code to your email. Enter that code to confirm your account
       </Text>
 
       <form
         onSubmit={handleSubmit}
         style={{ display: "flex", flexDirection: "column", gap: "15px" }}
       >
-        <TextInput
-          label="Email Address"
-          placeholder="Enter your email address"
-          value={email}
-          onChange={handleEmailChange}
+        <PinInput
+          size="xl"
+          length={5}
+          placeholder="-"
+          type="number"
+          value={otp}
+          onChange={handleOtpChange}
           error={error}
-          required
-          style={{ fontFamily: "Inter, sans-serif" }}
-          withAsterisk={false}
         />
+        {error && <Text c="red">{error}</Text>}
 
         <Button
           type="submit"
@@ -129,9 +108,10 @@ function ForgotPassword({ onClose, onOpenLogin }) {
   );
 }
 
-ForgotPassword.propTypes = {
+ConfirmAccount.propTypes = {
   onClose: PropTypes.func.isRequired,
-  onOpenLogin: PropTypes.func.isRequired,
+  onOpenResetPassword: PropTypes.func.isRequired,
+  onOpenForgotPassword: PropTypes.func.isRequired,
 };
 
-export default ForgotPassword;
+export default ConfirmAccount;
