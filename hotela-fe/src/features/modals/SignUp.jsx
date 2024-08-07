@@ -113,7 +113,7 @@ function SignUp({ onClose, onSignUpSuccess, onOpenLogin }) {
         margin: "auto",
       }}>
       <Group align='center' justify='space-between'>
-        <Title order={2} fw={700} c={theme.colors.blue[6]}>
+        <Title order={2} fw={700} c={"#1668e3"}>
           Hotela
         </Title>
         <IoClose style={{ cursor: "pointer" }} size={30} onClick={onClose} />
@@ -173,6 +173,7 @@ function SignUp({ onClose, onSignUpSuccess, onOpenLogin }) {
         <Checkbox
           label='I agree that all the information provided is accurate and true.'
           checked={agree}
+          color='#1668e3'
           onChange={handleAgreeChange}
           required
         />
@@ -182,6 +183,7 @@ function SignUp({ onClose, onSignUpSuccess, onOpenLogin }) {
           h={40}
           fz={17}
           radius='xl'
+          color='#1668e3'
           loading={isLoading}
           disabled={!agree}>
           Sign Up

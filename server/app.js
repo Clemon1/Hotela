@@ -4,6 +4,9 @@ import cors from "cors";
 import { dbConnect } from "./middlewares/dbConnection.js";
 import userRouter from "./routes/userRoutes.js";
 import hotelRouter from "./routes/hotel.js";
+import roomRouter from "./routes/roomType.js";
+import locationRouter from "./routes/location.js";
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5500;
@@ -20,4 +23,6 @@ app.get("/", (req, res) => {
 
 app.use(`${API_PATH}/user`, userRouter);
 app.use(`${API_PATH}/hotels`, hotelRouter);
+app.use(`${API_PATH}/location`, locationRouter);
+app.use(`${API_PATH}/rooms`, roomRouter);
 app.listen(PORT, () => console.log(`Server listening on PORT:${PORT}`));

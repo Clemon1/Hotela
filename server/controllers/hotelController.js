@@ -36,7 +36,7 @@ export const searchHotels = async (req, res) => {
     }
 
     // Find hotels based on the filter
-    const hotels = await Hotel.find(filter);
+    const hotels = await Hotel.find(filter).populate("location").exec();
 
     res.status(200).json(hotels);
   } catch (err) {
@@ -106,12 +106,14 @@ export const getHotelByID = async (req, res) => {
 // create hotel
 export const createHotel = async (req, res) => {
   try {
-    const { name, description, address, amenities } = req.body;
+    const { name, description, address, amenities, location, geoLocation } =
+      req.body;
 
     // login for multiple images
-    const { images } = req.files["hotelImages"]
-      ? req.files["hotelImages"].map((file) => file.path)
-      : null;
+    const images =
+      req.files && req.files["hotelImages"]
+        ? req.files["hotelImages"].map((file) => file.path)
+        : [];
     const newHotel = await Hotel.create({
       name,
       description,

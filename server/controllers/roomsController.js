@@ -10,6 +10,7 @@ export const getAllRooms = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
 // Get specific room by ID
 export const getRoomsById = async (req, res) => {
   try {
@@ -20,6 +21,7 @@ export const getRoomsById = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
 // create a Room
 export const createRooms = async (req, res) => {
   try {
@@ -32,7 +34,9 @@ export const createRooms = async (req, res) => {
       amenities,
       maxOccupancy,
     } = req.body;
-    const { images } = req.files.map((file) => file.path);
+    const { images } = req.files["roomImages"]
+      ? req.files["roomImages"].map((file) => file.path)
+      : null;
 
     const allRooms = await roomType.create({
       hotel,
@@ -49,8 +53,8 @@ export const createRooms = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-// Update room details
 
+// Update room details
 export const updateRoomType = async (req, res) => {
   try {
     const { id } = req.params;

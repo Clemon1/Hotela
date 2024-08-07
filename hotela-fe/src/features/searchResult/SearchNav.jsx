@@ -80,7 +80,7 @@ function SearchNav() {
               radius={"xl"}
               withAsterisk={false}
             />
-            <Button fullWidth radius={"xl"}>
+            <Button bg={"#1668e3"} fullWidth radius={"xl"}>
               Search
             </Button>
           </Stack>
@@ -96,6 +96,7 @@ function SearchNav() {
         </Group>
         <RangeSlider
           size='md'
+          color='#1668e3'
           showLabelOnHover={false}
           minRange={100}
           min={0}
@@ -124,7 +125,7 @@ function SearchNav() {
             <Badge
               key={index}
               variant='filled'
-              color={selectedStar === star ? "blue" : "gray"}
+              color={selectedStar === star ? "#1668e3" : "gray"}
               size='lg'
               onClick={() => handleStarClick(star)}
               style={{

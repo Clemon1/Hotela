@@ -8,7 +8,6 @@ import {
   Menu,
   Title,
   Tooltip,
-  useMantineTheme,
 } from "@mantine/core";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,7 +18,7 @@ import { MdVerified } from "react-icons/md";
 function Header({ openLoginModal, openSignUpModal }) {
   const user = useSelector(currentUser);
   const dispatch = useDispatch();
-  const theme = useMantineTheme();
+
   const handleLogOut = (e) => {
     e.preventDefault();
     dispatch(logOut());
@@ -36,7 +35,7 @@ function Header({ openLoginModal, openSignUpModal }) {
     <>
       <Flex h={60} align='center' justify='space-between'>
         <NavLink to='/' style={{ textDecoration: "none" }}>
-          <Title order={2} fw={700} c={theme.colors.blue[6]}>
+          <Title className='headerLogo' order={2} fw={700} c={"#191e3b"}>
             Hotela
           </Title>
         </NavLink>
@@ -60,11 +59,11 @@ function Header({ openLoginModal, openSignUpModal }) {
                 borderRadius: "18px",
               }}>
               <Flex w={"100%"} align={"center"} pr={10}>
-                <Flex direction={"column"} py={15} w={"100%"}>
+                <Flex direction={"column"} py={10} w={"100%"}>
                   <Menu.Label fz={16} c={"#000814"}>
                     Hi, {user && user.userInfo && user.userInfo.firstName}
                   </Menu.Label>
-                  <Menu.Label fz={13} c={"#000814"}>
+                  <Menu.Label fz={14} c={"#000814"}>
                     {user && user.userInfo && user.userInfo.email}
                   </Menu.Label>
                 </Flex>
@@ -90,9 +89,19 @@ function Header({ openLoginModal, openSignUpModal }) {
                   </Tooltip>
                 )}
               </Flex>
+              <Flex direction={"column"} w={"100%"}>
+                <Menu.Label fz={12} c={"#000814"}>
+                  Hotela Points
+                </Menu.Label>
+                <Menu.Label fz={20} fw={600} c={"#000814"}>
+                  {user && user.userInfo && user.userInfo.points.toFixed(2)}
+                </Menu.Label>
+              </Flex>
+              <Menu.Divider />
 
-              <Menu.Label>Application</Menu.Label>
+              <Menu.Label c={"#000814"}>Application</Menu.Label>
               <Menu.Item leftSection={""}>Profile</Menu.Item>
+              <Menu.Item leftSection={""}>Booking History</Menu.Item>
               <Menu.Item leftSection={""}>List of favorites</Menu.Item>
               <Menu.Item leftSection={""}>Notification</Menu.Item>
 
@@ -105,10 +114,19 @@ function Header({ openLoginModal, openSignUpModal }) {
           </Menu>
         ) : (
           <Group>
-            <Button variant='outline' radius='xl' onClick={openSignUpModal}>
+            <Button
+              c={"#1668e3"}
+              bg={"#ffffff"}
+              bd={"1px solid #1668e3"}
+              radius='xl'
+              onClick={openSignUpModal}>
               Sign up
             </Button>
-            <Button variant='filled' radius='xl' onClick={openLoginModal}>
+            <Button
+              bg={"#1668e3"}
+              variant='filled'
+              radius='xl'
+              onClick={openLoginModal}>
               Login
             </Button>
           </Group>

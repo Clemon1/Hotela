@@ -287,10 +287,20 @@ function SearchMain() {
 
               <Group align='center' justify='space-between'>
                 <Group>
-                  <Badge color='blue' py={13} px={13} variant='outline' fz={9}>
+                  <Badge
+                    color='#1668e3'
+                    py={13}
+                    px={13}
+                    variant='outline'
+                    fz={9}>
                     {room.badges.at(0)}
                   </Badge>
-                  <Badge color='blue' py={13} px={13} variant='outline' fz={9}>
+                  <Badge
+                    color='#1668e3'
+                    py={13}
+                    px={13}
+                    variant='outline'
+                    fz={9}>
                     {room.badges.at(1)}
                   </Badge>
                 </Group>
@@ -302,6 +312,7 @@ function SearchMain() {
 
       <Flex justify={"center"}>
         <Pagination
+          color={"#1668e3"}
           total={data.length}
           value={activePage}
           onChange={setPage}

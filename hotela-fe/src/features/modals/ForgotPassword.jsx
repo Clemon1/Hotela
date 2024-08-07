@@ -45,16 +45,14 @@ function ForgotPassword({ onClose, onOpenLogin, onOpenConfirmAccount }) {
         margin: "auto",
         fontFamily: "Inter, sans-serif",
         position: "relative",
-      }}
-    >
-      <Group justify="space-between">
+      }}>
+      <Group justify='space-between'>
         <Title
           order={2}
           style={{
             marginBottom: "20px",
             fontFamily: "Inter, sans-serif",
-          }}
-        >
+          }}>
           Forget Password
         </Title>
         <IoClose
@@ -70,11 +68,10 @@ function ForgotPassword({ onClose, onOpenLogin, onOpenConfirmAccount }) {
 
       <form
         onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: "15px" }}
-      >
+        style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
         <TextInput
-          label="Email Address"
-          placeholder="Enter your email address"
+          label='Email Address'
+          placeholder='Enter your email address'
           value={email}
           onChange={handleEmailChange}
           error={error}
@@ -84,25 +81,24 @@ function ForgotPassword({ onClose, onOpenLogin, onOpenConfirmAccount }) {
         />
 
         <Button
-          type="submit"
+          type='submit'
           style={{
             height: "50px",
             fontSize: "20px",
             borderRadius: "25px",
-            backgroundColor: "#007BFF",
+            backgroundColor: "#1668e3",
             color: "#fff",
             fontFamily: "Inter, sans-serif",
             transition: "background-color 0.3s, transform 0.3s",
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = "#0056b3";
+            e.currentTarget.style.backgroundColor = "#1668e3";
             e.currentTarget.style.transform = "scale(1.05)";
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = "#007BFF";
+            e.currentTarget.style.backgroundColor = "#1668e3";
             e.currentTarget.style.transform = "scale(1)";
-          }}
-        >
+          }}>
           Continue
         </Button>
       </form>

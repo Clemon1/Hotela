@@ -1,14 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import {
-  Box,
-  Button,
-  Group,
-  TextInput,
-  Title,
-  useMantineTheme,
-  Stack,
-} from "@mantine/core";
+import { Box, Button, Group, TextInput, Title, Stack } from "@mantine/core";
 import { IoClose } from "react-icons/io5";
 import { useLoginMutation } from "../../Store/Slices/authenticationSlice";
 import { useDispatch } from "react-redux";
@@ -17,7 +9,6 @@ import { notifications } from "@mantine/notifications";
 import { IoMdCheckmarkCircle, IoMdCloseCircle } from "react-icons/io";
 
 function Login({ onClose, onOpenSigUp, onOpenForgotPassword }) {
-  const theme = useMantineTheme();
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
@@ -99,7 +90,7 @@ function Login({ onClose, onOpenSigUp, onOpenForgotPassword }) {
         margin: "0 auto",
       }}>
       <Group align='center' justify='space-between'>
-        <Title order={2} fw={700} c={theme.colors.blue[6]}>
+        <Title order={2} fw={700} c={"#1668e3"}>
           Hotela
         </Title>
         <IoClose style={{ cursor: "pointer" }} size={30} onClick={onClose} />
@@ -136,7 +127,13 @@ function Login({ onClose, onOpenSigUp, onOpenForgotPassword }) {
           withAsterisk={false}
         />
         <Stack gap={5}>
-          <Button type='submit' h={40} loading={isLoading} fz={18} radius='xl'>
+          <Button
+            color='#1668e3'
+            type='submit'
+            h={40}
+            loading={isLoading}
+            fz={18}
+            radius='xl'>
             Log in
           </Button>
           <Button
@@ -144,6 +141,7 @@ function Login({ onClose, onOpenSigUp, onOpenForgotPassword }) {
             variant='white'
             size='md'
             fz={15}
+            c='#1668e3'
             radius='xl'>
             Forgot Password?
           </Button>
@@ -155,6 +153,7 @@ function Login({ onClose, onOpenSigUp, onOpenForgotPassword }) {
           variant='outline'
           size='md'
           radius='xl'
+          c={"#1668e3"}
           fz={15}>
           Create your account
         </Button>

@@ -25,20 +25,19 @@ function Overview() {
     <Box
       mt={20}
       p={30}
-      style={{ backgroundColor: "#f8f9fa", borderRadius: "10px" }}
-    >
-      <Group align="start" justify="space-between">
+      style={{ backgroundColor: "#f8f9fa", borderRadius: "10px" }}>
+      <Group align='start' justify='space-between'>
         <Box>
           <Title order={2} mb={20}>
             Property Overview
           </Title>
-          <Group align="start" gap={{ base: 0, sm: 50 }}>
+          <Group align='start' gap={{ base: 0, sm: 50 }}>
             {featureChunks.map((chunk, chunkIndex) => (
-              <Stack key={chunkIndex} spacing="lg">
+              <Stack key={chunkIndex} spacing='lg'>
                 {chunk.map((feature, index) => (
                   <Group key={index}>
                     <feature.icon size={20} />
-                    <Text fz={16}>{feature.label}</Text>
+                    <Text fz={14}>{feature.label}</Text>
                   </Group>
                 ))}
               </Stack>
@@ -47,10 +46,10 @@ function Overview() {
         </Box>
         <Image
           src={googleMap}
-          alt="Google Map"
+          alt='Google Map'
           width={400}
           height={200}
-          radius="lg"
+          radius='lg'
           style={{ objectFit: "cover" }}
         />
       </Group>

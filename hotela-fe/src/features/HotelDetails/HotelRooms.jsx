@@ -17,25 +17,24 @@ import PropTypes from "prop-types";
 
 function RoomCard({ room }) {
   return (
-    <Paper shadow="xs" p="md" radius="md">
-      <Box mb="md" style={{ position: "relative" }}>
+    <Paper shadow='xs' p='md' radius='md'>
+      <Box mb='md' style={{ position: "relative" }}>
         <Carousel h={300} loop>
           <Carousel.Slide>
-            <Image src={room.image} alt={room.name} radius="md" height={300} />
+            <Image src={room.image} alt={room.name} radius='md' height={300} />
           </Carousel.Slide>
           <Carousel.Slide>
-            <Image src={room.image} alt={room.name} radius="md" height={300} />
+            <Image src={room.image} alt={room.name} radius='md' height={300} />
           </Carousel.Slide>
           <Carousel.Slide>
-            <Image src={room.image} alt={room.name} radius="md" height={300} />
+            <Image src={room.image} alt={room.name} radius='md' height={300} />
           </Carousel.Slide>
         </Carousel>
         <Badge
-          color="red"
-          variant="filled"
+          color='red'
+          variant='filled'
           style={{ position: "absolute", top: 10, right: 10 }}
-          size="lg"
-        >
+          size='lg'>
           {(
             ((room.originalPrice - room.price) / room.originalPrice) *
             100
@@ -43,43 +42,43 @@ function RoomCard({ room }) {
           % OFF
         </Badge>
       </Box>
-      <Stack gap={10} px="md" pb={"xl"}>
+      <Stack gap={10} px='md' pb={"xl"}>
         <Title order={3} c={"#000814"}>
           {room.name}
         </Title>
-        <Text fz="sm" c={"#000814"}>
+        <Text fz='sm' c={"#000814"}>
           <FaArrowsAltV /> {room.size}
         </Text>
-        <Text fz="sm" c={"#000814"}>
+        <Text fz='sm' c={"#000814"}>
           <FaUsers /> Sleeps {room.sleeps}
         </Text>
-        <Text fz="sm" c={"#000814"}>
+        <Text fz='sm' c={"#000814"}>
           <FaBed /> {room.bed}
         </Text>
 
-        <Group align="center">
-          <Text fz="32" fw={600} c="green">
+        <Group align='center'>
+          <Text fz='32' fw={600} c='green'>
             €{room.price}
           </Text>
-          <Text fz="sm" c="gray" style={{ textDecoration: "line-through" }}>
+          <Text fz='sm' c='gray' style={{ textDecoration: "line-through" }}>
             €{room.originalPrice}
           </Text>
         </Group>
 
-        <Text fz="sm" c={"#000814"}>
+        <Text fz='sm' c={"#000814"}>
           {room.nights} Nights
         </Text>
-        <Text fz="sm" c={"#000814"}>
+        <Text fz='sm' c={"#000814"}>
           {room.priceDetails}
         </Text>
 
-        <Text fz="sm" c={"#000814"}>
+        <Text fz='sm' c={"#000814"}>
           {room.taxesFees}
         </Text>
-        <Text fz="xs" weight={500} c="red">
+        <Text fz='xs' weight={500} c='red'>
           {room.availability}
         </Text>
-        <Button fullWidth color="blue" mt="md" size="md" radius="xl" fz={15}>
+        <Button fullWidth color='#1668e3' mt='md' size='md' radius='xl' fz={15}>
           Reserve
         </Button>
       </Stack>
@@ -144,12 +143,11 @@ function HotelRooms() {
       </Title>
       <SimpleGrid
         cols={{ base: 1, md: 2, lg: 3 }}
-        spacing="lg"
+        spacing='lg'
         breakpoints={[
           { maxWidth: 980, cols: 2, spacing: "md" },
           { maxWidth: 755, cols: 1, spacing: "sm" },
-        ]}
-      >
+        ]}>
         {rooms.map((room) => (
           <RoomCard key={room.id} room={room} />
         ))}

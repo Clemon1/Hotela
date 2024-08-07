@@ -43,16 +43,14 @@ function ConfrimAccount({
         margin: "auto",
         fontFamily: "Inter, sans-serif",
         position: "relative",
-      }}
-    >
-      <Group justify="space-between">
+      }}>
+      <Group justify='space-between'>
         <Title
           order={2}
           style={{
             marginBottom: "20px",
             fontFamily: "Inter, sans-serif",
-          }}
-        >
+          }}>
           Verify Code
         </Title>
         <IoClose
@@ -68,26 +66,25 @@ function ConfrimAccount({
 
       <form
         onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: "15px" }}
-      >
+        style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
         <PinInput
-          size="xl"
+          size='xl'
           length={5}
-          placeholder="-"
-          type="number"
+          placeholder='-'
+          type='number'
           value={otp}
           onChange={handleOtpChange}
           error={error}
         />
-        {error && <Text c="red">{error}</Text>}
+        {error && <Text c='red'>{error}</Text>}
 
         <Button
-          type="submit"
+          type='submit'
           style={{
             height: "50px",
             fontSize: "20px",
             borderRadius: "25px",
-            backgroundColor: "#007BFF",
+            backgroundColor: "#1668e3",
             color: "#fff",
             fontFamily: "Inter, sans-serif",
             transition: "background-color 0.3s, transform 0.3s",
@@ -97,10 +94,9 @@ function ConfrimAccount({
             e.currentTarget.style.transform = "scale(1.05)";
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = "#007BFF";
+            e.currentTarget.style.backgroundColor = "#1668e3";
             e.currentTarget.style.transform = "scale(1)";
-          }}
-        >
+          }}>
           Continue
         </Button>
       </form>

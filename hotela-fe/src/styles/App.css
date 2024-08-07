@@ -8,7 +8,9 @@
   /* font-family: "Montserrat", sans-serif; */
   font-optical-sizing: auto;
 }
-
+.headerLogo {
+  font-family: "Inter", sans-serif !important;
+}
 .location-select .mantine-Select-placeholder {
   color: blue; /* Style for the "Location" placeholder */
   font-size: 16px;

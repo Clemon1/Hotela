@@ -108,6 +108,7 @@ function OTP({ onClose, onOpenSigUp }) {
         <Button
           type='submit'
           h={50}
+          color='#1668e3'
           fz={15}
           loading={isLoading}
           radius='xl'
