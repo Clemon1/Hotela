@@ -1,6 +1,5 @@
 import { Box, Button, PinInput, Text, Title } from "@mantine/core";
 import { useState } from "react";
-import PropTypes from "prop-types";
 import { useMediaQuery } from "@mantine/hooks";
 import { useNavigate } from "react-router-dom";
 
@@ -103,11 +102,5 @@ function ConfirmAccount() {
     </Box>
   );
 }
-
-ConfirmAccount.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  onOpenResetPassword: PropTypes.func.isRequired,
-  onOpenForgotPassword: PropTypes.func.isRequired,
-};
 
 export default ConfirmAccount;

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Box, Button, TextInput, Title, Text } from "@mantine/core";
-import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "@mantine/hooks";
 
@@ -127,12 +126,5 @@ function ResetPassword() {
     </Box>
   );
 }
-
-ResetPassword.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  onCloseForgotPassword: PropTypes.func.isRequired,
-  onOpenLogin: PropTypes.func.isRequired,
-  openConfirmAccount: PropTypes.func.isRequired,
-};
 
 export default ResetPassword;

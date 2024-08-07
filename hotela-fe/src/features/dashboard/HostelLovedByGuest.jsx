@@ -9,9 +9,6 @@ import {
 } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { useMediaQuery } from "@mantine/hooks";
-import { FaHeart } from "react-icons/fa";
-import { CiHeart } from "react-icons/ci";
-import { useState } from "react";
 import dashBoardRoom1 from "../../assets/dashBoardRoom1.jpg";
 
 const itemsData = [
@@ -110,20 +107,8 @@ const getRatingCategory = (average) => {
 };
 
 function HostelLovedByGuest() {
-  const [items, setItems] = useState(itemsData);
-  const [animate, setAnimate] = useState(null);
   const isMobile = useMediaQuery("(max-width: 768px)");
   const theme = useMantineTheme();
-
-  const handleFavouriteClick = (id) => {
-    setAnimate(id);
-    setItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id ? { ...item, favourite: !item.favourite } : item
-      )
-    );
-    setTimeout(() => setAnimate(null), 300);
-  };
 
   return (
     <Box mt={6} mb={20}>
@@ -141,7 +126,7 @@ function HostelLovedByGuest() {
         loop={true}
         withControls={!isMobile}
       >
-        {items.map((item) => {
+        {itemsData.map((item) => {
           const averageRating = getAverageRating(item.reviews);
           const ratingCategory = getRatingCategory(averageRating);
           return (
@@ -164,31 +149,6 @@ function HostelLovedByGuest() {
               >
                 <Box h={"600%"} pos={"relative"}>
                   <Image src={item.image} height="" />
-                  <Box
-                    onClick={() => handleFavouriteClick(item.id)}
-                    style={{
-                      position: "absolute",
-                      top: "20px",
-                      right: "20px",
-                      cursor: "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderRadius: "100%",
-                      transition: "transform 0.3s ease",
-                      transform:
-                        animate === item.id ? "scale(1.3)" : "scale(1)",
-                    }}
-                    bg={"rgba(255, 255, 255, 0.5)"}
-                    w={30}
-                    h={30}
-                  >
-                    {item.favourite ? (
-                      <FaHeart color="white" size={16} />
-                    ) : (
-                      <CiHeart color="white" size={16} />
-                    )}
-                  </Box>
                 </Box>
                 <Box p="sm">
                   <Flex justify="space-between" align="center" mb="xs">

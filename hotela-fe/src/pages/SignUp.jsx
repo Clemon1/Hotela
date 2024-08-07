@@ -1,5 +1,4 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
 import {
   Box,
   Button,
@@ -201,11 +200,5 @@ function SignUp() {
     </Box>
   );
 }
-
-SignUp.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  onSignUpSuccess: PropTypes.func.isRequired,
-  onOpenLogin: PropTypes.func.isRequired,
-};
 
 export default SignUp;
