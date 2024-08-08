@@ -11,13 +11,17 @@ import {
   Badge,
   RangeSlider,
   Text,
+  Container,
+  Image,
+  Anchor,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
 import { AiFillStar } from "react-icons/ai";
+import googleMap from "../../assets/googleMap.jpg";
 
-function SearchNav() {
+function SearchNav({ onClose }) {
   const theme = useMantineTheme();
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm}px)`);
   const [selectedStar, setSelectedStar] = useState(null);
@@ -38,17 +42,49 @@ function SearchNav() {
           backgroundColor: "#f8f9fa",
           padding: theme.spacing.md,
           boxShadow: theme.shadows.sm,
+          margin: -13,
         }}
         pr={{ md: 60 }}>
         <Group justify='space-between' mb='md'>
           <IoArrowBack
             style={{ display: isMobile ? "none" : "block" }}
             size={30}
+            onClick={onClose}
           />
           <Title order={3} style={{ flexGrow: 1, textAlign: "center" }}>
             Your Search
           </Title>
         </Group>
+
+        <Box
+          bd={"1px solid #DFDFDF"}
+          h={200}
+          style={{
+            borderRadius: "1rem",
+            cursor: "pointer",
+          }}
+          my={10}>
+          <Box h={"75%"}>
+            <Image
+              src={googleMap}
+              h={"100%"}
+              style={{
+                borderTopLeftRadius: "1rem",
+                borderTopRightRadius: "1rem",
+              }}
+            />
+          </Box>
+          <Stack h={"25%"} align='center' justify='center'>
+            <Anchor
+              href='https://mantine.dev/'
+              target='_blank'
+              ta={"center"}
+              fz={13}
+              fw={600}>
+              View on a map
+            </Anchor>
+          </Stack>
+        </Box>
 
         <form>
           <Stack spacing='md'>
@@ -96,7 +132,6 @@ function SearchNav() {
         </Group>
         <RangeSlider
           size='md'
-          color='#1668e3'
           showLabelOnHover={false}
           minRange={100}
           min={0}
@@ -125,7 +160,7 @@ function SearchNav() {
             <Badge
               key={index}
               variant='filled'
-              color={selectedStar === star ? "#1668e3" : "gray"}
+              color={selectedStar === star ? "blue" : "gray"}
               size='lg'
               onClick={() => handleStarClick(star)}
               style={{

@@ -11,7 +11,7 @@ import { Carousel } from "@mantine/carousel";
 import { useMediaQuery } from "@mantine/hooks";
 import dashBoardRoom1 from "../../assets/dashBoardRoom1.jpg";
 
-const items = [
+const itemsData = [
   {
     id: 1,
     name: "Cozy Cottage",
@@ -126,7 +126,7 @@ function HostelLovedByGuest() {
         loop={true}
         withControls={!isMobile}
       >
-        {items.map((item) => {
+        {itemsData.map((item) => {
           const averageRating = getAverageRating(item.reviews);
           const ratingCategory = getRatingCategory(averageRating);
           return (
@@ -147,7 +147,9 @@ function HostelLovedByGuest() {
                   },
                 }}
               >
-                <Image src={item.image} height="60%" />
+                <Box h={"600%"} pos={"relative"}>
+                  <Image src={item.image} height="" />
+                </Box>
                 <Box p="sm">
                   <Flex justify="space-between" align="center" mb="xs">
                     <Badge color="#000814" radius="sm" size="md">
