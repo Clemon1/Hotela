@@ -24,3 +24,22 @@
   color: green; /* Style for the "Where are you going?" placeholder */
   font-size: 20px;
 }
+
+/* favourite page */
+.image-stack {
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.image-stack:hover {
+  transform: scale(1.02);
+}
+
+.pencil-box {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.image-stack:hover .pencil-box {
+  opacity: 1;
+}

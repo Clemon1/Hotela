@@ -1,17 +1,20 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./styles/App.css";
-import Dashboard from "./pages/Dashboard";
 import Applayout from "./general/Applayout";
-import NotFound from "./pages/NotFound";
-import HotelDetails from "./pages/HotelDetails";
-import RoomDetails from "./pages/RoomDetails";
-import SearchResults from "./pages/SearchResults";
-import Login from "./pages/Login";
-import SignUp from "./pages/SignUp";
-import ConfirmAccount from "./pages/ConfirmAccount";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
-import Profile from "./pages/Profile";
+import NotFound from "./pages/404/NotFound";
+import Login from "./pages/auth/Login";
+import SignUp from "./pages/auth/SignUp";
+import ConfirmAccount from "./pages/auth/ConfirmAccount";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
+import Profile from "./pages/general/Profile";
+import Dashboard from "./pages/general/Dashboard";
+import RoomDetails from "./pages/rooms/RoomDetails";
+import SearchResults from "./pages/hotel/SearchResults";
+import HotelDetails from "./pages/hotel/HotelDetails";
+import ResetPasswordOTP from "./pages/auth/ResetPasswordOTP";
+import BookingHistory from "./pages/rooms/BookingHistory";
+import Favourite from "./pages/hotel/Favourite";
 
 function App() {
   const router = createBrowserRouter([
@@ -53,8 +56,20 @@ function App() {
           element: <ResetPassword />,
         },
         {
+          path: "/ResetPasswordOTP",
+          element: <ResetPasswordOTP />,
+        },
+        {
+          path: "/BookingHistory",
+          element: <BookingHistory />,
+        },
+        {
           path: "/ConfirmAccount",
           element: <ConfirmAccount />,
+        },
+        {
+          path: "/Favourite",
+          element: <Favourite />,
         },
         {
           path: "*",
