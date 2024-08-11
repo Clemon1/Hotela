@@ -310,7 +310,7 @@ function SearchMain({ onOpen }) {
                 {room.favourite ? (
                   <FaHeart color="#dd0426" size={16} />
                 ) : (
-                  <CiHeart color="white" size={16} />
+                  <CiHeart color="#ff6347" size={16} />
                 )}
               </Box>
             </Box>

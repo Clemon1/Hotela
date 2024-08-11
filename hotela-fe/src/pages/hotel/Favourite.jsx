@@ -1,191 +1,178 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Group,
-  Image,
-  Menu,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
-import dummy from "../../assets/dummy.avif";
-import { TiPencil, TiTrash } from "react-icons/ti";
-import { HiOutlineDotsVertical } from "react-icons/hi";
-import { useDisclosure, useMediaQuery } from "@mantine/hooks";
-import DeleteModal from "../../components/features/favourite/DeleteModal";
-import { useState } from "react";
-import RenameModal from "../../components/features/favourite/RenameModal";
-import CreateNewListModal from "../../components/features/favourite/CreateNewListModal";
+import { Box } from "@mantine/core";
 
-function YourFavourite() {
-  const [
-    deleteModalOpened,
-    { open: openDeleteModal, close: closeDeleteModal },
-  ] = useDisclosure(false);
+import hostelRoom from "../../assets/hostelRoom.jpg";
+import FavouritesList from "../../components/features/favourite/FavouritesList";
+import EmptyFavourite from "../../components/features/favourite/EmptyFavourite";
 
-  const [
-    renameModalOpened,
-    { open: openRenameModal, close: closeRenameModal },
-  ] = useDisclosure(false);
+function Favourite() {
+  const favouriteList = [
+    {
+      id: 1,
+      image: hostelRoom,
+      hotelName: "Hotel Norrebro",
+      distance: "0.4 km from city centre",
+      cancellation: true,
+      BreakfastIncluded: false,
+      reviews: "1000 reviews",
+      rating: "Excellent",
+      ratingScore: "9.6",
+      roomType: "Comfort room",
+      bedType: "1x king size bed",
+      bathroom: "1x bathroom",
+      price: "$180",
+      nights: "3 nights, 2 guests",
+      badges: ["#Hotel deal", "#Popular"],
+    },
+    {
+      id: 2,
+      image: hostelRoom,
+      hotelName: "Hotel Central",
+      distance: "1.2 km from city centre",
+      cancellation: true,
+      BreakfastIncluded: false,
+      reviews: "800 reviews",
+      rating: "Very Good",
+      ratingScore: "8.5",
+      roomType: "Deluxe room",
+      bedType: "1x queen size bed",
+      bathroom: "1x bathroom",
+      price: "$200",
+      nights: "3 nights, 2 guests",
+      badges: ["#Luxury", "#Trending"],
+    },
+    {
+      id: 3,
+      image: hostelRoom,
+      hotelName: "Hotel Vista",
+      distance: "2.0 km from city centre",
+      cancellation: true,
+      BreakfastIncluded: false,
+      reviews: "500 reviews",
+      rating: "Good",
+      ratingScore: "7.8",
+      roomType: "Standard room",
+      bedType: "2x single beds",
+      bathroom: "1x bathroom",
+      price: "$150",
+      nights: "3 nights, 2 guests",
+      badges: ["#Value", "#Economy"],
+    },
+    {
+      id: 4,
+      image: hostelRoom,
+      hotelName: "Hotel Ocean",
+      distance: "0.8 km from city centre",
+      cancellation: true,
+      BreakfastIncluded: false,
+      reviews: "1200 reviews",
+      rating: "Exceptional",
+      ratingScore: "9.8",
+      roomType: "Suite",
+      bedType: "1x king size bed",
+      bathroom: "2x bathrooms",
+      price: "$350",
+      nights: "3 nights, 2 guests",
+      badges: ["#TopRated", "#Luxury"],
+    },
+    {
+      id: 5,
+      image: hostelRoom,
+      hotelName: "Hotel Sky",
+      distance: "0.3 km from city centre",
+      cancellation: true,
+      BreakfastIncluded: false,
+      reviews: "900 reviews",
+      rating: "Excellent",
+      ratingScore: "9.2",
+      roomType: "Junior Suite",
+      bedType: "1x queen size bed",
+      bathroom: "1x bathroom",
+      price: "$250",
+      nights: "3 nights, 2 guests",
+      badges: ["#Popular", "#Luxury"],
+    },
+    {
+      id: 6,
+      image: hostelRoom,
+      hotelName: "Hotel Horizon",
+      distance: "1.5 km from city centre",
+      cancellation: true,
+      BreakfastIncluded: false,
+      reviews: "700 reviews",
+      rating: "Very Good",
+      ratingScore: "8.4",
+      roomType: "Comfort room",
+      bedType: "1x king size bed",
+      bathroom: "1x bathroom",
+      price: "$180",
+      nights: "3 nights, 2 guests",
+      badges: ["#Trending", "#Comfort"],
+    },
+    {
+      id: 7,
+      image: hostelRoom,
+      hotelName: "Hotel Garden",
+      distance: "2.3 km from city centre",
+      cancellation: true,
+      BreakfastIncluded: false,
+      reviews: "600 reviews",
+      rating: "Good",
+      ratingScore: "7.9",
+      roomType: "Deluxe room",
+      bedType: "1x queen size bed",
+      bathroom: "1x bathroom",
+      price: "$220",
+      nights: "3 nights, 2 guests",
+      badges: ["#Value", "#Popular"],
+    },
+    {
+      id: 8,
+      image: hostelRoom,
+      hotelName: "Hotel Mountain",
+      distance: "3.0 km from city centre",
+      cancellation: true,
+      BreakfastIncluded: false,
+      reviews: "400 reviews",
+      rating: "Good",
+      ratingScore: "7.5",
+      roomType: "Standard room",
+      bedType: "2x single beds",
+      bathroom: "1x bathroom",
+      price: "$160",
+      nights: "3 nights, 2 guests",
+      badges: ["#Economy", "#Comfort"],
+    },
+    {
+      id: 9,
+      image: hostelRoom,
+      hotelName: "Hotel River",
+      distance: "1.0 km from city centre",
+      cancellation: true,
+      BreakfastIncluded: false,
+      reviews: "1100 reviews",
+      rating: "Exceptional",
+      ratingScore: "9.9",
+      roomType: "Suite",
+      bedType: "1x king size bed",
+      bathroom: "2x bathrooms",
+      price: "$400",
+      nights: "3 nights, 2 guests",
+      badges: ["#TopRated", "#Luxury"],
+    },
+  ];
 
-  const [
-    createNewListModalOpened,
-    { open: openCreateNewListModal, close: closeCreateNewListModal },
-  ] = useDisclosure(false);
-  const [selectedList, setSelectedList] = useState(null);
-
-  const isMobile = useMediaQuery("(max-width: 767px)"); // Adjusted for mobile view
-
-  const [favouriteData, setFavouriteData] = useState([
-    { id: 1, name: "Your next Stay" },
-    { id: 2, name: "Exciting Adventure" },
-    { id: 3, name: "Relaxing Getaway" },
-    { id: 4, name: "Family Vacation" },
-    { id: 5, name: "Business Trip" },
-    { id: 6, name: "Weekend Retreat" },
-  ]);
-
-  const handleDelete = () => {
-    setFavouriteData(
-      favouriteData.filter((data) => data.id !== selectedList.id)
-    ),
-      closeDeleteModal();
-  };
+  // TO CHECK EMPTY FAVOURITE
+  // const favouriteList = [];
 
   return (
-    <Box w={"100%"} p="lg">
-      <Group align="center" justify="space-between" mb="xl">
-        <Stack>
-          <Title order={2}>Your Favourites</Title>
-          <Text size="sm" c="dimmed">
-            {favouriteData.length} items in your list
-          </Text>
-        </Stack>
-
-        <Button
-          onClick={() => openCreateNewListModal()}
-          variant="outline"
-          color="blue"
-          size="md"
-          radius="xl"
-        >
-          Create new list
-        </Button>
-      </Group>
-
-      <Flex wrap="wrap" gap="lg">
-        {favouriteData.map((favourite, i) => (
-          <Stack
-            spacing="sm"
-            className="image-stack"
-            w={{ base: "100%", sm: 200 }}
-            key={i}
-          >
-            <Box pos="relative">
-              <Image src={dummy} w={"100%"} h={147} radius="md" />
-              {i === 0 ? null : (
-                <Menu position="top">
-                  <Menu.Target>
-                    <Box
-                      pos="absolute"
-                      bottom={10}
-                      right={10}
-                      w={35}
-                      h={35}
-                      bg="white"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderRadius: "10%",
-                        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                        cursor: "pointer",
-                      }}
-                      className={!isMobile && "pencil-box"}
-                    >
-                      <HiOutlineDotsVertical size={20} />
-                    </Box>
-                  </Menu.Target>
-
-                  <Menu.Dropdown>
-                    <Menu.Item
-                      onClick={() => {
-                        setSelectedList({
-                          id: favourite.id,
-                          name: favourite.name,
-                        });
-                        openRenameModal();
-                      }}
-                    >
-                      <Flex align="center">
-                        <TiPencil size={20} />
-                      </Flex>
-                    </Menu.Item>
-
-                    <Menu.Divider />
-
-                    <Menu.Item
-                      onClick={() => {
-                        setSelectedList({
-                          id: favourite.id,
-                          name: favourite.name,
-                        });
-                        openDeleteModal();
-                      }}
-                    >
-                      <Flex align="center">
-                        <TiTrash size={20} />
-                      </Flex>
-                    </Menu.Item>
-                  </Menu.Dropdown>
-                </Menu>
-              )}
-            </Box>
-            <Box
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                overflow: "hidden", // Ensures content overflows properly
-                whiteSpace: "nowrap", // Keeps text on the same line
-              }}
-            >
-              <Text
-                fw={600}
-                fz={16}
-                style={{ overflow: "hidden", textOverflow: "ellipsis" }}
-              >
-                {favourite.name}
-              </Text>
-              <Text fz={16}>(0 stays)</Text>
-            </Box>
-          </Stack>
-        ))}
-      </Flex>
-
-      <DeleteModal
-        openedDelete={deleteModalOpened}
-        onOpen={openDeleteModal}
-        onClose={closeDeleteModal}
-        selectedName={selectedList?.name}
-        onDelete={handleDelete}
-      />
-
-      <RenameModal
-        openedRename={renameModalOpened}
-        onOpen={openRenameModal}
-        onClose={closeRenameModal}
-        selectedName={selectedList?.name}
-      />
-
-      <CreateNewListModal
-        openedCreateNewList={createNewListModalOpened}
-        onOpen={openCreateNewListModal}
-        onClose={closeCreateNewListModal}
-      />
+    <Box w={"100%"}>
+      {favouriteList.length === 0 ? (
+        <EmptyFavourite />
+      ) : (
+        <FavouritesList favouriteList={favouriteList} />
+      )}
     </Box>
   );
 }
 
-export default YourFavourite;
+export default Favourite;
