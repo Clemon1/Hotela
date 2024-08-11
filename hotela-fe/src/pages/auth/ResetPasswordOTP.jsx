@@ -1,16 +1,18 @@
 import { Box, Button, Group, PinInput, Text, Title } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { useMediaQuery } from "@mantine/hooks";
-import { useNavigate } from "react-router-dom";
+
+import { useForgetPasswordLinkMutation } from "../../Store/Slices/authenticationSlice";
+import { notifications } from "@mantine/notifications";
+import { IoMdCheckmarkCircle, IoMdCloseCircle } from "react-icons/io";
 
 function ResetPasswordOTP() {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState(null);
   const [timeLeft, setTimeLeft] = useState(60); // 1-minute timer
   const [canResend, setCanResend] = useState(false);
-
+  const [resetPasswordLink, { isLoading }] = useForgetPasswordLinkMutation();
   const isMobile = useMediaQuery("(max-width: 767px)");
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (timeLeft > 0) {
@@ -35,16 +37,34 @@ function ResetPasswordOTP() {
     console.log("Resend code logic here");
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (otp.length !== 5) {
-      setError("Please enter a 5-digit OTP.");
-      return;
-    } else {
-      navigate("/resetpassword");
-    }
+    try {
+      if (otp.length !== 5) {
+        setError("Please enter a 5-digit OTP.");
+        return;
+      } else {
+        await resetPasswordLink({ otp }).unwrap();
+        notifications.show({
+          title: "Reset link has been sent to your email",
+          radius: "lg",
+          message: "",
+          autoClose: 5000,
+          color: "teal",
+          icon: <IoMdCheckmarkCircle fontSize={18} />,
+        });
+      }
+    } catch (err) {
+      console.log(err);
 
-    alert("OTP: " + otp);
+      notifications.show({
+        title: "Error",
+        message: `${err && err.data && err.data.message}`,
+        radius: "lg",
+        color: "red",
+        icon: <IoMdCloseCircle fontSize={18} />,
+      });
+    }
   };
 
   return (
@@ -58,48 +78,46 @@ function ResetPasswordOTP() {
         display: "flex",
         flexDirection: "column",
         gap: "10px",
-      }}
-    >
+      }}>
       <Title order={2}>Verify Code</Title>
 
-      <Text size="sm">
+      <Text size='sm'>
         We sent a code to your email. Enter that code to reset your password.
       </Text>
 
       <form
         onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: "14px" }}
-      >
+        style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
         <PinInput
-          size="xl"
+          size='xl'
           length={5}
-          placeholder="-"
-          type="number"
+          placeholder='-'
+          type='number'
           value={otp}
           onChange={handleOtpChange}
           error={error}
         />
         {error && (
-          <Text c="red" style={{ textAlign: "center" }}>
+          <Text c='red' style={{ textAlign: "center" }}>
             {error}
           </Text>
         )}
 
-        <Group align="center" justify="space-between">
-          <Text size="xs">Didn't get a code?</Text>
+        <Group align='center' justify='space-between'>
+          <Text size='xs'>Didn't get a code?</Text>
           <Button
-            variant="filled"
-            size="xs"
-            radius="xl"
+            variant='filled'
+            size='xs'
+            radius='xl'
             disabled={!canResend}
-            onClick={handleResendCode}
-          >
+            onClick={handleResendCode}>
             {canResend ? "Resend Code" : `Resend in ${timeLeft}s`}
           </Button>
         </Group>
 
         <Button
-          type="submit"
+          type='submit'
+          loading={isLoading}
           style={{
             height: "50px",
             fontSize: "18px",
@@ -117,8 +135,7 @@ function ResetPasswordOTP() {
           onMouseLeave={(e) => {
             e.currentTarget.style.backgroundColor = "#007BFF";
             e.currentTarget.style.transform = "scale(1)";
-          }}
-        >
+          }}>
           Continue
         </Button>
       </form>

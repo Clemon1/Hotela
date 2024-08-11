@@ -2,11 +2,12 @@ import { Box, Button, Text, TextInput, Title } from "@mantine/core";
 import { useState } from "react";
 import { useMediaQuery } from "@mantine/hooks";
 import { useNavigate } from "react-router-dom";
+import { useResendOTPMutation } from "../../Store/Slices/authenticationSlice";
 
 function ForgotPassword() {
-  const [email, setEmail] = useState("La@g.com");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState("");
-
+  const [resendOTP, { isLoading }] = useResendOTPMutation();
   const isMobile = useMediaQuery("(max-width: 767px)"); // Adjusted for mobile view
   const navigate = useNavigate();
 
@@ -22,15 +23,19 @@ function ForgotPassword() {
     return emailRegex.test(email);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!validateEmail(email)) {
-      setError("Invalid email address");
-    } else {
-      setError("");
-      alert("Email: " + email);
-      // Proceed to the next step or close the modal
-      navigate("/confirmAccount");
+    try {
+      if (!validateEmail(email)) {
+        setError("Invalid email address");
+      } else {
+        setError("");
+        // Proceed to the next step or close the modal
+        await resendOTP({ email }).unwrap();
+        navigate("/ResetPasswordOTP");
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -72,6 +77,7 @@ function ForgotPassword() {
 
         <Button
           type='submit'
+          loading={isLoading}
           style={{
             height: "50px",
             fontSize: "20px",

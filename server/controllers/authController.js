@@ -5,6 +5,7 @@ import { sendMail } from "../middlewares/SendMail/sendGrid.js";
 import Hotel from "../models/hotelModel.js";
 import users from "../models/userModel.js";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 
 //Create user account
 export const signUp = async (req, res) => {
@@ -37,7 +38,8 @@ export const signUp = async (req, res) => {
       templateName: "OTP",
       templateData,
     });
-    const { password, ...userInfo } = newUser._doc;
+    const { password, resetPasswordToken, resetPasswordExpires, ...userInfo } =
+      newUser._doc;
     const token = generateToken({ user: userInfo, role: userInfo.role });
     res.status(201).json({ userInfo, token });
   } catch (err) {
@@ -65,7 +67,8 @@ export const adminSignUp = async (req, res) => {
       otpExpires: generateOTP.expiresIn,
     });
     const newUser = await userDetails.save();
-    const { password, ...userInfo } = newUser._doc;
+    const { password, resetPasswordToken, resetPasswordExpires, ...userInfo } =
+      newUser._doc;
     const token = generateToken({ user: userInfo, role: userInfo.role });
     res.status(201).json({ userInfo, token });
   } catch (err) {
@@ -82,9 +85,10 @@ export const login = async (req, res) => {
     }
     const isMatched = await bcrypt.compare(req.body.password, user.password);
     if (!isMatched) {
-      return res.status(401).json("Invalid or incorrect password");
+      return res.status(401).json("Invalid or incorrect credentials");
     }
-    const { password, ...userInfo } = user._doc;
+    const { password, resetPasswordToken, resetPasswordExpires, ...userInfo } =
+      user._doc;
     const token = generateToken({ user: userInfo, role: userInfo.role });
     res.status(200).json({ userInfo, token });
   } catch (err) {
@@ -106,7 +110,8 @@ export const adminLogin = async (req, res) => {
     if (!isMatched) {
       return res.status(401).json("Invalid or incorrect password");
     }
-    const { password, ...userInfo } = user._doc;
+    const { password, resetPasswordToken, resetPasswordExpires, ...userInfo } =
+      user._doc;
     const token = generateToken({ user: userInfo, role: userInfo.role });
     res.status(200).json({ userInfo, token });
   } catch (err) {
@@ -116,15 +121,25 @@ export const adminLogin = async (req, res) => {
 // Resend OTP
 export const resendOTP = async (req, res) => {
   try {
-    const { userId } = req.params;
-    const user = await users.findById(userId);
+    const { email } = req.body;
+    const user = await users.findOne({ email });
+    //checking if user exist
     if (!user) {
       return res.status(400).json("User not found");
     }
     const generatedOTP = OTP();
-    await user.updateOne({
-      otp: generatedOTP.value,
-      otpExpires: generatedOTP.expiresIn,
+    user.otp = generatedOTP.value;
+    user.otpExpires = generatedOTP.expiresIn;
+    await user.save();
+    let templateData = {
+      FullName: `${user.firstName} ${user.lastName}`,
+      OTPCODE: user.otp,
+    };
+    await sendMail({
+      to: email,
+      subject: "Verification Code",
+      templateName: "OTP",
+      templateData,
     });
     res.status(200).json(user);
   } catch (err) {
@@ -136,20 +151,20 @@ export const verifyOTP = async (req, res) => {
   try {
     const { otp } = req.body;
 
-    const { userId } = req.params;
-    const user = await users.findById(userId);
+    const user = await users.findOne(otp);
     if (!user) {
       return res.status(401).json("User not found");
     }
     if (otp !== user.otp) {
-      return res.status(401).json("Invalid OTP");
+      return res.status(401).json("Invalid or Incorrect OTP");
     }
     if (new Date() > new Date(user.otpExpires)) {
       return res.status(401).json("Expired OTP");
     }
-    await users.findByIdAndUpdate(userId, {
-      $set: { isVerified: true, otp: null, otpExpires: null },
-    });
+    user.isVerified = true;
+    user.otp = undefined;
+    user.otpExpires = undefined;
+    await user.save();
     res.status(200).json("Successfully Verified");
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -168,7 +183,7 @@ export const getAllUser = async (req, res) => {
 // get single user by ID
 export const getSingleUser = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const { userId } = req.user;
     const user = await users.findById(userId);
     if (!user) {
       return res.status(400).json("User not found or exist");
@@ -178,19 +193,53 @@ export const getSingleUser = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+//send forgot password link to email
+export const forgotPasswordLink = async (req, res) => {
+  try {
+    const { otp } = req.body;
+    const user = await users.findOne({ otp });
+    if (otp !== user.otp) {
+      return res.status(401).json({ message: "Invalid or Incorrect OTP" });
+    }
+    const token = crypto.randomBytes(20).toString("hex");
+    const tokenExpiryDate = Date.now() + 3600000; //1 hour
+    user.resetPasswordToken = token;
+    user.resetPasswordExpires = tokenExpiryDate;
+    user.otp = undefined;
+    user.otpExpires = undefined;
+    await user.save();
+    let templateData = {
+      forgotPasswordLink: `${process.env.RESET_PASSWORD_URL}/${user.resetPasswordToken}`,
+    };
+    await sendMail({
+      to: user.email,
+      subject: "Reset Password",
+      templateName: "forgotPassword",
+      templateData,
+    });
+    res.status(200).json({ message: "Reset Link sent to email" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 // forgot password
 export const forgotPassword = async (req, res) => {
   try {
-    const { email } = req.params;
+    const { resetPasswordToken } = req.params;
     const { newPassword } = req.body;
     // Check if user exists
-    const user = await users.findOne(email);
+    const user = await users.findOne({
+      resetPasswordToken,
+    });
     if (!user) {
       return res.status(401).json("User not found");
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
     user.password = hashedPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
     await user.save();
     res.status(200).json("Password updated successfully");
   } catch (err) {

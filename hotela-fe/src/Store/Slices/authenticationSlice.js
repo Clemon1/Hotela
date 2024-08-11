@@ -36,9 +36,42 @@ export const authApi = createApi({
     }),
     // Register Endpoints
     verifyAccount: build.mutation({
-      query({ userId, ...body }) {
+      query(body) {
         return {
-          url: `/OTP/${userId}/verify`,
+          url: `/OTP/verify`,
+          method: "POST",
+          body,
+        };
+      },
+      invalidatesTags: ["auth"],
+    }),
+    // resend-OTP Endpoints
+    resendOTP: build.mutation({
+      query(body) {
+        return {
+          url: `/OTP/resendOTP`,
+          method: "POST",
+          body,
+        };
+      },
+      invalidatesTags: ["auth"],
+    }),
+    // forgot Password Link Endpoints
+    forgetPasswordLink: build.mutation({
+      query(body) {
+        return {
+          url: `/forgotPassword/OTP`,
+          method: "POST",
+          body,
+        };
+      },
+      invalidatesTags: ["auth"],
+    }),
+    // resetPassword Endpoints
+    resetPassword: build.mutation({
+      query({ passwordToken, ...body }) {
+        return {
+          url: `forgotPassword/${passwordToken}`,
           method: "POST",
           body,
         };
@@ -53,4 +86,7 @@ export const {
   useRegisterMutation,
   useLoginMutation,
   useVerifyAccountMutation,
+  useResendOTPMutation,
+  useForgetPasswordLinkMutation,
+  useResetPasswordMutation,
 } = authApi;

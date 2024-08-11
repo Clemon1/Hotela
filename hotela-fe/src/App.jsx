@@ -52,7 +52,7 @@ function App() {
           element: <ForgotPassword />,
         },
         {
-          path: "/resetPassword",
+          path: "/resetPassword/:id",
           element: <ResetPassword />,
         },
         {

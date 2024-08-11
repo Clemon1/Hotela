@@ -52,6 +52,8 @@ const userSchema = new Schema(
       enum: ["Admin", "User", "Hotel", "Personal-lister"],
       default: "User",
     },
+    resetPasswordToken: { type: String },
+    resetPasswordExpires: { type: Date },
     isDeleted: {
       type: Boolean,
       default: false,
