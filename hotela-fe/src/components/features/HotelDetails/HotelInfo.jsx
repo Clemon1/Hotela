@@ -1,7 +1,7 @@
 import { Badge, Box, Group, Stack, Tabs, Text, Title } from "@mantine/core";
 import Overview from "./Overview";
 import Info from "./Info";
-import ReviewCard from "./ReviewCard";
+import ReviewCard from "./reviewCard/ReviewCard";
 import HotelPictures from "./HotelPictures";
 
 function HotelInfo() {
@@ -9,13 +9,13 @@ function HotelInfo() {
 
   return (
     <Box style={{ gap: "20px", display: "flex", flexDirection: "column" }}>
-      <Group justify='space-between' align='center'>
-        <Stack justify='center' gap='0'>
+      <Group justify="space-between" align="center">
+        <Stack justify="center" gap="0">
           <Title order={2}>Hotel Norrebro</Title>
           <Text fz={14}>3-star hotel located in the heart of london</Text>
         </Stack>
         <Group gap={8}>
-          <Stack align='end' justify='center' gap='0'>
+          <Stack align="end" justify="center" gap="0">
             <Text fz={16} c={"green"} fw={600}>
               Excellent
             </Text>
@@ -23,53 +23,53 @@ function HotelInfo() {
               1000 reviews
             </Text>
           </Stack>
-          <Badge variant='light' color='green' fz={16} py={20} radius={"md"}>
+          <Badge variant="light" color="green" fz={16} py={20} radius={"md"}>
             9.6
           </Badge>
         </Group>
       </Group>
 
-      <Tabs color='#1668e3' defaultValue='Overview' mb={30}>
+      <Tabs color="#1668e3" defaultValue="Overview" mb={30}>
         <Tabs.List style={{ gap: "0px" }}>
           <Tabs.Tab
-            value='Overview'
+            value="Overview"
             // leftSection={<IconPhoto style={iconStyle} />}
           >
             Overview
           </Tabs.Tab>
           <Tabs.Tab
-            value='Info'
+            value="Info"
             // leftSection={<IconMessageCircle style={iconStyle} />}
           >
             Info
           </Tabs.Tab>
           <Tabs.Tab
-            value='Photos'
+            value="Photos"
             // leftSection={<IconAmenities style={iconStyle} />}
           >
             Photos
           </Tabs.Tab>
           <Tabs.Tab
-            value='reviews'
+            value="reviews"
             // leftSection={<IconAmenities style={iconStyle} />}
           >
             Reviews
           </Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value='Overview'>
+        <Tabs.Panel value="Overview">
           <Overview />
         </Tabs.Panel>
 
-        <Tabs.Panel value='Info'>
+        <Tabs.Panel value="Info">
           <Info />
         </Tabs.Panel>
 
-        <Tabs.Panel value='Photos'>
+        <Tabs.Panel value="Photos">
           <HotelPictures />
         </Tabs.Panel>
 
-        <Tabs.Panel value='reviews'>
+        <Tabs.Panel value="reviews">
           <ReviewCard />
         </Tabs.Panel>
       </Tabs>

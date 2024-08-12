@@ -23,7 +23,7 @@ function EmptyFavourites() {
           favorite stays to see them here!
         </Text>
         <Button size={"sm"} radius="xl" color="blue">
-          Explore Rooms
+          Explore Stays
         </Button>
       </Stack>
     </Box>

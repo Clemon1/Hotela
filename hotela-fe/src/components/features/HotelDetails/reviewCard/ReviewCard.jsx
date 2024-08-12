@@ -11,9 +11,12 @@ import {
   Divider,
   Pagination,
   Flex,
+  Button,
 } from "@mantine/core";
 import { IoStar, IoStarOutline } from "react-icons/io5";
 import PropTypes from "prop-types";
+import { useDisclosure, useMediaQuery } from "@mantine/hooks";
+import AddReviewModal from "./AddReviewModal";
 
 // Sample data for reviews
 const reviews = [
@@ -77,7 +80,7 @@ function ReviewCard({ name, date, rating, comment, avatar }) {
         <Stack spacing={5} style={{ flexGrow: 1 }}>
           <Group position="apart" style={{ width: "100%" }}>
             <Text weight={500}>{name}</Text>
-            <Text size="xs" color="gray">
+            <Text size="xs" c="gray">
               {date}
             </Text>
           </Group>
@@ -118,20 +121,30 @@ const data = chunk(reviews, 3);
 
 function Reviews() {
   const [activePage, SetActivePage] = useState(1);
+  const [isAddReviewModalOpen, { open, close }] = useDisclosure(false);
+  console.log(isAddReviewModalOpen);
+
+  const isMobile = useMediaQuery("(max-width: 500px)");
 
   return (
     <Box
       mt={20}
-      px={20}
+      px={{ base: 10, sm: 20 }}
       py={30}
       style={{
         backgroundColor: "#f8f9fa",
         borderRadius: "10px",
       }}
     >
-      <Title order={2} mb={20} style={{ color: "#2c3e50" }}>
-        Customer Reviews
-      </Title>
+      <Group align="center" mb={20} justify="space-between">
+        <Title order={2} fz={{ base: 20, sm: 30 }} style={{ color: "#2c3e50" }}>
+          Customer Reviews
+        </Title>
+
+        <Button onClick={open} size={isMobile ? "xs" : "md"} radius={"xl"}>
+          Leave a Review
+        </Button>
+      </Group>
       <Divider my="lg" />
       {data[activePage - 1].map((review, index) => (
         <ReviewCard key={index} {...review} />
@@ -144,6 +157,8 @@ function Reviews() {
           mt="sm"
         />
       </Flex>
+
+      <AddReviewModal opened={isAddReviewModalOpen} onClose={close} />
     </Box>
   );
 }
