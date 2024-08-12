@@ -173,6 +173,9 @@ export const verifyOTP = async (req, res) => {
 // get all users
 export const getAllUser = async (req, res) => {
   try {
+    const activeUsers = req.user;
+    console.log(activeUsers);
+
     const user = await users.find();
 
     res.status(200).json(user);

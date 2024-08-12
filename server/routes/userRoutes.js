@@ -13,6 +13,7 @@ import {
   verifyOTP,
 } from "../controllers/authController.js";
 import { rateLimit } from "express-rate-limit";
+import { verifyToken } from "../middlewares/JWT.js";
 
 const router = Router();
 // rate limiter setup
@@ -24,7 +25,7 @@ const limiter = rateLimit({
   // store: ... , // Redis, Memcached, etc. See below.
 });
 //get all users
-router.get("/", getAllUser);
+router.get("/", verifyToken, getAllUser);
 router.get("/userAnalysis", getUserAnalysis);
 // get user by Id
 router.get("/:userId", getSingleUser);
