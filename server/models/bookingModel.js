@@ -39,9 +39,14 @@ const bookingShema = new Schema(
       type: Date,
       required: true,
     },
+    bookingStatus: {
+      type: String,
+      enum: ["Pending", "Active", "Failed", "Expired"],
+      default: "Pending",
+    },
     paymentStatus: {
       type: String,
-      enum: ["Pending", "Success", "Failed"],
+      enum: ["Pending", "Success", "Failed", "Expired"],
       default: "Pending",
     },
   },
