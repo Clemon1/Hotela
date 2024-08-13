@@ -71,6 +71,7 @@ function App() {
           path: "/Favourite",
           element: <Favourite />,
         },
+
         {
           path: "*",
           element: <NotFound />,

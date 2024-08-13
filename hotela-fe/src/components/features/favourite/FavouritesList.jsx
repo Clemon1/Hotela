@@ -57,7 +57,7 @@ function FavouritesList({ favouriteList }) {
         </Text>
       </Stack>
 
-      <Stack gap={20} mt={20}>
+      <Stack gap={20} mt={20} px={30}>
         {data[activePage - 1].map((hotel) => (
           <Flex
             key={hotel.id}
