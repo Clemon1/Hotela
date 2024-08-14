@@ -59,10 +59,10 @@ function RoomCard({ room }) {
 
         <Group align="center">
           <Text fz="32" fw={600} c="green">
-            €{room.price}
+            £{room.price}
           </Text>
           <Text fz="sm" c="gray" style={{ textDecoration: "line-through" }}>
-            €{room.originalPrice}
+            £{room.originalPrice}
           </Text>
         </Group>
 
@@ -104,7 +104,7 @@ function HotelRooms() {
       originalPrice: 50,
       nights: 2,
       taxesFees: "includes taxes & fees",
-      priceDetails: "€22 per night",
+      priceDetails: "£22 per night",
       availability: "We have 4 left",
       image: hotelDetails1,
     },
@@ -118,7 +118,7 @@ function HotelRooms() {
       originalPrice: 70,
       nights: 2,
       taxesFees: "includes taxes & fees",
-      priceDetails: "€30 per night",
+      priceDetails: "£30 per night",
       availability: "We have 3 left",
       image: hotelDetails1,
     },
@@ -132,7 +132,7 @@ function HotelRooms() {
       originalPrice: 90,
       nights: 2,
       taxesFees: "includes taxes & fees",
-      priceDetails: "€40 per night",
+      priceDetails: "£40 per night",
       availability: "We have 2 left",
       image: hotelDetails1,
     },
