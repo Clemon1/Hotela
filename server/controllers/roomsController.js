@@ -34,7 +34,7 @@ export const createRooms = async (req, res) => {
       amenities,
       maxOccupancy,
     } = req.body;
-    const { images } = req.files["roomImages"]
+    const images = req.files["roomImages"]
       ? req.files["roomImages"].map((file) => file.path)
       : null;
 

@@ -26,6 +26,10 @@ const bookingShema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Rooms",
     },
+    totalGuest: {
+      type: Number,
+      required: true,
+    },
     price: {
       type: Number,
       required: true,
