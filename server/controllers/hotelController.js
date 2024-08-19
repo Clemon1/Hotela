@@ -13,7 +13,7 @@ export const getAllHotels = async (req, res) => {
 //search hotel properties
 export const searchHotels = async (req, res) => {
   try {
-    const { name, locationName, minRating } = req.query;
+    const { name, locationName, minRating, minPrice, maxPrice } = req.query;
 
     // Find the area based on the location name
     const area = await location.findOne({
@@ -34,7 +34,16 @@ export const searchHotels = async (req, res) => {
     if (minRating) {
       filter.rating = { $gte: parseFloat(minRating) }; // Filter by minimum rating
     }
-
+    // Add price filtering if minPrice or maxPrice is provided
+    if (minPrice || maxPrice) {
+      filter.price = {};
+      if (minPrice) {
+        filter.price.$gte = parseFloat(minPrice); // Filter by minimum price
+      }
+      if (maxPrice) {
+        filter.price.$lte = parseFloat(maxPrice); // Filter by maximum price
+      }
+    }
     // Find hotels based on the filter
     const hotels = await Hotel.find(filter).populate("location").exec();
 

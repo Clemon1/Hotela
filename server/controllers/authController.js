@@ -150,8 +150,7 @@ export const resendOTP = async (req, res) => {
 export const verifyOTP = async (req, res) => {
   try {
     const { otp } = req.body;
-
-    const user = await users.findOne(otp);
+    const user = await users.findOne({ otp });
     if (!user) {
       return res.status(401).json("User not found");
     }

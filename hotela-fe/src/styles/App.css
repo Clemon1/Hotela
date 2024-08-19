@@ -12,6 +12,10 @@
   /* font-family: "Montserrat", sans-serif; */
   font-optical-sizing: auto;
 }
+a {
+  list-style: none;
+  text-decoration: none !important;
+}
 .headerLogo {
   font-family: "Inter", sans-serif !important;
 }

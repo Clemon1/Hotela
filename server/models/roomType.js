@@ -7,7 +7,7 @@ const RoomTypeSchema = new Schema(
     images: [{ type: String }],
     category: {
       type: String,
-      enum: ["Basic", "Pro", "Top", "Luxury"],
+      enum: ["Standard", "Deluxe", "Suite", "Luxury"],
       required: true,
     },
     description: { type: String },

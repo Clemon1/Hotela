@@ -56,7 +56,7 @@ export const authApi = createApi({
       },
       invalidatesTags: ["auth"],
     }),
-    // forgot Password Link Endpoints
+    // OTP forgot Password Link Endpoints
     forgetPasswordLink: build.mutation({
       query(body) {
         return {

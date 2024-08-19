@@ -9,7 +9,7 @@ import {
   Tooltip,
   useMantineTheme,
 } from "@mantine/core";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { currentUser, logOut } from "../Store/auth/authSlice";
 import { notifications } from "@mantine/notifications";
@@ -58,7 +58,7 @@ function Header() {
                 borderRadius: "18px",
               }}>
               <Flex w={"100%"} align={"center"} pr={10}>
-                <Flex direction={"column"} py={15} w={"100%"}>
+                <Flex direction={"column"} py={4} w={"100%"}>
                   <Menu.Label fz={16} c={"#000814"}>
                     Hi, {user && user.userInfo && user.userInfo.firstName}
                   </Menu.Label>
@@ -82,11 +82,24 @@ function Header() {
                   </Tooltip>
                 )}
               </Flex>
+              <Flex direction={"column"} py={4} w={"100%"}>
+                <Menu.Label c={"#000814"}>Hotela points </Menu.Label>
+                <Menu.Label fz={20} fw={500} c={"#000814"}>
+                  {user && user.userInfo && user.userInfo.points}
+                  Hp
+                </Menu.Label>
+              </Flex>
+              <Menu.Label c={"#000814"}>Application</Menu.Label>
 
-              <Menu.Label>Application</Menu.Label>
-              <Menu.Item leftSection={""}>Profile</Menu.Item>
-              <Menu.Item leftSection={""}>List of favorites</Menu.Item>
-              <Menu.Item leftSection={""}>Notification</Menu.Item>
+              <Link to={"/profile"}>
+                <Menu.Item leftSection={""}>Profile</Menu.Item>
+              </Link>
+              <Link to={"/favourite"}>
+                <Menu.Item leftSection={""}>List of favorites</Menu.Item>
+              </Link>
+              <Link to={"/bookinghistory"}>
+                <Menu.Item leftSection={""}>Booking History</Menu.Item>
+              </Link>
 
               <Menu.Divider />
 
