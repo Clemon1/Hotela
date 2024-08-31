@@ -15,6 +15,8 @@ import HotelDetails from "./pages/hotel/HotelDetails";
 import ResetPasswordOTP from "./pages/auth/ResetPasswordOTP";
 import BookingHistory from "./pages/rooms/BookingHistory";
 import Favourite from "./pages/hotel/Favourite";
+import SuccessPayment from "./pages/paymentStatus/success";
+import CancelledPayment from "./pages/paymentStatus/cancelled";
 
 function App() {
   const router = createBrowserRouter([
@@ -28,7 +30,7 @@ function App() {
           element: <HotelDetails />,
         },
         {
-          path: "roomDetails",
+          path: "/roomDetails",
           element: <RoomDetails />,
         },
         {
@@ -70,6 +72,14 @@ function App() {
         {
           path: "/Favourite",
           element: <Favourite />,
+        },
+        {
+          path: "/booking-success",
+          element: <SuccessPayment />,
+        },
+        {
+          path: "/booking-cancelled",
+          element: <CancelledPayment />,
         },
 
         {

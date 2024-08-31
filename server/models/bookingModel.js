@@ -24,7 +24,7 @@ const bookingShema = new Schema(
     },
     rooms: {
       type: Schema.Types.ObjectId,
-      ref: "Rooms",
+      ref: "RoomType",
     },
     totalGuest: {
       type: Number,
@@ -52,6 +52,9 @@ const bookingShema = new Schema(
       type: String,
       enum: ["Pending", "Success", "Failed", "Expired"],
       default: "Pending",
+    },
+    stripeSessionId: {
+      type: String,
     },
   },
   {

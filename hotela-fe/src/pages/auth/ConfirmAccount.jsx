@@ -117,6 +117,7 @@ function ConfirmAccount() {
 
         <Button
           type='submit'
+          loading={isLoading}
           style={{
             height: "50px",
             fontSize: "18px",

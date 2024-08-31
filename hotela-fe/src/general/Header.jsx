@@ -4,6 +4,7 @@ import {
   Button,
   Flex,
   Group,
+  Loader,
   Menu,
   Text,
   Tooltip,
@@ -15,9 +16,12 @@ import { currentUser, logOut } from "../Store/auth/authSlice";
 import { notifications } from "@mantine/notifications";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { MdVerified } from "react-icons/md";
+import { useGetSingleUserQuery } from "../Store/Slices/authenticationSlice";
 function Header() {
   const theme = useMantineTheme();
   const user = useSelector(currentUser);
+  const { data = {}, isLoading } = useGetSingleUserQuery(user?.userInfo?._id);
+
   const dispatch = useDispatch();
   const handleLogOut = (e) => {
     e.preventDefault();
@@ -41,17 +45,18 @@ function Header() {
         </NavLink>
         {user ? (
           <Menu shadow='md' width={200}>
-            <Menu.Target>
-              <Avatar
-                size={"md"}
-                radius={"lg"}
-                name={`${user && user.userInfo && user.userInfo.firstName} ${
-                  user && user.userInfo && user.userInfo.lastName
-                }`}
-                color='initials'
-              />
-            </Menu.Target>
-
+            {isLoading ? (
+              <Loader color='blue' type='dots' />
+            ) : (
+              <Menu.Target>
+                <Avatar
+                  size={"md"}
+                  radius={"lg"}
+                  name={`${data.firstName} ${data.lastName}`}
+                  color='initials'
+                />
+              </Menu.Target>
+            )}
             <Menu.Dropdown
               w={{ lg: "25%!important", xl: "30%!important" }}
               style={{
@@ -60,13 +65,13 @@ function Header() {
               <Flex w={"100%"} align={"center"} pr={10}>
                 <Flex direction={"column"} py={4} w={"100%"}>
                   <Menu.Label fz={16} c={"#000814"}>
-                    Hi, {user && user.userInfo && user.userInfo.firstName}
+                    Hi, {data?.firstName}
                   </Menu.Label>
                   <Menu.Label fz={13} c={"#000814"}>
-                    {user && user.userInfo && user.userInfo.email}
+                    {data.email}
                   </Menu.Label>
                 </Flex>
-                {user && user.userInfo && user.userInfo.isVerified === true && (
+                {data.isVerified === true && (
                   <Tooltip
                     label='Verified!'
                     color='#eaf4ff'
@@ -85,7 +90,7 @@ function Header() {
               <Flex direction={"column"} py={4} w={"100%"}>
                 <Menu.Label c={"#000814"}>Hotela points </Menu.Label>
                 <Menu.Label fz={20} fw={500} c={"#000814"}>
-                  {user && user.userInfo && user.userInfo.points}
+                  {data.points}
                   Hp
                 </Menu.Label>
               </Flex>

@@ -1,12 +1,8 @@
+/* eslint-disable react/prop-types */
 import { Box, Title, Button, Stack, Paper, Group } from "@mantine/core";
 import { FaStripe, FaBitcoin } from "react-icons/fa";
 
-function PaymentMethods() {
-  const handleStripePayment = () => {
-    // Implement Stripe payment logic here
-    alert("Stripe payment initiated");
-  };
-
+function PaymentMethods({ handleStripePayment, stripeLoading }) {
   const handleCryptoPayment = () => {
     // Implement crypto payment logic here
     alert("Crypto payment initiated");
@@ -15,36 +11,36 @@ function PaymentMethods() {
   return (
     <Box>
       <Paper>
-        <Title order={3} mb="md">
+        <Title order={3} mb='md'>
           Step 3: Choose Payment Method
         </Title>
 
-        <Stack spacing="lg">
-          <Group align="center" mt="md">
+        <Stack spacing='lg'>
+          <Group align='center' mt='md'>
             <Button
               onClick={handleStripePayment}
-              justify="space-between"
+              loading={stripeLoading}
+              justify='center'
               fullWidth
-              leftSection={<FaStripe size={35} />}
-              rightSection={<span />}
-              size="lg"
-              radius="md"
-              color="blue"
-              variant="outline"
-            >
-              Pay with Stripe
+              color='#ffffff'
+              bd={"none"}
+              size='lg'
+              radius='md'
+              bg={"#6B71E3"}
+              ta={"center"}
+              variant='outline'>
+              <FaStripe color='#ffffff' size={55} />
             </Button>
             <Button
               onClick={handleCryptoPayment}
-              justify="space-between"
+              justify='space-between'
               fullWidth
               leftSection={<FaBitcoin size={35} />}
               rightSection={<span />}
-              radius="md"
-              color="orange"
-              variant="outline"
-              size="lg"
-            >
+              radius='md'
+              color='orange'
+              variant='outline'
+              size='lg'>
               Pay with Crypto
             </Button>
             {/* <Button

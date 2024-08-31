@@ -9,13 +9,13 @@ import { upload } from "../middlewares/multer/upload.js";
 
 const router = Router();
 
-router.get("/:roomId", getAllRooms);
-router.get("/:id", getRoomsById);
+router.get("/allRoom/:hotelId", getAllRooms);
+router.get("/roomDetails/:id", getRoomsById);
 router.post(
   "/createRoom",
   upload.fields([{ name: "roomImages", maxCount: 5 }]),
   createRooms,
 );
-router.patch("/:id", updateRoomType);
+router.patch("/roomDetails/:id", updateRoomType);
 
 export default router;

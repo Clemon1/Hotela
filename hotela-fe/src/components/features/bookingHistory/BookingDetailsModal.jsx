@@ -1,33 +1,41 @@
+/* eslint-disable react/prop-types */
 import PropTypes from "prop-types";
 import { Modal, Box, Text, Badge } from "@mantine/core";
+import { format } from "date-fns";
 
 const BookingDetailsModal = ({ opened, onClose, booking }) => {
   return (
     <Modal
       opened={opened}
       onClose={onClose}
-      title="Booking Details"
+      title='Booking Details'
+      radius={"lg"}
       centered
-      size="md"
-    >
+      size='md'>
       {booking && (
         <Box>
-          <Text weight={600}>{booking.hotelName}</Text>
-          <Text size="sm" color="dimmed">
-            {booking.location}
+          <Text fw={500}>
+            {booking.hotel?.name} -- {booking.rooms?.name}
           </Text>
-          <Text mt="md" size="sm">
-            Check-in: {booking.checkIn}
+          <Text size='sm' c='dimmed'>
+            {booking.hotel?.location?.name}
           </Text>
-          <Text size="sm">Check-out: {booking.checkOut}</Text>
-          <Text mt="sm" size="sm" weight={600} color="blue">
-            Total Price: {booking.totalPrice}
+          <Text mt='md' size='sm'>
+            Check-In: {format(new Date(booking?.checkIn), "yyyy-MM-dd")}
+          </Text>
+
+          <Text size='sm'>
+            Check-Out: {format(new Date(booking?.checkOut), "yyyy-MM-dd")}
+          </Text>
+          <Text mt='sm' fz={18} fw={500} c='#228be6'>
+            Total Price: £{booking.price}
           </Text>
           <Badge
-            color={booking.status === "Upcoming" ? "green" : "gray"}
-            mt="sm"
-          >
-            {booking.status}
+            fw={500}
+            fz={14}
+            color={booking.bookingStatus === "Upcoming" ? "green" : "gray"}
+            mt='sm'>
+            {booking.bookingStatus}
           </Badge>
         </Box>
       )}
@@ -43,7 +51,7 @@ BookingDetailsModal.propTypes = {
     location: PropTypes.string.isRequired,
     checkIn: PropTypes.string.isRequired,
     checkOut: PropTypes.string.isRequired,
-    totalPrice: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
     status: PropTypes.string.isRequired,
   }),
 };

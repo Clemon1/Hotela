@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { type } from "os";
 
 const hotelSchema = new Schema(
   {
@@ -7,8 +8,10 @@ const hotelSchema = new Schema(
       required: true,
     },
     description: { type: String },
+    email: { type: String, unique: true },
     address: { type: String, required: true },
     price: { type: Number, required: true },
+    breakFast: { type: Boolean, default: false },
     images: [
       {
         type: String,
@@ -46,6 +49,9 @@ const hotelSchema = new Schema(
           type: Number,
           default: 1,
           max: 5,
+        },
+        date: {
+          type: Date,
         },
       },
     ],

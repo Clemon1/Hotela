@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  addToFavourite,
   adminLogin,
   adminSignUp,
   forgotPassword,
@@ -28,7 +29,7 @@ const limiter = rateLimit({
 router.get("/", verifyToken, getAllUser);
 router.get("/userAnalysis", getUserAnalysis);
 // get user by Id
-router.get("/:userId", getSingleUser);
+router.get("/profile/:id", getSingleUser);
 //user signUP
 router.post("/createUser", signUp);
 //user login
@@ -47,5 +48,8 @@ router.post("/forgotPassword/OTP", forgotPasswordLink);
 
 // forgot password
 router.post("/forgotPassword/:resetPasswordToken", forgotPassword);
+
+// Add hotel to user favorites
+router.patch("/:userId/:hotelId", addToFavourite);
 
 export default router;

@@ -1,41 +1,60 @@
+/* eslint-disable react/prop-types */
 import PropTypes from "prop-types";
 import {
   Modal,
   Textarea,
   Button,
-  Group,
   Box,
-  Rating,
   Text,
   Title,
-  Input,
   Divider,
 } from "@mantine/core";
-import { useForm } from "@mantine/form";
 import StarRating from "./StarRating";
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
+import { useAddRatingAndCommentMutation } from "../../../../Store/Slices/hotelSlice";
+import { useSelector } from "react-redux";
+import { currentUser } from "../../../../Store/auth/authSlice";
+import { notifications } from "@mantine/notifications";
+import { IoMdCheckmarkCircle, IoMdCloseCircle } from "react-icons/io";
 
-const AddReviewModal = ({ opened, onClose }) => {
+const AddReviewModal = ({ opened, onClose, hotelId }) => {
   const [rating, setRating] = useState(1);
-  console.log(rating);
+  const [comments, setComments] = useState("");
 
-  const form = useForm({
-    initialValues: {
-      review: "",
-      rating: 0,
-    },
+  const user = useSelector(currentUser);
+  console.log(comments);
 
-    validate: {
-      review: (value) =>
-        value.length < 10 ? "Review must have at least 10 characters" : null,
-      rating: (value) => (value === 0 ? "Please provide a rating" : null),
-    },
-  });
+  const [rateAndComment, { isLoading }] = useAddRatingAndCommentMutation();
 
-  const handleSubmit = (values) => {
-    console.log("Form values:", values);
-    onClose();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await rateAndComment({
+        id: hotelId,
+        userId: user?.userInfo?._id,
+        rating,
+        comments,
+      }).unwrap();
+      notifications.show({
+        title: "Added successfully",
+        radius: "lg",
+        message: "",
+        autoClose: 5000,
+        color: "teal",
+        icon: <IoMdCheckmarkCircle fontSize={18} />,
+      });
+      onClose();
+    } catch (err) {
+      console.log(err);
+      notifications.show({
+        title: "Error",
+        message: `${err && err.data && err.data.message}`,
+        radius: "lg",
+        color: "red",
+        icon: <IoMdCloseCircle fontSize={18} />,
+      });
+    }
   };
 
   return (
@@ -56,20 +75,18 @@ const AddReviewModal = ({ opened, onClose }) => {
       }}
       closeButtonProps={{
         icon: <IoClose size={50} stroke={1.5} />,
-      }}
-    >
+      }}>
       <Divider mb={20} />
 
       <Box>
         <form
-          onSubmit={form.onSubmit((values) => handleSubmit(values))}
-          style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-        >
+          onSubmit={handleSubmit}
+          style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
           <Title ta={"center"} fw={700} fz={{ base: 27, sm: 30 }}>
             How Was Your Experience with Us?
           </Title>
 
-          <Text ta={"center"} size="sm">
+          <Text ta={"center"} size='sm'>
             We value your feedback and want to ensure every guest enjoys an
             exceptional stay. Share your thoughts and help us continue to
             elevate our service.
@@ -78,16 +95,17 @@ const AddReviewModal = ({ opened, onClose }) => {
           <StarRating rating={rating} setRating={setRating} />
 
           <Textarea
-            size="lg"
-            placeholder="Add a comment"
+            size='lg'
+            placeholder='Add a comment'
             radius={"md"}
+            onChange={(e) => setComments(e.target.value)}
             autosize
             minRows={4}
             maxRows={4}
             required
           />
 
-          <Button type="submit" radius="xl" size="md">
+          <Button type='submit' loading={isLoading} radius='xl' size='md'>
             Submit Review
           </Button>
         </form>

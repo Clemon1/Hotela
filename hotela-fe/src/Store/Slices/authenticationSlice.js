@@ -4,12 +4,14 @@ const serverURL = import.meta.env.VITE_serverURL;
 // register slice
 export const authApi = createApi({
   reducerPath: "authAPi",
-  baseQuery: fetchBaseQuery({ baseUrl: `${serverURL}/user` }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${serverURL}/user`,
+  }),
   tagTypes: ["auth"],
   endpoints: (build) => ({
     //Get a single user
     getSingleUser: build.query({
-      query: (id) => `/admin/allUser/${id}`,
+      query: (id) => `/profile/${id}`,
       providesTags: ["auth"],
     }),
     // Register Endpoints

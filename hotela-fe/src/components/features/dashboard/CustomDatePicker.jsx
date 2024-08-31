@@ -1,11 +1,10 @@
+/* eslint-disable react/prop-types */
 import PropTypes from "prop-types";
-import { useState } from "react";
 import { DatePickerInput } from "@mantine/dates";
 import { Flex } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 
-function CustomDatePicker({ label, placeholder }) {
-  const [value, setValue] = useState();
+function CustomDatePicker({ label, value, placeholder, onChange }) {
   const isMobile = useMediaQuery("(max-width: 767px)"); // Adjusted for mobile view
 
   return (
@@ -17,19 +16,21 @@ function CustomDatePicker({ label, placeholder }) {
         height: isMobile ? "auto" : "50px", // Set height for non-mobile
         flexDirection: "column",
         border: isMobile ? `1px solid ${theme.colors.blue[6]}` : "", // Apply border if mobile
-      })}
-    >
+      })}>
       <DatePickerInput
         value={value}
-        onChange={setValue}
+        onChange={onChange}
         label={label}
+        minDate={new Date()}
+        valueFormat='YYYY MMM DD'
         placeholder={placeholder}
-        variant="unstyled"
+        variant='unstyled'
         styles={(theme) => ({
           input: {
             boxShadow: "none", // Remove shadow
             padding: 0, // Remove padding
             marginTop: !isMobile && -7,
+            fontWeight: 500,
             width: "100%", // Ensure the input takes the full width
             border: isMobile ? `1px solid ${theme.colors.blue[6]}` : "none", // Add blue border on mobile
           },

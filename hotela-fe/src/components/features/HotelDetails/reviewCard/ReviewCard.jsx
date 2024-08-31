@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import {
   Box,
@@ -18,81 +19,45 @@ import PropTypes from "prop-types";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import AddReviewModal from "./AddReviewModal";
 
-// Sample data for reviews
-const reviews = [
-  {
-    name: "John Doe",
-    date: "March 5, 2024",
-    rating: 4.5,
-    comment:
-      "Great hotel with excellent service. The rooms were clean and the staff was friendly. Highly recommended!",
-    avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-  },
-  {
-    name: "Jane Smith",
-    date: "February 20, 2024",
-    rating: 4,
-    comment:
-      "Comfortable stay and good amenities. Breakfast could have been better.",
-    avatar: "https://randomuser.me/api/portraits/women/1.jpg",
-  },
-  {
-    name: "Alice Johnson",
-    date: "January 10, 2024",
-    rating: 5,
-    comment:
-      "Perfect experience! The location was convenient and the food was delicious.",
-    avatar: "https://randomuser.me/api/portraits/women/2.jpg",
-  },
-  {
-    name: "Michael Brown",
-    date: "December 25, 2023",
-    rating: 3.5,
-    comment: "Good hotel but room service was slow.",
-    avatar: "https://randomuser.me/api/portraits/men/3.jpg",
-  },
-  {
-    name: "Emily Davis",
-    date: "November 15, 2023",
-    rating: 4.8,
-    comment: "Amazing stay, will definitely come back!",
-    avatar: "https://randomuser.me/api/portraits/women/3.jpg",
-  },
-  {
-    name: "Emily Davis",
-    date: "November 15, 2023",
-    rating: 4.8,
-    comment: "Amazing stay, will definitely come back!",
-    avatar: "https://randomuser.me/api/portraits/women/3.jpg",
-  },
-];
+import { formatDistance } from "date-fns";
 
-function ReviewCard({ name, date, rating, comment, avatar }) {
+// Sample data for reviews
+
+function ReviewCard({ userId, date, rating, comments, avatar }) {
   return (
     <Paper
-      shadow="xs"
-      p="md"
+      shadow='xs'
+      p='md'
       mb={20}
-      style={{ backgroundColor: "#fff", borderRadius: "10px" }}
-    >
-      <Group align="flex-start">
-        <Avatar src={avatar} alt={name} radius="xl" size="lg" />
+      style={{ backgroundColor: "#fff", borderRadius: "10px" }}>
+      <Group align='flex-start'>
+        <Avatar
+          src={avatar}
+          name={userId?.firstName + userId?.lastName}
+          color='initials'
+          allowedInitialsColors={["blue", "teal", "red", 'green", "yellow']}
+          radius='xl'
+          size='lg'
+        />
         <Stack spacing={5} style={{ flexGrow: 1 }}>
-          <Group position="apart" style={{ width: "100%" }}>
-            <Text weight={500}>{name}</Text>
-            <Text size="xs" c="gray">
-              {date}
+          <Group position='apart' style={{ width: "100%" }}>
+            <Text weight={500}>
+              {userId?.firstName} {userId?.lastName}
+            </Text>
+            <Text size='xs' c='gray'>
+              {formatDistance(date, new Date(), { addSuffix: true })}
             </Text>
           </Group>
           <Rating
             value={rating}
+            fractions={2}
             readOnly
-            size="sm"
+            size='sm'
             icon={<IoStar />}
             emptyIcon={<IoStarOutline />}
           />
-          <Text size="sm" mt={5} style={{ lineHeight: 1.5 }}>
-            {comment}
+          <Text size='sm' mt={5} style={{ lineHeight: 1.5 }}>
+            {comments}
           </Text>
         </Stack>
       </Group>
@@ -108,24 +73,23 @@ ReviewCard.propTypes = {
   avatar: PropTypes.string.isRequired,
 };
 
-function chunk(array, size) {
-  if (!array.length) {
-    return [];
+function Reviews({ review, hotelId }) {
+  function chunk(array, size) {
+    if (!array?.length) {
+      return [];
+    }
+    const head = array.slice(0, size);
+    const tail = array.slice(size);
+    return [head, ...chunk(tail, size)];
   }
-  const head = array.slice(0, size);
-  const tail = array.slice(size);
-  return [head, ...chunk(tail, size)];
-}
+  console.log("review", review);
 
-const data = chunk(reviews, 3);
-
-function Reviews() {
+  const data = chunk(review, 3);
   const [activePage, SetActivePage] = useState(1);
   const [isAddReviewModalOpen, { open, close }] = useDisclosure(false);
   console.log(isAddReviewModalOpen);
 
   const isMobile = useMediaQuery("(max-width: 500px)");
-
   return (
     <Box
       mt={20}
@@ -134,9 +98,8 @@ function Reviews() {
       style={{
         backgroundColor: "#f8f9fa",
         borderRadius: "10px",
-      }}
-    >
-      <Group align="center" mb={20} justify="space-between">
+      }}>
+      <Group align='center' mb={20} justify='space-between'>
         <Title order={2} fz={{ base: 20, sm: 30 }} style={{ color: "#2c3e50" }}>
           Customer Reviews
         </Title>
@@ -145,8 +108,8 @@ function Reviews() {
           Leave a Review
         </Button>
       </Group>
-      <Divider my="lg" />
-      {data[activePage - 1].map((review, index) => (
+      <Divider my='lg' />
+      {data[activePage - 1]?.map((review, index) => (
         <ReviewCard key={index} {...review} />
       ))}
       <Flex align={"center"} justify={"center"}>
@@ -154,11 +117,15 @@ function Reviews() {
           total={data.length}
           value={activePage}
           onChange={SetActivePage}
-          mt="sm"
+          mt='sm'
         />
       </Flex>
 
-      <AddReviewModal opened={isAddReviewModalOpen} onClose={close} />
+      <AddReviewModal
+        opened={isAddReviewModalOpen}
+        onClose={close}
+        hotelId={hotelId}
+      />
     </Box>
   );
 }

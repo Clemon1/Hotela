@@ -10,70 +10,46 @@ export const hotelApi = createApi({
     //search and filter hotel by Location, name, price etc...
     searchHotels: build.query({
       query: ({ name, locationName, minRating, minPrice, maxPrice }) =>
-        `/search?locationName=${locationName}&name=${name}&minRating=${minRating}&minPrice=${minPrice}&maxPrice=${maxPrice}`,
+        `/search?locationName=${locationName}&minPrice=${minPrice}&maxPrice=${maxPrice}&name=${name}`,
       providesTags: ["hotela"],
     }),
-    // Register Endpoints
-    register: build.mutation({
-      query(body) {
-        return {
-          url: `/createUser`,
-          method: "POST",
-          body,
-        };
-      },
-      invalidatesTags: ["hotela"],
+    // searchHotels: build.query({
+    //   query: ({ name, locationName, minRating, minPrice, maxPrice }) => {
+    //     // Safely parse the prices and ratings, fallback to null if invalid
+    //     const parsedMinRating = Number(minRating) || null;
+    //     const parsedMinPrice = Number(minPrice) || null;
+    //     const parsedMaxPrice = Number(maxPrice) || null;
+
+    //     // Build query string conditionally
+    //     const queryString = new URLSearchParams({
+    //       ...(locationName && { locationName }),
+    //       ...(name && { name }),
+    //       ...(parsedMinRating && { minRating: parsedMinRating }),
+    //       ...(parsedMinPrice && { minPrice: parsedMinPrice }),
+    //       ...(parsedMaxPrice && { maxPrice: parsedMaxPrice }),
+    //     }).toString();
+
+    //     return `/search?${queryString}`;
+    //   },
+    //   providesTags: ["hotela"],
+    // }),
+    //search hotel by Geolocation (Google Map)
+    hotelGeolocation: build.query({
+      query: () => `/searchGeo`,
+      providesTags: ["hotela"],
     }),
-    // Login Endpoints
-    login: build.mutation({
-      query(body) {
-        return {
-          url: `/login`,
-          method: "POST",
-          body,
-        };
-      },
-      invalidatesTags: ["hotela"],
+    //Get hotel details
+    hotelDetails: build.query({
+      query: (id) => `/search/${id}`,
+      providesTags: ["hotela"],
     }),
-    // Register Endpoints
-    verifyAccount: build.mutation({
-      query(body) {
+
+    // Rating and comment for a hotel
+    addRatingAndComment: build.mutation({
+      query({ id, ...body }) {
         return {
-          url: `/OTP/verify`,
-          method: "POST",
-          body,
-        };
-      },
-      invalidatesTags: ["hotela"],
-    }),
-    // resend-OTP Endpoints
-    resendOTP: build.mutation({
-      query(body) {
-        return {
-          url: `/OTP/resendOTP`,
-          method: "POST",
-          body,
-        };
-      },
-      invalidatesTags: ["hotela"],
-    }),
-    // forgot Password Link Endpoints
-    forgetPasswordLink: build.mutation({
-      query(body) {
-        return {
-          url: `/forgotPassword/OTP`,
-          method: "POST",
-          body,
-        };
-      },
-      invalidatesTags: ["hotela"],
-    }),
-    // resetPassword Endpoints
-    resetPassword: build.mutation({
-      query({ passwordToken, ...body }) {
-        return {
-          url: `forgotPassword/${passwordToken}`,
-          method: "POST",
+          url: `/addRating/${id}`,
+          method: "PATCH",
           body,
         };
       },
@@ -81,3 +57,10 @@ export const hotelApi = createApi({
     }),
   }),
 });
+
+export const {
+  useSearchHotelsQuery,
+  useHotelGeolocationQuery,
+  useHotelDetailsQuery,
+  useAddRatingAndCommentMutation,
+} = hotelApi;
