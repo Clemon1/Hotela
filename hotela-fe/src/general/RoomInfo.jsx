@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Carousel } from "@mantine/carousel";
 import {
   Box,
@@ -9,27 +10,23 @@ import {
   Stack,
   Group,
 } from "@mantine/core";
-import hotelDetails1 from "../assets/hotelDetails1.jpg";
+import { differenceInDays, format } from "date-fns";
 
-function RoomInfo() {
-  const numberOfNights = 3;
-  const pricePerNight = 200;
-  const tax = 20;
-  const breakfastCharge = 10;
-  const totalCharge = (pricePerNight + tax + breakfastCharge) * numberOfNights;
+function RoomInfo({ name, images, price, checkIn, checkOut, guest }) {
+  const numberOfDays = differenceInDays(new Date(checkOut), new Date(checkIn));
 
+  const totalCharge = price * numberOfDays;
   return (
     <Paper
-      shadow="md"
-      radius="md"
-      p="lg"
+      shadow='md'
+      radius='md'
+      p='lg'
       c={"#000814"}
       style={{
         maxWidth: 800,
         margin: "auto",
         boxShadow: "0 10px 20px rgba(0, 0, 0, 0.1)",
-      }}
-    >
+      }}>
       <Carousel
         height={300}
         loop
@@ -40,78 +37,64 @@ function RoomInfo() {
           },
         }}
         controlSize={40}
-        withIndicators
-      >
-        <Carousel.Slide>
-          <Image
-            src={hotelDetails1}
-            alt="Hotel Detail 1"
-            radius="md"
-            height={300}
-            style={{ borderRadius: "8px" }}
-          />
-        </Carousel.Slide>
-        <Carousel.Slide>
-          <Image
-            src={hotelDetails1}
-            alt="Hotel Detail 1"
-            radius="md"
-            height={300}
-            style={{ borderRadius: "8px" }}
-          />
-        </Carousel.Slide>
-        <Carousel.Slide>
-          <Image
-            src={hotelDetails1}
-            alt="Hotel Detail 1"
-            radius="md"
-            height={300}
-            style={{ borderRadius: "8px" }}
-          />
-        </Carousel.Slide>
+        withIndicators>
+        {images?.map((url, index) => (
+          <Carousel.Slide key={index}>
+            <Image
+              src={`http://localhost:5000/${url}`}
+              alt='Hotel Detail 1'
+              radius='md'
+              height={300}
+              style={{ borderRadius: "8px" }}
+            />
+          </Carousel.Slide>
+        ))}
       </Carousel>
 
-      <Box mt="md">
+      <Box mt='md'>
         <Stack spacing={4}>
           <Title order={3} c={"#000814"}>
-            Hotel Norrebo
+            {name}
           </Title>
-          <Text size="sm" color="dimmed">
+          <Text size='sm' c='dimmed'>
             3-star hotel located in the heart of Copenhagen
           </Text>
         </Stack>
 
         <Stack spacing={4} mt={20}>
-          <Text size="sm">
+          <Text size='sm'>
             <strong>Check-in:</strong>
-            <span style={{ marginLeft: "30px" }}>Friday, 09 December 2022</span>
+            <span style={{ marginLeft: "30px" }}>
+              {checkIn && format(checkIn, "d MMM yyy")}
+            </span>
           </Text>
-          <Text size="sm">
+          <Text size='sm'>
             <strong>Check-out:</strong>
-            <span style={{ marginLeft: "20px" }}>Monday, 12 December 2022</span>
+            <span style={{ marginLeft: "20px" }}>
+              {checkOut && format(checkOut, "d MMM yyy")}
+            </span>
+          </Text>
+          <Text size='sm'>
+            <strong>Guests:</strong>
+            <span style={{ marginLeft: "20px" }}>{guest}</span>
           </Text>
         </Stack>
-        <Divider my="sm" />
+        <Divider my='sm' />
         <Title order={4} c={"#000814"}>
-          Standard Double Room
+          Price Information
         </Title>
-        <Group justify="space-between" mt="sm" c={"#000814"}>
-          <Text size="sm">
-            <strong>Number of nights:</strong> {numberOfNights}
+        <Group justify='space-between' mt='sm' c={"#000814"}>
+          <Text size='sm'>
+            <strong>Number of nights:</strong> {numberOfDays}
           </Text>
-          <Text size="sm">
-            <strong>Charge per night:</strong> ${pricePerNight}
+          <Text size='sm'>
+            <strong>Charge per night:</strong> £{price}
           </Text>
         </Group>
-        <Text size="sm" mt="sm" c={"#000814"}>
-          <strong>Tax:</strong> ${tax}
-        </Text>
-        <Text size="sm" mt="sm" c={"#000814"}>
-          <strong>Breakfast:</strong> ${breakfastCharge}
-        </Text>
-        <Divider my="sm" />
-        <Text size="lg" c={"#000814"}>
-          <strong>Total charge:</strong> ${totalCharge}
+
+        <Divider my='sm' />
+        <Text size='lg' c={"#000814"}>
+          <strong>Total charge:</strong> £{totalCharge}
         </Text>
       </Box>
     </Paper>

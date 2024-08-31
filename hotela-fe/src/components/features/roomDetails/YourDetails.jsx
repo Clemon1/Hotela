@@ -1,15 +1,10 @@
+/* eslint-disable react/prop-types */
 import { Box, Stack, TextInput, Title, Select } from "@mantine/core";
 import { useState } from "react";
 
-const data = {
-  firstName: "Temidayo",
-  lastName: "Lawal",
-  email: "lawaltemidayoo@gmail.com",
-};
-
-function YourDetails() {
+function YourDetails({ data }) {
   const [selectedTraveler, setSelectedTraveler] = useState(
-    `${data.lastName} ${data.firstName}`
+    `${data.lastName} ${data.firstName}`,
   );
   const [firstName, setFirstName] = useState(data.firstName);
   const [lastName, setLastName] = useState(data.lastName);
@@ -34,15 +29,15 @@ function YourDetails() {
   return (
     <Box c={"#000814"}>
       <Title order={2}>Who is checking in?</Title>
-      <Box my="sm">
-        <Title order={4} mb="sm">
+      <Box my='sm'>
+        <Title order={4} mb='sm'>
           Step 1: Your details
         </Title>
         <form>
-          <Stack gap="5px">
+          <Stack gap='5px'>
             <Select
               w={{ base: "100%", sm: "50%" }}
-              label="Traveler name"
+              label='Traveler name'
               value={selectedTraveler}
               data={[
                 {
@@ -64,9 +59,9 @@ function YourDetails() {
               onChange={handleTravelerChange}
             />
             <TextInput
-              label="First name"
+              label='First name'
               w={{ base: "100%", sm: "70%" }}
-              placeholder="Enter your first name"
+              placeholder='Enter your first name'
               value={firstName}
               onChange={(event) => setFirstName(event.currentTarget.value)}
               disabled={!isEditable}
@@ -74,9 +69,9 @@ function YourDetails() {
               withAsterisk={false}
             />
             <TextInput
-              label="Last name"
+              label='Last name'
               w={{ base: "100%", sm: "70%" }}
-              placeholder="Enter your last name"
+              placeholder='Enter your last name'
               value={lastName}
               onChange={(event) => setLastName(event.currentTarget.value)}
               disabled={!isEditable}
@@ -84,10 +79,10 @@ function YourDetails() {
               withAsterisk={false}
             />
             <TextInput
-              label="Email"
+              label='Email'
               w={{ base: "100%", sm: "70%" }}
-              placeholder="Enter your email"
-              type="email"
+              placeholder='Enter your email'
+              type='email'
               value={email}
               onChange={(event) => setEmail(event.currentTarget.value)}
               disabled={!isEditable}

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import PropTypes from "prop-types";
 import {
   Box,
@@ -5,7 +6,6 @@ import {
   Checkbox,
   Divider,
   Stack,
-  TextInput,
   Title,
   Group,
   useMantineTheme,
@@ -14,22 +14,33 @@ import {
   Text,
   Image,
   Anchor,
+  Select,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
 import { AiFillStar } from "react-icons/ai";
+import { DatePickerInput } from "@mantine/dates";
 import googleMap from "../../../assets/googleMap.jpg";
+import { cities } from "../../../cities";
 
-function SearchNav({ onClose }) {
+function SearchNav({
+  onClose,
+  handleSubmit,
+  location,
+  onChange1,
+  checkIn,
+  onChange2,
+  checkOut,
+  onChange3,
+  guest,
+  onChange4,
+  price,
+  setPrice,
+}) {
   const theme = useMantineTheme();
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm}px)`);
   const [selectedStar, setSelectedStar] = useState(null);
-  const [range, setRange] = useState([1, 600]);
-
-  const handleRangeChange = (value) => {
-    setRange(value);
-  };
 
   const handleStarClick = (star) => {
     setSelectedStar(star);
@@ -44,9 +55,8 @@ function SearchNav({ onClose }) {
           boxShadow: theme.shadows.sm,
           margin: -13,
         }}
-        pr={{ md: 60 }}
-      >
-        <Group justify="space-between" mb="md">
+        pr={{ md: 60 }}>
+        <Group justify='space-between' mb='md'>
           <IoArrowBack
             style={{ display: isMobile ? "none" : "block" }}
             size={30}
@@ -64,8 +74,7 @@ function SearchNav({ onClose }) {
             borderRadius: "1rem",
             cursor: "pointer",
           }}
-          my={10}
-        >
+          my={10}>
           <Box h={"75%"}>
             <Image
               src={googleMap}
@@ -76,103 +85,104 @@ function SearchNav({ onClose }) {
               }}
             />
           </Box>
-          <Stack h={"25%"} align="center" justify="center">
+          <Stack h={"25%"} align='center' justify='center'>
             <Anchor
-              href="https://mantine.dev/"
-              target="_blank"
+              href='https://mantine.dev/'
+              target='_blank'
               ta={"center"}
               fz={13}
-              fw={600}
-            >
+              fw={600}>
               View on a map
             </Anchor>
           </Stack>
         </Box>
 
-        <form>
-          <Stack spacing="md">
-            <TextInput
-              label="Location"
-              placeholder="Where are you going to"
-              required
-              radius={"xl"}
-              withAsterisk={false}
+        <form onSubmit={handleSubmit}>
+          <Stack spacing='md'>
+            <Select
+              label={"Location"}
+              data={cities}
+              radius={"md"}
+              value={location}
+              limit={5}
+              onChange={onChange1}
+              searchable
             />
-            <TextInput
-              label="Check in"
-              placeholder="Add date"
-              required
-              radius={"xl"}
-              withAsterisk={false}
+            <DatePickerInput
+              valueFormat='YYYY MMM DD'
+              label={"CheckIn"}
+              radius={"md"}
+              minDate={new Date()}
+              value={new Date(checkIn)}
+              onChange={onChange2}
             />
-            <TextInput
-              label="Check out"
-              placeholder="Add date"
-              required
-              radius={"xl"}
-              withAsterisk={false}
+            <DatePickerInput
+              valueFormat='YYYY MMM DD'
+              label={"CheckOut"}
+              radius={"md"}
+              minDate={new Date()}
+              value={new Date(checkOut)}
+              onChange={onChange3}
             />
-            <TextInput
-              label="Guest"
-              placeholder="Number of guests"
-              required
-              radius={"xl"}
-              withAsterisk={false}
+            <Select
+              label={"Guest"}
+              radius={"md"}
+              data={["1", "2", "3", "4", "5"]}
+              value={guest}
+              onChange={onChange4}
             />
-            <Button bg={"#1668e3"} fullWidth radius={"xl"}>
+            <Button type='submit' bg={"#1668e3"} fullWidth radius={"xl"}>
               Search
             </Button>
           </Stack>
         </form>
       </Box>
 
-      <Divider mb="md" />
+      <Divider mb='md' />
 
-      <Stack spacing="md" gap={5}>
+      <Stack spacing='md' gap={5}>
         <Title order={4}>Your budget (Per night)</Title>
         <Group>
-          <Text>£{range[0]}</Text> - <Text>£{range[1]}</Text>
+          <Text>£{price[0]}</Text> - <Text>£{price[1]}</Text>
         </Group>
         <RangeSlider
-          size="md"
+          size='md'
           showLabelOnHover={false}
-          minRange={100}
-          min={0}
-          max={1000}
+          min={1}
+          max={10000}
           step={1}
-          value={range}
-          onChange={handleRangeChange}
+          value={price}
+          onChange={setPrice}
         />
       </Stack>
 
-      <Divider my="md" />
-      <Stack spacing="md">
+      <Divider my='md' />
+      <Stack spacing='md'>
         <Title order={4}>Popular Searches</Title>
-        <Checkbox label="Budget hostel" />
-        <Checkbox label="Breakfast included" />
-        <Checkbox label="Free airport shuttle" />
-        <Checkbox label="Pet friendly" />
+        <Checkbox label='Budget hostel' />
+        <Checkbox label='Breakfast included' />
+        <Checkbox label='Free airport shuttle' />
+        <Checkbox label='Pet friendly' />
       </Stack>
 
-      <Divider my="md" />
+      <Divider my='md' />
 
-      <Stack spacing="md">
+      <Stack spacing='md'>
         <Title order={4}>Property Class</Title>
         <Group>
           {["Any", "5", "4", "3", "2", "1"].map((star, index) => (
             <Badge
               key={index}
-              variant="filled"
+              variant='filled'
               color={selectedStar === star ? "blue" : "gray"}
-              size="lg"
+              size='lg'
               onClick={() => handleStarClick(star)}
               style={{
                 display: "flex",
                 alignItems: "center",
                 cursor: "pointer",
                 transition: "background-color 0.3s ease",
-              }}
-            >
+              }}>
               {star === "Any" ? (
                 "Any"
               ) : (

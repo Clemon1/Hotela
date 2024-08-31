@@ -1,23 +1,34 @@
+/* eslint-disable react/prop-types */
 import PropTypes from "prop-types";
 import { Select } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 
-function CustomSelect({ label, placeholder, data, showBorder }) {
+function CustomSelect({
+  label,
+  value,
+  placeholder,
+  data,
+  showBorder,
+  onChange,
+}) {
   const icon = <></>;
   const isMobile = useMediaQuery("(max-width: 767px)"); // Adjusted for mobile view
 
   return (
     <Select
-      variant="unstyled"
+      variant='unstyled'
       rightSection={icon}
+      onChange={onChange}
       label={label}
+      value={value}
       placeholder={placeholder}
       data={data}
       comboboxProps={{
         transitionProps: { transition: "pop", duration: 200 },
       }}
       searchable
-      nothingFoundMessage="Nothing found..."
+      limit={5}
+      nothingFoundMessage='Nothing found...'
       clearable
       p={{ base: 2, sm: 0 }}
       styles={(theme) => ({
@@ -33,6 +44,7 @@ function CustomSelect({ label, placeholder, data, showBorder }) {
           border: isMobile ? `1px solid ${theme.colors.blue[6]}` : "none", // Add blue border on mobile
           boxShadow: "none", // Remove shadow
           padding: 0, // Remove padding
+          fontWeight: 500,
           marginTop: !isMobile && -7,
           width: "100%",
         },
@@ -43,8 +55,14 @@ function CustomSelect({ label, placeholder, data, showBorder }) {
           color: "#000814", // Label color
         },
         placeholder: {
-          color: theme.colors.gray[5], // Placeholder text color
+          color: theme.colors.gray[6], // Placeholder text color
           textAlign: "start", // Align placeholder text to start
+        },
+        dropdown: {
+          borderRadius: "12px",
+        },
+        option: {
+          padding: "10px",
         },
       })}
     />

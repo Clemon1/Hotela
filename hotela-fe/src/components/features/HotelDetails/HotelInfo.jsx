@@ -1,76 +1,94 @@
+/* eslint-disable react/prop-types */
 import { Badge, Box, Group, Stack, Tabs, Text, Title } from "@mantine/core";
 import Overview from "./Overview";
 import Info from "./Info";
 import ReviewCard from "./reviewCard/ReviewCard";
 import HotelPictures from "./HotelPictures";
 
-function HotelInfo() {
+function HotelInfo({
+  hotelId,
+  name,
+  location,
+  visitor,
+  rating,
+  images,
+  description,
+  address,
+  amenities,
+  review,
+  email,
+}) {
   //   const iconStyle = { width: rem(12), height: rem(12) };
 
   return (
     <Box style={{ gap: "20px", display: "flex", flexDirection: "column" }}>
-      <Group justify="space-between" align="center">
-        <Stack justify="center" gap="0">
-          <Title order={2}>Hotel Norrebro</Title>
-          <Text fz={14}>3-star hotel located in the heart of london</Text>
+      <Group justify='space-between' align='center'>
+        <Stack justify='center' gap='0'>
+          <Title order={2}>{name}</Title>
+          <Text fz={14}>{location}</Text>
         </Stack>
         <Group gap={8}>
-          <Stack align="end" justify="center" gap="0">
+          <Stack align='end' justify='center' gap='0'>
             <Text fz={16} c={"green"} fw={600}>
               Excellent
             </Text>
             <Text fz={11} c={"gray"}>
-              1000 reviews
+              {visitor} reviews
             </Text>
           </Stack>
-          <Badge variant="light" color="green" fz={16} py={20} radius={"md"}>
-            9.6
+          <Badge variant='light' color='green' fz={16} py={20} radius={"md"}>
+            {rating?.toFixed(1)}
           </Badge>
         </Group>
       </Group>
 
-      <Tabs color="#1668e3" defaultValue="Overview" mb={30}>
+      <Tabs color='#1668e3' defaultValue='Overview' mb={30}>
         <Tabs.List style={{ gap: "0px" }}>
           <Tabs.Tab
-            value="Overview"
+            value='Overview'
             // leftSection={<IconPhoto style={iconStyle} />}
           >
             Overview
           </Tabs.Tab>
           <Tabs.Tab
-            value="Info"
+            value='Info'
             // leftSection={<IconMessageCircle style={iconStyle} />}
           >
             Info
           </Tabs.Tab>
           <Tabs.Tab
-            value="Photos"
+            value='Photos'
             // leftSection={<IconAmenities style={iconStyle} />}
           >
             Photos
           </Tabs.Tab>
           <Tabs.Tab
-            value="reviews"
+            value='reviews'
             // leftSection={<IconAmenities style={iconStyle} />}
           >
             Reviews
           </Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="Overview">
-          <Overview />
+        <Tabs.Panel value='Overview'>
+          <Overview amenities={amenities} />
         </Tabs.Panel>
 
-        <Tabs.Panel value="Info">
-          <Info />
+        <Tabs.Panel value='Info'>
+          <Info
+            name={name}
+            description={description}
+            address={address}
+            email={email}
+          />
         </Tabs.Panel>
 
-        <Tabs.Panel value="Photos">
-          <HotelPictures />
+        <Tabs.Panel value='Photos'>
+          <HotelPictures images={images} />
         </Tabs.Panel>
 
-        <Tabs.Panel value="reviews">
-          <ReviewCard />
+        <Tabs.Panel value='reviews'>
+          <ReviewCard review={review} hotelId={hotelId} />
         </Tabs.Panel>
       </Tabs>
     </Box>

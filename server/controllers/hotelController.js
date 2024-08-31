@@ -31,9 +31,6 @@ export const searchHotels = async (req, res) => {
       filter.name = { $regex: new RegExp(name, "i") }; // Case-insensitive search
     }
 
-    if (minRating) {
-      filter.rating = { $gte: parseFloat(minRating) }; // Filter by minimum rating
-    }
     // Add price filtering if minPrice or maxPrice is provided
     if (minPrice || maxPrice) {
       filter.price = {};
@@ -45,10 +42,38 @@ export const searchHotels = async (req, res) => {
       }
     }
     // Find hotels based on the filter
-    const hotels = await Hotel.find(filter).populate("location").exec();
+    let hotels = await Hotel.find(filter)
+      .populate("location")
+      .sort({ createdAt: -1 })
+      .exec();
 
-    res.status(200).json(hotels);
+    const transformedData = hotels.map((hotel) => {
+      const totalRating = hotel.visitors.reduce(
+        (acc, hotel) => acc + hotel.rating,
+        0,
+      );
+      const averageRating =
+        hotel?.visitors?.length > 0 ? totalRating / hotel?.visitors?.length : 0;
+      return {
+        _id: hotel._id,
+        name: hotel.name,
+        images: hotel.images,
+        location: hotel?.location?.name,
+        geoLocation: hotel?.geoLocation,
+        breakFast: hotel?.breakFast,
+        price: hotel.price,
+        amenities: hotel?.amenities,
+        totalRating: totalRating,
+        averageRating: averageRating,
+        visitorCount: hotel?.visitors?.length,
+        createdAt: hotel.createdAt,
+      };
+    });
+
+    res.status(200).json(transformedData);
   } catch (err) {
+    console.log(err.message);
+
     res.status(500).json({ message: err.message });
   }
 };
@@ -97,16 +122,19 @@ export const geoHotels = async (req, res) => {
 export const getHotelByID = async (req, res) => {
   try {
     const { id } = req.params;
-    const data = await Hotel.findById(id).populate("location").exec();
-    const ratings = data.visitors.map((vistor) =>
-      vistor.rating.reduce((acc, vistor) => acc + vistor.rating, 0),
+    const hotel = await Hotel.findById(id)
+      .populate("location")
+      .populate("visitors.userId")
+      .exec();
+    const totalRating = hotel.visitors.reduce(
+      (acc, visitor) => acc + visitor.rating,
+      0,
     );
-    console.log("Hotel Rating", ratings);
-    const formattedDATA = {
-      ...data,
-      rating: ratings,
-    };
-    res.status(200).json(formattedDATA);
+    const averageRating = totalRating / (hotel.visitors.length || 1); // Avoid division by zero
+    console.log("Total Rating", totalRating);
+    console.log("Hotel Rating", averageRating);
+
+    res.status(200).json({ hotel, averageRating });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -115,8 +143,17 @@ export const getHotelByID = async (req, res) => {
 // create hotel
 export const createHotel = async (req, res) => {
   try {
-    const { name, description, address, amenities, location, geoLocation } =
-      req.body;
+    const {
+      name,
+      email,
+      price,
+      description,
+      address,
+      amenities,
+      location,
+      breakFast,
+      geoLocation,
+    } = req.body;
 
     // login for multiple images
     const images =
@@ -126,11 +163,14 @@ export const createHotel = async (req, res) => {
     const newHotel = await Hotel.create({
       name,
       description,
+      email,
+      price,
       address,
       images,
       amenities,
       location,
       geoLocation,
+      breakFast,
     });
     res.status(201).json(newHotel);
   } catch (err) {
@@ -159,7 +199,7 @@ export const updateHotel = async (req, res) => {
 export const rateAndComment = async (req, res) => {
   try {
     const { id } = req.params;
-    const { userId, comment, rating } = req.body;
+    const { userId, comments, rating, date } = req.body;
 
     const hotela = await Hotel.findById(id);
     // Check if a user has rated and commented in a specific hotel
@@ -170,11 +210,15 @@ export const rateAndComment = async (req, res) => {
       return res.status(401).json({ message: "Your feedback exist" });
     }
     // Comment and rate
-    const newData = await Hotel.findByIdAndUpdate(id, {
-      $push: {
-        visitors: { userId, comment, rating },
+    const newData = await Hotel.findByIdAndUpdate(
+      id,
+      {
+        $push: {
+          visitors: { userId, comments, rating, date: Date.now() },
+        },
       },
-    });
+      { new: true },
+    );
     res.status(200).json(newData);
   } catch (err) {
     res.status(500).json({ message: err.message });

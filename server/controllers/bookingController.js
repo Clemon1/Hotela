@@ -10,8 +10,9 @@ export const getAllBookings = async (req, res) => {
     const data = await bookings
       .find()
       .populate("userId")
-      .populate("hotelId")
+      .populate("hotel")
       .populate("rooms")
+      .sort({ createdAt: -1 })
       .exec();
     res.status(200).json(data);
   } catch (err) {
@@ -28,10 +29,18 @@ export const getUserBookings = async (req, res) => {
     }
     const data = await bookings
       .find({ userId: user._id })
-      .populate("userId")
-      .populate("hotelId")
+      .populate("hotel")
+      .populate({
+        path: "hotel",
+        populate: {
+          path: "location",
+          model: "Location",
+        },
+      })
       .populate("rooms")
+      .sort({ createdAt: -1 })
       .exec();
+
     res.status(200).json(data);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -57,24 +66,31 @@ export const getSingleBookings = async (req, res) => {
 // add a new booking
 export const newBooking = async (req, res) => {
   try {
-    const { hotel, rooms, price, checkIn, checkOut, totalGuest } = req.body;
-    const user = req.user;
-    console.log("USER:", user);
-    const activeUser = await users.findOne({ _id: user });
+    const { userId, hotel, rooms, price, checkIn, checkOut, totalGuest } =
+      req.body;
+    console.log("req.body:", req.body);
+
+    const activeUser = await users.findOne({ _id: userId });
+    console.log("User:", activeUser);
+
     const roomData = await roomType.findOne({ _id: rooms });
     console.log("roomData:", roomData);
 
     // check for  available rooms
     if (roomData.noOfRooms <= 0) {
+      console.log("Room not available");
       return res.status(404).json({ message: "Room is not available" });
     }
     // checking if the total guest matches the maximum occupancy of the room
 
     if (totalGuest > roomData.maxOccupancy) {
+      console.log("Occupancy exceeded");
+
       return res.status(404).json({
         message: `Sorry the number of guest is above the maximum occupancy of this room`,
       });
     }
+
     // awarding point based on the type of room selected
     switch (roomData.category) {
       case "Standard":
@@ -94,8 +110,8 @@ export const newBooking = async (req, res) => {
     }
 
     const bookedData = await bookings.create({
-      userId: user._id,
       hotel,
+      userId,
       rooms,
       price,
       checkIn,
@@ -107,25 +123,14 @@ export const newBooking = async (req, res) => {
     await roomData.save();
     await activeUser.save();
 
-    res.status(201).json(bookedData);
+    res.status(200).json(bookedData);
   } catch (err) {
+    console.log(err);
+    console.log(err.message);
+
     res.status(500).json({ message: err.message });
   }
 };
-
-//updating booking detail in payments status
-export const updateBokingStatus = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const bookedDetails = await bookings.findByIdAndUpdate(id, {
-      $set: { bookingStatus: req.body },
-    });
-    res.status(200).json(bookedDetails);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
-
 // stripe payment methods
 export const stripePayment = async (req, res) => {
   try {
@@ -143,6 +148,7 @@ export const stripePayment = async (req, res) => {
           currency: "GBP",
           product_data: {
             name: `${roomDetails.name} of ${roomDetails.hotel.name}`,
+            images: [],
           },
           unit_amount: 100 * price,
         },
@@ -151,6 +157,14 @@ export const stripePayment = async (req, res) => {
     ];
     const customer = await stripe.customers.create({
       email: user.email,
+    });
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      customer: customer.id,
+      line_items: items,
+      mode: "payment",
+      success_url: `${process.env.CLIENT_URL}/booking-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.CLIENT_URL}/booking-cancelled`,
       metadata: {
         userId: user._id,
         hotel,
@@ -161,16 +175,8 @@ export const stripePayment = async (req, res) => {
         totalGuest,
       },
     });
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      customer: customer.id,
-      line_items: items,
-      mode: "payment",
-      success_url: `http://localhost:5173/success`,
-      cancel_url: `http://localhost:5173/cancelled`,
-    });
 
-    res.status(303).json(session.url);
+    res.status(200).json(session);
   } catch (err) {
     console.log(err.message);
 
@@ -178,92 +184,40 @@ export const stripePayment = async (req, res) => {
   }
 };
 
-// //Stripe WebHook
-
-export const stripeHook = async (req, res) => {
-  // const sig = req.headers["stripe-signature"];
-
-  // let event;
-
-  // try {
-  //   event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-  // } catch (err) {
-  //   res.status(400).send(`Webhook Error: ${err.message}`);
-  //   return;
-  // }
-  const event = req.body;
-  // Handle the event
-  switch (event.type) {
-    case "payment_intent.succeeded":
-      const paymentIntent = event.data.object;
-      console.log("Event Listened", paymentIntent);
-      console.log("Metadata", paymentIntent && paymentIntent.customer);
-      console.log(
-        "Metadata",
-        paymentIntent &&
-          paymentIntent.customer &&
-          paymentIntent.customer.metadata,
-      );
-
-      const customer = await stripe.customers.retrieve(
-        paymentIntent && paymentIntent.customer,
-      );
-      console.log("Metadata", customer.metadata);
-
-      // const newCarBooking = new booking({
-      //   userId: customer.metadata.userId,
-      //   carId: customer.metadata.carId,
-      //   carName: customer.metadata.carName,
-      //   price: customer.metadata.price,
-      //   email: customer.metadata.email,
-      //   location: customer.metadata.location,
-      //   fullName: customer.metadata.fullName,
-      //   dateFrom: customer.metadata.dateFrom,
-      //   dateTo: customer.metadata.dateTo,
-      // });
-
-      // // awarding point based on the type of room selected
-      // switch (roomData.category) {
-      //   case "Standard":
-      //     activeUser.points += 2.3;
-      //     break;
-      //   case "Deluxe":
-      //     activeUser.points += 4.99;
-      //     break;
-      //   case "Suite":
-      //     activeUser.points += 6.99;
-      //     break;
-      //   case "Luxury":
-      //     activeUser.points += 9.99;
-      //     break;
-      //   default:
-      //     return (activeUser.points = 0);
-      // }
-
-      // // const bookedData = await bookings.create({
-      // //   userId,
-      // //   hotel,
-      // //   rooms,
-      // //   price,
-      // //   checkIn,
-      // //   checkOut,
-      // //   totalGuest,
-      // // });
-      // // takes note of the total number of rooms after booking was successful
-      // roomData.noOfRooms--;
-      // await roomData.save();
-      // await activeUser.save();
-
-      console.log(noti);
-      return res.status(200).json("Booked successfully");
-
-      break;
-
-    // ... handle other event types
-    default:
-      console.log(`Unhandled event type ${event.type}`);
+export const checkSessionSuccess = async (req, res) => {
+  try {
+    const { sessionId } = req.body;
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    if (session.payment_status === "paid") {
+      const booking = new bookings({
+        userId: session.metadata.userId,
+        hotel: session.metadata.hotel,
+        rooms: session.metadata.rooms,
+        price: Number(session.metadata.price),
+        checkIn: session.metadata.checkIn,
+        checkOut: session.metadata.checkOut,
+        totalGuest: Number(session.metadata.totalGuest),
+        stripeSessionId: sessionId,
+      });
+      await booking.save();
+      res.status(200).json();
+    }
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .json({ message: err.message, error: "Error processing checkout" });
   }
-
-  // Return a res to acknowledge receipt of the event
-  res.json({ received: true });
+};
+//updating booking detail in payments status
+export const updateBokingStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const bookedDetails = await bookings.findByIdAndUpdate(id, {
+      $set: { bookingStatus: req.body },
+    });
+    res.status(200).json(bookedDetails);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
