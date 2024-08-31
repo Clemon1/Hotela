@@ -14,7 +14,7 @@ const StarRating = ({ rating, setRating }) => {
           <FaStar
             key={star}
             size={size}
-            color={star <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
+            color={star <= (hover || rating) ? "#FFD700" : "#e4e5e9"}
             style={{
               cursor: "pointer",
               transition: "transform 0.2s ease, color 0.2s ease",

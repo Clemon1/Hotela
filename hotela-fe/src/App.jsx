@@ -15,6 +15,7 @@ import HotelDetails from "./pages/hotel/HotelDetails";
 import ResetPasswordOTP from "./pages/auth/ResetPasswordOTP";
 import BookingHistory from "./pages/rooms/BookingHistory";
 import Favourite from "./pages/hotel/Favourite";
+import Map from "./pages/hotel/Map";
 
 function App() {
   const router = createBrowserRouter([
@@ -70,6 +71,10 @@ function App() {
         {
           path: "/Favourite",
           element: <Favourite />,
+        },
+        {
+          path: "/Map",
+          element: <Map />,
         },
 
         {
