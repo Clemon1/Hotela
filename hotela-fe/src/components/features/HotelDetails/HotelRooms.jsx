@@ -13,7 +13,13 @@ import {
   Badge,
   Flex,
 } from "@mantine/core";
-import { FaBed, FaArrowsAltV, FaUsers, FaArrowRight } from "react-icons/fa";
+import {
+  FaBed,
+  FaArrowsAltV,
+  FaUsers,
+  FaArrowRight,
+  FaDotCircle,
+} from "react-icons/fa";
 import PropTypes from "prop-types";
 import { useHotelRoomsQuery } from "../../../Store/Slices/roomSlice";
 import { Link } from "react-router-dom";
@@ -42,16 +48,13 @@ function RoomCard({ room, hotelId, totalDays, checkIn, checkOut, guest }) {
         <Title order={3} c={"#000814"}>
           {room.name}
         </Title>
-        <Text fz='sm' c={"#000814"}>
-          <FaArrowsAltV /> {room.size}
-        </Text>
-        <Text fz='sm' c={"#000814"}>
-          <FaUsers /> Sleeps {room.sleeps}
-        </Text>
-        <Text fz='sm' c={"#000814"}>
-          <FaBed /> {room.bed}
-        </Text>
-
+        <Stack gap={10}>
+          {room.amenities.map((a, i) => (
+            <Text key={i} fz='sm' c={"#000814"}>
+              <FaDotCircle /> {a}
+            </Text>
+          ))}
+        </Stack>
         <Group align='center'>
           <Text fz='32' fw={600} c='green'>
             £{room.price}

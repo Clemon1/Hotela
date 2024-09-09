@@ -47,28 +47,40 @@ export const searchHotels = async (req, res) => {
       .sort({ createdAt: -1 })
       .exec();
 
-    const transformedData = hotels.map((hotel) => {
-      const totalRating = hotel.visitors.reduce(
-        (acc, hotel) => acc + hotel.rating,
-        0,
-      );
-      const averageRating =
-        hotel?.visitors?.length > 0 ? totalRating / hotel?.visitors?.length : 0;
-      return {
-        _id: hotel._id,
-        name: hotel.name,
-        images: hotel.images,
-        location: hotel?.location?.name,
-        geoLocation: hotel?.geoLocation,
-        breakFast: hotel?.breakFast,
-        price: hotel.price,
-        amenities: hotel?.amenities,
-        totalRating: totalRating,
-        averageRating: averageRating,
-        visitorCount: hotel?.visitors?.length,
-        createdAt: hotel.createdAt,
-      };
-    });
+    const transformedData = hotels
+      .map((hotel) => {
+        const totalRating = hotel.visitors.reduce(
+          (acc, hotel) => acc + hotel.rating,
+          0,
+        );
+        const averageRating =
+          hotel?.visitors?.length > 0
+            ? totalRating / hotel?.visitors?.length
+            : 0;
+        return {
+          _id: hotel._id,
+          name: hotel.name,
+          images: hotel.images,
+          location: hotel?.location?.name,
+          geoLocation: hotel?.geoLocation,
+          breakFast: hotel?.breakFast,
+          price: hotel.price,
+          amenities: hotel?.amenities,
+          totalRating: totalRating,
+          averageRating: averageRating,
+          visitorCount: hotel?.visitors?.length,
+          createdAt: hotel.createdAt,
+        };
+      })
+      .filter((hotel) => {
+        // If minRating is provided, filter hotels based on averageRating; otherwise, return all hotels
+        if (minRating) {
+          const min = parseFloat(minRating);
+          const max = min + 0.99;
+          return hotel.averageRating >= min && hotel.averageRating < max;
+        }
+        return true; // No minRating provided, return all hotels
+      });
 
     res.status(200).json(transformedData);
   } catch (err) {

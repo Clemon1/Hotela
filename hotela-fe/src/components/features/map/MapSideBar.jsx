@@ -20,7 +20,7 @@ const MapSideBar = React.forwardRef(({ hotels, onHotelClick }, ref) => {
 
   // Add a ref for each card element
   const cardRefs = React.useRef({});
-
+  let icon;
   React.useImperativeHandle(ref, () => ({
     scrollToHotel: (hotelId) => {
       const cardRef = cardRefs.current[hotelId];
@@ -35,14 +35,13 @@ const MapSideBar = React.forwardRef(({ hotels, onHotelClick }, ref) => {
       bg={"#f0f0f0"}
       w={{ base: "100%", md: "30%" }}
       h={"100%"}
-      p="md"
+      p='md'
       style={{ overflowY: "auto" }}
-      c={"#000814"}
-    >
+      c={"#000814"}>
       <Select
         label={"Sort by"}
         fw={600}
-        defaultValue="Recommended"
+        defaultValue='Recommended'
         mb={10}
         allowDeselect={false}
         data={[
@@ -51,7 +50,7 @@ const MapSideBar = React.forwardRef(({ hotels, onHotelClick }, ref) => {
           "Price: low to high",
           "Star rating",
         ]}
-        variant="unstyled"
+        variant='unstyled'
         styles={(theme) => ({
           input: {
             border: "1px solid gray",
@@ -63,86 +62,79 @@ const MapSideBar = React.forwardRef(({ hotels, onHotelClick }, ref) => {
 
       {hotels.map((hotel) => (
         <Card
-          ref={(el) => (cardRefs.current[hotel.id] = el)}
-          shadow="sm"
-          padding="lg"
-          radius="md"
+          ref={(el) => (cardRefs.current[hotel._id] = el)}
+          shadow='sm'
+          padding='lg'
+          radius='md'
           withBorder
-          mb="md"
+          mb='md'
           style={{ cursor: "pointer" }}
-          onClick={() => onHotelClick(hotel)}
-          key={hotel.id}
-        >
+          onClick={() => onHotelClick(hotel._id)}
+          key={hotel._id}>
           <Card.Section>
-            <Image src={hotel.image} height={160} alt={hotel.name} />
+            {hotel.images.map(
+              (url, i) =>
+                i === 0 && (
+                  <Image
+                    key={i}
+                    src={`http://localhost:5000/${url}`}
+                    height={160}
+                    alt={hotel.name}
+                  />
+                ),
+            )}
           </Card.Section>
 
-          <Stack mt="md" mb="xs" gap={0}>
+          <Stack mt='md' mb='xs' gap={0}>
             <Text fw={600} fz={18}>
               {hotel.name}
             </Text>
-            <Text size="xs" c="dimmed">
-              {hotel.distance}
-            </Text>
+            <Text size='xs' c='dimmed'></Text>
           </Stack>
 
-          <Group justify="space-between" gap={8}>
-            <Stack justify="center" gap="0">
+          <Group justify='space-between' gap={8}>
+            <Stack justify='center' gap='0'>
               <Text fz={16} c={"green"} fw={600}>
                 {hotel.rating}
               </Text>
-              <Text fz={11} c={"gray"}>
-                {hotel.reviews}
-              </Text>
+              <Text fz={11} c={"gray"}></Text>
             </Stack>
 
-            <Badge variant="light" color="green" fz={16} py={20} radius={"md"}>
+            <Badge variant='light' color='green' fz={16} py={20} radius={"md"}>
               {hotel.score}
             </Badge>
           </Group>
 
-          <Stack gap={2} mt="md">
-            {hotel.amenities.map((amenity, index) => {
-              let icon;
-              switch (amenity) {
-                case "Free Wi-Fi":
-                  icon = <FaWifi color={theme.colors.blue[6]} />;
-                  break;
-                case "Complimentary breakfast":
-                  icon = <FaCoffee color="orange" />;
-                  break;
-                case "Fitness center":
-                  icon = <FaDumbbell color="green" />;
-                  break;
-                default:
-                  icon = <FaDotCircle color={theme.colors.blue[6]} />;
-              }
-              return (
-                <Group gap={10} key={index} spacing="xs">
-                  {icon}
-                  <Text
-                    fz={12}
-                    fw={500}
-                    style={{
-                      overflow: "hidden",
-                      whiteSpace: "nowrap",
-                      textOverflow: "ellipsis",
-                    }}
-                  >
-                    {amenity}
-                  </Text>
-                </Group>
-              );
-            })}
+          <Stack gap={2} mt='md'>
+            {hotel.amenities.map((amenity, index) => (
+              <Group gap={10} key={index} spacing='xs'>
+                {amenity.name === "Free Wi-Fi"
+                  ? (icon = <FaWifi color={theme.colors.blue[6]} />)
+                  : amenity.name === "Complimentary breakfast"
+                  ? (icon = <FaCoffee color='orange' />)
+                  : amenity.name === "Fitness center"
+                  ? (icon = <FaDumbbell color='green' />)
+                  : (icon = <FaDotCircle color={theme.colors.blue[6]} />)}
+                <Text
+                  fz={12}
+                  fw={500}
+                  style={{
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                  }}>
+                  {amenity.name}
+                </Text>
+              </Group>
+            ))}
           </Stack>
 
           <Button
             component={Link}
-            to="/hotelDetails"
-            size="xs"
+            to='/hotelDetails'
+            size='xs'
             mt={10}
-            radius={"xl"}
-          >
+            radius={"xl"}>
             Details
           </Button>
         </Card>
@@ -163,7 +155,7 @@ MapSideBar.propTypes = {
       image: PropTypes.string.isRequired,
       score: PropTypes.number.isRequired,
       price: PropTypes.string.isRequired,
-    })
+    }),
   ).isRequired,
   onHotelClick: PropTypes.func.isRequired,
 };

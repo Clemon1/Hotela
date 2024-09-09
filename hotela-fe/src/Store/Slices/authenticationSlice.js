@@ -14,6 +14,11 @@ export const authApi = createApi({
       query: (id) => `/profile/${id}`,
       providesTags: ["auth"],
     }),
+    // View Favorites
+    getFavourites: build.query({
+      query: (id) => `/getFavourites/${id}`,
+      providesTags: ["auth"],
+    }),
     // Register Endpoints
     register: build.mutation({
       query(body) {
@@ -80,15 +85,26 @@ export const authApi = createApi({
       },
       invalidatesTags: ["auth"],
     }),
+    addToFavourite: build.mutation({
+      query({ userId, hotelId }) {
+        return {
+          url: `/${userId}/${hotelId}`,
+          method: "PATCH",
+        };
+      },
+      invalidatesTags: ["auth"],
+    }),
   }),
 });
 
 export const {
   useGetSingleUserQuery,
+  useGetFavouritesQuery,
   useRegisterMutation,
   useLoginMutation,
   useVerifyAccountMutation,
   useResendOTPMutation,
   useForgetPasswordLinkMutation,
   useResetPasswordMutation,
+  useAddToFavouriteMutation,
 } = authApi;

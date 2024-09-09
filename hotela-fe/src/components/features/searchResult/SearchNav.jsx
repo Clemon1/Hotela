@@ -3,18 +3,17 @@ import PropTypes from "prop-types";
 import {
   Box,
   Button,
-  Checkbox,
   Divider,
   Stack,
   Title,
   Group,
   useMantineTheme,
-  Badge,
   RangeSlider,
   Text,
   Image,
   Anchor,
   Select,
+  Radio,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { useState } from "react";
@@ -23,6 +22,7 @@ import { AiFillStar } from "react-icons/ai";
 import { DatePickerInput } from "@mantine/dates";
 import googleMap from "../../../assets/googleMap.jpg";
 import { cities } from "../../../cities";
+import { Link, NavLink } from "react-router-dom";
 
 function SearchNav({
   onClose,
@@ -37,6 +37,8 @@ function SearchNav({
   onChange4,
   price,
   setPrice,
+  rating,
+  setRating,
 }) {
   const theme = useMantineTheme();
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm}px)`);
@@ -76,24 +78,24 @@ function SearchNav({
           }}
           my={10}>
           <Box h={"75%"}>
-            <Image
-              src={googleMap}
-              h={"100%"}
-              style={{
-                borderTopLeftRadius: "1rem",
-                borderTopRightRadius: "1rem",
-              }}
-            />
+            <NavLink to={"/map"}>
+              <Image
+                src={googleMap}
+                h={"100%"}
+                style={{
+                  borderTopLeftRadius: "1rem",
+                  borderTopRightRadius: "1rem",
+                }}
+              />
+            </NavLink>
           </Box>
           <Stack h={"25%"} align='center' justify='center'>
-            <Anchor
-              href='https://mantine.dev/'
-              target='_blank'
-              ta={"center"}
-              fz={13}
-              fw={600}>
-              View on a map
-            </Anchor>
+            <Link to={"/map"}>
+              {" "}
+              <Anchor target='_blank' ta={"center"} fz={13} fw={600}>
+                View on a map
+              </Anchor>
+            </Link>
           </Stack>
         </Box>
 
@@ -157,39 +159,52 @@ function SearchNav({
       </Stack>
 
       <Divider my='md' />
-      <Stack spacing='md'>
-        <Title order={4}>Popular Searches</Title>
-        <Checkbox label='Budget hostel' />
-        <Checkbox label='Breakfast included' />
-        <Checkbox label='Free airport shuttle' />
-        <Checkbox label='Pet friendly' />
-      </Stack>
-
-      <Divider my='md' />
 
       <Stack spacing='md'>
         <Title order={4}>Property Class</Title>
-        <Group>
-          {["Any", "5", "4", "3", "2", "1"].map((star, index) => (
-            <Badge
+        <Radio.Group display={"none"} value={rating} onChange={setRating}>
+          <Radio value={""} id='All' />
+
+          {["5", "4", "3", "2", "1"].map((star, index) => (
+            <Radio
               key={index}
-              variant='filled'
-              color={selectedStar === star ? "blue" : "gray"}
+              id={star}
+              value={star}
+              label={star}
+              defaultValue={""}
+            />
+          ))}
+        </Radio.Group>
+        <Group>
+          {["All", "5", "4", "3", "2", "1"].map((star, index) => (
+            <label
+              key={index}
+              htmlFor={star}
               size='lg'
               onClick={() => handleStarClick(star)}
               style={{
                 display: "flex",
+                padding: "6px 12px",
+                borderRadius: "9px",
+                backgroundColor:
+                  selectedStar === star ? "rgb(22, 104, 227)" : "#6c6f73",
+                color: "white",
                 alignItems: "center",
                 cursor: "pointer",
-                transition: "background-color 0.3s ease",
+                transition: "background-color 0.4s ease",
               }}>
-              {star === "Any" ? (
-                "Any"
+              {star === "All" ? (
+                "All"
               ) : (
-                <AiFillStar style={{ marginRight: 4 }} />
+                <AiFillStar
+                  style={{
+                    marginRight: 4,
+                    color: selectedStar === star ? "yellow" : "white",
+                  }}
+                />
               )}
-              {star !== "Any" && star}
-            </Badge>
+              {star !== "All" && star}
+            </label>
           ))}
         </Group>
       </Stack>

@@ -42,6 +42,16 @@ export const bookingAPI = createApi({
       },
       invalidatesTags: ["booking"],
     }),
+    cryptoPayment: build.mutation({
+      query(body) {
+        return {
+          url: `/createBooking/crypto`,
+          method: "POST",
+          body,
+        };
+      },
+      invalidatesTags: ["booking"],
+    }),
     sessionCheckSuccess: build.mutation({
       query(body) {
         return {
@@ -59,5 +69,6 @@ export const {
   useAllBookingsQuery,
   useBookingDetailsQuery,
   useStripePaymentMutation,
+  useCryptoPaymentMutation,
   useSessionCheckSuccessMutation,
 } = bookingAPI;

@@ -1,9 +1,15 @@
+import { response } from "express";
 import bookings from "../models/bookingModel.js";
 import roomType from "../models/roomType.js";
 import users from "../models/userModel.js";
+import axios from "axios";
+import crypto from "crypto";
 import Stripe from "stripe";
 
 const stripe = new Stripe(`${process.env.STRIPE_TEST_URL}`);
+const cryptomusAPI = process.env.CRYPTOMUS_API_KEY;
+const merchantId = process.env.MERCHANT_ID;
+const cryptomusPaymentEndpoint = process.env.CRYPTOMUS_URL;
 // get all bookings
 export const getAllBookings = async (req, res) => {
   try {
@@ -183,7 +189,7 @@ export const stripePayment = async (req, res) => {
     res.status(500).json(err.message);
   }
 };
-
+// confirming stripe payment and saving booking to database
 export const checkSessionSuccess = async (req, res) => {
   try {
     const { sessionId } = req.body;
@@ -219,5 +225,53 @@ export const updateBokingStatus = async (req, res) => {
     res.status(200).json(bookedDetails);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+// crypto payment
+export const cryptoPayment = async (req, res) => {
+  try {
+    const { hotel, rooms, price, checkIn, checkOut, totalGuest } = req.body;
+
+    const user = req.user;
+
+    const bookedData = await bookings.create({
+      hotel,
+      userId: user._id,
+      rooms,
+      price,
+      checkIn,
+      checkOut,
+      totalGuest,
+    });
+    const data = {
+      amount: `${price}`,
+      currency: `GBP`,
+      order_id: `${bookedData._id}`,
+    };
+    const sign = crypto
+      .createHash("md5")
+      .update(
+        Buffer.from(JSON.stringify(data)).toString("base64") + cryptomusAPI,
+      )
+      .digest("hex");
+    const response = await axios.post(`${cryptomusPaymentEndpoint}`, data, {
+      headers: {
+        merchant: merchantId,
+        sign: sign,
+      },
+    });
+
+    res.status(200).json(response.data);
+  } catch (err) {
+    console.log(err);
+
+    console.log(err.message);
+  }
+};
+export const cryptoWebhook = async (req, res) => {
+  try {
+  } catch (err) {
+    res.status(500).json(err.message);
   }
 };

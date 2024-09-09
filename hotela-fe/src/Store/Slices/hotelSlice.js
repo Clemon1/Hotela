@@ -10,7 +10,7 @@ export const hotelApi = createApi({
     //search and filter hotel by Location, name, price etc...
     searchHotels: build.query({
       query: ({ name, locationName, minRating, minPrice, maxPrice }) =>
-        `/search?locationName=${locationName}&minPrice=${minPrice}&maxPrice=${maxPrice}&name=${name}`,
+        `/search?locationName=${locationName}&minPrice=${minPrice}&maxPrice=${maxPrice}&minRating=${minRating}&name=${name}`,
       providesTags: ["hotela"],
     }),
     // searchHotels: build.query({

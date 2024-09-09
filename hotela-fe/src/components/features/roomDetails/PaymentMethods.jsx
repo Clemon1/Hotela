@@ -1,13 +1,22 @@
 /* eslint-disable react/prop-types */
-import { Box, Title, Button, Stack, Paper, Group } from "@mantine/core";
+import {
+  Box,
+  Title,
+  Button,
+  Stack,
+  Paper,
+  Group,
+  Avatar,
+  Image,
+} from "@mantine/core";
 import { FaStripe, FaBitcoin } from "react-icons/fa";
-
-function PaymentMethods({ handleStripePayment, stripeLoading }) {
-  const handleCryptoPayment = () => {
-    // Implement crypto payment logic here
-    alert("Crypto payment initiated");
-  };
-
+import cryptomus from "./../../../assets/cryptomus.svg";
+function PaymentMethods({
+  handleStripePayment,
+  stripeLoading,
+  handleCryptoPayment,
+  cryptoLoading,
+}) {
   return (
     <Box>
       <Paper>
@@ -33,15 +42,20 @@ function PaymentMethods({ handleStripePayment, stripeLoading }) {
             </Button>
             <Button
               onClick={handleCryptoPayment}
-              justify='space-between'
+              justify='center'
+              loading={cryptoLoading}
               fullWidth
-              leftSection={<FaBitcoin size={35} />}
               rightSection={<span />}
               radius='md'
-              color='orange'
+              bg={"#000000"}
+              fw={500}
+              bd={"none"}
+              color='#ffffff'
+              c={"#ffffff"}
+              ta={"center"}
               variant='outline'
               size='lg'>
-              Pay with Crypto
+              <Image src={cryptomus} h={"100%"} /> Cryptomus
             </Button>
             {/* <Button
               onClick={handleCryptoPayment}
