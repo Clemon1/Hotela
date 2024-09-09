@@ -9,7 +9,10 @@ import RoomInfo from "../../general/RoomInfo";
 import { useSearchParams } from "react-router-dom";
 import { useRoomDetailsQuery } from "../../Store/Slices/roomSlice";
 import { useEffect, useState } from "react";
-import { useStripePaymentMutation } from "../../Store/Slices/bookingSlice";
+import {
+  useCryptoPaymentMutation,
+  useStripePaymentMutation,
+} from "../../Store/Slices/bookingSlice";
 import { useSelector } from "react-redux";
 import { currentUser } from "../../Store/auth/authSlice";
 import { differenceInDays } from "date-fns";
@@ -49,7 +52,8 @@ function RoomDetails() {
     totalGuest: noOfGuest,
   };
   const [stripePayment, { isLoading: loading }] = useStripePaymentMutation();
-
+  const [cryptoPayment, { isLoading: cryptoLoading }] =
+    useCryptoPaymentMutation();
   const cashPayment = async (e) => {
     e.preventDefault();
     try {
@@ -59,6 +63,22 @@ function RoomDetails() {
       stripeCheckout.redirectToCheckout({
         sessionId: payment.id,
       });
+      console.log(payment);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const cryptoCheckout = async (e) => {
+    e.preventDefault();
+    try {
+      const payment = await cryptoPayment(body).unwrap();
+      console.log(payment);
+
+      if (payment && payment.result.url) {
+        window.location.href = payment.result.url; // Redirect to the checkout URL
+      } else {
+        console.log("Checkout URL not found in the payment response");
+      }
       console.log(payment);
     } catch (err) {
       console.log(err);
@@ -85,6 +105,8 @@ function RoomDetails() {
             <PaymentMethods
               handleStripePayment={cashPayment}
               stripeLoading={loading}
+              handleCryptoPayment={cryptoCheckout}
+              cryptoLoading={cryptoLoading}
             />
           </Box>
           <Box h={"100%"} w={"100%"}>

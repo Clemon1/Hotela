@@ -14,6 +14,7 @@ function SearchResults() {
   const [checkOut, setCheckOut] = useState(
     searchParams.get("checkOut") || null
   );
+  const [rating, setRating] = useState("");
   const [guest, setGuest] = useState(searchParams.get("guest") || "");
   // const location = searchParams.get("location");
   // const checkIn = searchParams.get("checkIn");
@@ -27,11 +28,11 @@ function SearchResults() {
     () => ({
       locationName: location,
       name: "",
-      minRating: 1,
+      minRating: rating,
       minPrice: price[0],
       maxPrice: price[1],
     }),
-    [location, price]
+    [location, price, rating]
   );
   const { data = [], isLoading } = useSearchHotelsQuery(queryArgs, {});
   const [value] = useDebounce(data, 1000);
@@ -98,6 +99,8 @@ function SearchResults() {
             price={price}
             handleSubmit={handleSubmit}
             setPrice={setPrice}
+            rating={rating}
+            setRating={setRating}
           />
         </Box>
         <Box w={{ base: "100%", md: "75%" }} h={"100%"}>

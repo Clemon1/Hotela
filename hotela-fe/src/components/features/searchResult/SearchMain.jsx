@@ -20,6 +20,12 @@ import { CiHeart } from "react-icons/ci";
 import { useMediaQuery } from "@mantine/hooks";
 import { differenceInDays, format } from "date-fns";
 import { Link } from "react-router-dom";
+import {
+  useAddToFavouriteMutation,
+  useGetSingleUserQuery,
+} from "../../../Store/Slices/authenticationSlice";
+import { useSelector } from "react-redux";
+import { currentUser } from "../../../Store/auth/authSlice";
 
 function SearchMain({
   onOpen,
@@ -185,7 +191,12 @@ function SearchMain({
   //     badges: ["#TopRated", "#Luxury"],
   //   },
   // ];
+  const user = useSelector(currentUser);
+  const { data: singleUser = {}, isLoading: favLoad } = useGetSingleUserQuery(
+    user?.userInfo?._id
+  );
 
+  const [addToFavorite] = useAddToFavouriteMutation();
   const startDate = new Date(checkIn);
   const endDate = new Date(checkOut);
   function chunk(array, size) {
@@ -207,10 +218,17 @@ function SearchMain({
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [activePage]);
 
-  const handleFavouriteClick = (id) => {
-    setAnimate(id);
-
-    setTimeout(() => setAnimate(null), 300);
+  const handleFavouriteClick = async (hotelId) => {
+    try {
+      const data = await addToFavorite({
+        userId: singleUser._id,
+        hotelId,
+      }).unwrap();
+      setAnimate(hotelId);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const isMobile = useMediaQuery("(max-width: 980px)"); // Adjusted for mobile view
@@ -315,71 +333,68 @@ function SearchMain({
           </Flex>
         ) : (
           data[activePage - 1]?.map((room) => (
-            <Link
-              to={`/HotelDetails?name=${room?.name}&reg=${room?._id}&checkIn=${checkIn}&checkOut=${checkOut}&guest=${guest}`}
+            <Flex
               key={room._id}
+              direction={isMobile ? "column" : "row"}
+              style={{
+                borderRadius: "15px",
+                boxShadow: "1px 0px 4px 4px rgba(0, 0, 0, 0.1)",
+                height: "45vh",
+              }}
+              gap={14}
             >
-              <Flex
-                direction={isMobile ? "column" : "row"}
-                h={isMobile ? "100%" : "200"}
-                style={{
-                  borderRadius: "15px",
-                  boxShadow: "1px 0px 4px 4px rgba(0, 0, 0, 0.1)",
-                }}
-                gap={14}
-              >
-                <Box
-                  w={isMobile ? "100%" : "35%"}
-                  h={isMobile ? "50%" : ""}
-                  pos={"relative"}
+              <Box w={isMobile ? "100%" : "35%"} h={"auto"} pos={"relative"}>
+                {room?.images.map(
+                  (url, i) =>
+                    i === 0 && (
+                      <Image
+                        key={i}
+                        src={`http://localhost:5000/${url}`}
+                        fit="cover"
+                        h={"100%"}
+                        style={{
+                          borderRadius: "15px",
+                        }}
+                      />
+                    )
+                )}
+                <Button
+                  onClick={() => handleFavouriteClick(room._id)}
+                  style={{
+                    position: "absolute",
+                    top: "10px",
+                    right: "10px",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: "100%",
+                    transition: "transform 0.3s ease",
+                    transform: singleUser?.favourites?.includes(room._id)
+                      ? "scale(1.2)"
+                      : "scale(0.9)",
+                  }}
+                  bg={"rgba(255, 255, 255, 0.9)"}
+                  loading={favLoad}
+                  w={18}
+                  h={35}
                 >
-                  {room?.images.map(
-                    (url, i) =>
-                      i === 0 && (
-                        <Image
-                          key={i}
-                          src={`http://localhost:5000/${url}`}
-                          fit="cover"
-                          h={isMobile ? 200 : "100%"}
-                          style={{
-                            borderRadius: "15px",
-                          }}
-                        />
-                      )
+                  {singleUser?.favourites?.includes(room._id) ? (
+                    <FaHeart color="#dd0426" size={16} />
+                  ) : (
+                    <CiHeart color="#ff6347" size={18} />
                   )}
-                  <Box
-                    onClick={() => handleFavouriteClick(room.id)}
-                    style={{
-                      position: "absolute",
-                      top: "10px",
-                      right: "10px",
-                      cursor: "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      borderRadius: "100%",
-                      transition: "transform 0.3s ease",
-                      transform:
-                        animate === room.id ? "scale(1.3)" : "scale(1)",
-                    }}
-                    bg={"rgba(255, 255, 255, 0.5)"}
-                    w={30}
-                    h={30}
-                  >
-                    {room.favourite ? (
-                      <FaHeart color="#dd0426" size={16} />
-                    ) : (
-                      <CiHeart color="#ff6347" size={16} />
-                    )}
-                  </Box>
-                </Box>
+                </Button>
+              </Box>
 
-                <Flex
-                  direction={"column"}
-                  p={10}
-                  gap={13}
-                  w={isMobile ? "100%" : "75%"}
-                  h={isMobile ? "50%" : ""}
+              <Flex
+                direction={"column"}
+                p={10}
+                gap={13}
+                w={isMobile ? "100%" : "75%"}
+              >
+                <Link
+                  to={`/HotelDetails?name=${room?.name}&reg=${room?._id}&checkIn=${checkIn}&checkOut=${checkOut}&guest=${guest}`}
                 >
                   <Group justify="space-between" align="flex-start">
                     <Stack gap={0}>
@@ -487,9 +502,9 @@ function SearchMain({
                       )}
                     </Group>
                   </Group>
-                </Flex>
+                </Link>
               </Flex>
-            </Link>
+            </Flex>
           ))
         )}
       </Stack>

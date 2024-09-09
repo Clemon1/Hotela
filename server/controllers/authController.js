@@ -198,6 +198,20 @@ export const getSingleUser = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+export const getUserFavourites = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await users.findById(id).populate("favourites").exec();
+    if (!user) {
+      return res.status(400).json("User not found or exist");
+    }
+    const { password, ...data } = user._doc;
+    res.status(200).json(data);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 //send forgot password link to email
 export const forgotPasswordLink = async (req, res) => {
   try {

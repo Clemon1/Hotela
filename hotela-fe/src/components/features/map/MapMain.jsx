@@ -27,7 +27,7 @@ function MapMain({ hotels, centerCoords, onMarkerClick, selectedHotel }) {
       navigator.geolocation.getCurrentPosition(
         geoSuccess,
         geoError,
-        GEO_OPTIONS
+        GEO_OPTIONS,
       );
     } else {
       console.warn("Geolocation is not supported by this browser.");
@@ -41,22 +41,21 @@ function MapMain({ hotels, centerCoords, onMarkerClick, selectedHotel }) {
   }, [centerCoords]);
 
   return (
-    <Box w="100%" h="100%" p={12}>
+    <Box w='100%' h='100%' p={12}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: GOOGLE_API_KEY }}
         center={coords}
         defaultZoom={isMobile ? 12 : 14}
-        options={{ gestureHandling: "greedy", disableDefaultUI: true }}
-      >
+        options={{ gestureHandling: "greedy", disableDefaultUI: true }}>
         {hotels.map((hotel) => (
           <Marker
-            key={hotel.id}
-            lat={hotel.location.lat}
-            lng={hotel.location.lng}
+            key={hotel._id}
+            lat={hotel.geoLocation?.coordinates[1]}
+            lng={hotel.geoLocation?.coordinates[0]}
             hotel={hotel}
             isMobile={isMobile}
-            isSelected={selectedHotel?.id === hotel.id}
-            onClick={() => onMarkerClick(hotel)}
+            isSelected={selectedHotel === hotel._id}
+            onClick={() => onMarkerClick(hotel._id)}
           />
         ))}
       </GoogleMapReact>
@@ -74,7 +73,7 @@ MapMain.propTypes = {
       }).isRequired,
       image: PropTypes.string,
       name: PropTypes.string.isRequired,
-    })
+    }),
   ).isRequired,
   centerCoords: PropTypes.shape({
     lat: PropTypes.number.isRequired,

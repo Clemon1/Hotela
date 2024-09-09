@@ -3,11 +3,23 @@ import MapMain from "../../components/features/map/MapMain";
 import MapSideBar from "../../components/features/map/MapSideBar";
 import hotelDetails1 from "../../assets/hotelDetails1.jpg";
 import { useState, useRef, useEffect } from "react";
+import { useMemo } from "react";
+import { useSearchHotelsQuery } from "../../Store/Slices/hotelSlice";
 
 function Map() {
   const [selectedHotel, setSelectedHotel] = useState(null);
   const sidebarRef = useRef(null);
-
+  const queryArgs = useMemo(
+    () => ({
+      locationName: "Manchester",
+      name: "",
+      minRating: "",
+      minPrice: "",
+      maxPrice: "",
+    }),
+    [],
+  );
+  const { data = [] } = useSearchHotelsQuery(queryArgs, {});
   const hotels = [
     {
       id: 1,
@@ -299,17 +311,20 @@ function Map() {
 
   useEffect(() => {
     if (selectedHotel && sidebarRef.current) {
-      sidebarRef.current.scrollToHotel(selectedHotel.id);
+      sidebarRef.current.scrollToHotel(selectedHotel);
     }
   }, [selectedHotel]);
 
   const handleHotelClick = (hotel) => {
+    console.log("Hotel clicked:", hotel);
     setSelectedHotel(hotel);
   };
 
   const handleMarkerClick = (hotel) => {
+    console.log("Hotel Marker clicked:", hotel);
     setSelectedHotel(hotel);
   };
+  console.log("selected ID:", selectedHotel);
 
   return (
     <Flex
@@ -320,15 +335,14 @@ function Map() {
       style={{
         overflow: "hidden",
       }}
-      mb={{ base: 10, md: 80 }}
-    >
+      mb={{ base: 10, md: 80 }}>
       <MapSideBar
-        hotels={hotels}
+        hotels={data}
         onHotelClick={handleHotelClick}
         ref={sidebarRef}
       />
       <MapMain
-        hotels={hotels}
+        hotels={data}
         centerCoords={selectedHotel?.location}
         onMarkerClick={handleMarkerClick}
         selectedHotel={selectedHotel}

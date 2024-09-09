@@ -28,9 +28,9 @@ const Marker = React.memo(({ hotel, isMobile, onClick, isSelected }) => {
     <Card
       w={100}
       h={100}
-      shadow="sm"
+      shadow='sm'
       padding={0}
-      radius="md"
+      radius='md'
       withBorder
       onClick={onClick}
       style={{
@@ -39,16 +39,27 @@ const Marker = React.memo(({ hotel, isMobile, onClick, isSelected }) => {
         // backgroundColor: isSelected ? "blue" : "", // Apply z-index if selected
         position: "relative",
         animation: isShaking ? "shake 0.5s ease-in-out infinite" : "none", // Apply shaking animation conditionally
-      }}
-    >
-      <Image
-        src={hotel.image || "https://via.placeholder.com/100"}
-        onError={(e) => (e.target.src = "https://via.placeholder.com/100")}
-        height={50}
-        width={"100%"}
-        alt={hotel.name}
-      />
-      <Text size="sm" weight={500} ta={"center"} mt={3} fz={14} fw={500}>
+      }}>
+      {hotel.images.map(
+        (url, i) =>
+          i === 0 && (
+            <Image
+              key={i}
+              src={
+                `http://localhost:5000/${url}` ||
+                "https://via.placeholder.com/100"
+              }
+              onError={(e) =>
+                (e.target.src = "https://via.placeholder.com/100")
+              }
+              height={50}
+              width={"100%"}
+              alt={hotel.name}
+            />
+          ),
+      )}
+
+      <Text size='sm' weight={500} ta={"center"} mt={3} fz={14} fw={500}>
         {hotel.name}
       </Text>
     </Card>
@@ -73,7 +84,7 @@ Marker.displayName = "Marker";
 
 Marker.propTypes = {
   hotel: PropTypes.shape({
-    image: PropTypes.string,
+    images: PropTypes.string,
     name: PropTypes.string.isRequired,
   }).isRequired,
   isMobile: PropTypes.bool.isRequired,

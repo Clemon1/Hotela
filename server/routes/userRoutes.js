@@ -8,6 +8,7 @@ import {
   getAllUser,
   getSingleUser,
   getUserAnalysis,
+  getUserFavourites,
   login,
   resendOTP,
   signUp,
@@ -30,6 +31,7 @@ router.get("/", verifyToken, getAllUser);
 router.get("/userAnalysis", getUserAnalysis);
 // get user by Id
 router.get("/profile/:id", getSingleUser);
+router.get("/getFavourites/:id", getUserFavourites);
 //user signUP
 router.post("/createUser", signUp);
 //user login

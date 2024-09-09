@@ -3,6 +3,9 @@ import { Box } from "@mantine/core";
 import hostelRoom from "../../assets/hostelRoom.jpg";
 import FavouritesList from "../../components/features/favourite/FavouritesList";
 import EmptyFavourite from "../../components/features/favourite/EmptyFavourite";
+import { useSelector } from "react-redux";
+import { currentUser } from "../../Store/auth/authSlice";
+import { useGetFavouritesQuery } from "../../Store/Slices/authenticationSlice";
 
 function Favourite() {
   const favouriteList = [
@@ -161,15 +164,21 @@ function Favourite() {
     },
   ];
 
+  const user = useSelector(currentUser);
+  const { data: singleUser = {} } = useGetFavouritesQuery(user?.userInfo?._id);
+
   // TO CHECK EMPTY FAVOURITE
   // const favouriteList = [];
 
   return (
     <Box w={"100%"}>
-      {favouriteList.length === 0 ? (
+      {singleUser?.favourites?.length === 0 ? (
         <EmptyFavourite />
       ) : (
-        <FavouritesList favouriteList={favouriteList} />
+        <FavouritesList
+          favouriteList={singleUser?.favourites}
+          currentUser={singleUser?._id}
+        />
       )}
     </Box>
   );
