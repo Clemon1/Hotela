@@ -48,6 +48,14 @@ function SearchNav({
     setSelectedStar(star);
   };
 
+  // Set the nextDay null because it brings error if i set as checkIn
+  let nextDay = null;
+
+  if (checkIn instanceof Date && !isNaN(checkIn)) {
+    // Add one day to the checkIn date
+    nextDay = new Date(checkIn);
+    nextDay.setDate(checkIn.getDate() + 1);
+  }
   return (
     <Box c={"#000814"}>
       <Box
@@ -108,6 +116,7 @@ function SearchNav({
               limit={5}
               onChange={onChange1}
               searchable
+              allowDeselect={false}
             />
             <DatePickerInput
               valueFormat='YYYY MMM DD'
@@ -121,9 +130,10 @@ function SearchNav({
               valueFormat='YYYY MMM DD'
               label={"CheckOut"}
               radius={"md"}
-              minDate={new Date()}
+              minDate={nextDay}
               value={new Date(checkOut)}
               onChange={onChange3}
+              disabled={!checkIn} // Disable if checkIn is not set
             />
             <Select
               label={"Guest"}
@@ -154,6 +164,7 @@ function SearchNav({
           step={1}
           value={price}
           onChange={setPrice}
+          onChangeEnd={onClose}
         />
       </Stack>
 

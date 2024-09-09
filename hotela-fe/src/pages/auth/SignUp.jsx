@@ -32,20 +32,27 @@ function SignUp() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [register, { isLoading }] = useRegisterMutation(); // SignUP Mutation
+  console.log(error);
 
   const handleEmailChange = (event) => {
     setEmail(event.currentTarget.value);
-    if (error) {
+    if (error === "Invalid email address") {
       setError("");
     }
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.currentTarget.value);
+    if (error === "Passwords do not match") {
+      setError("");
+    }
   };
 
   const handleConfirmPasswordChange = (event) => {
     setConfirmPassword(event.currentTarget.value);
+    if (error === "Passwords do not match") {
+      setError("");
+    }
   };
 
   const handleAgreeChange = (event) => {
@@ -69,8 +76,8 @@ function SignUp() {
               lastName,
               email,
               password,
-            }).unwrap(),
-          ),
+            }).unwrap()
+          )
         );
         navigate("/ConfirmAccount");
         notifications.show({
@@ -82,10 +89,8 @@ function SignUp() {
         });
       }
     } catch (err) {
-      console.log(err);
       notifications.show({
-        title: "Error",
-        message: `${err}`,
+        message: `${err.data}`,
         color: "red",
         radius: "lg",
         icon: <IoMdCloseCircle fontSize={18} />,
@@ -106,7 +111,8 @@ function SignUp() {
         alignItems: "center",
         justifyContent: "center",
         padding: !isMobile && "20px",
-      }}>
+      }}
+    >
       <Box
         style={{
           width: "100%",
@@ -115,98 +121,107 @@ function SignUp() {
           borderRadius: "12px",
           boxShadow: !isMobile && "0 4px 12px rgba(0, 0, 0, 0.1)", // Consistent shadow
           backgroundColor: theme.white, // Background color to make the shadow effect more visible
-        }}>
+        }}
+      >
         <Title
           order={1}
           fz={"2.25rem"}
           fw={700}
           c={theme.colors.blue[6]}
-          ta='center'
-          mb='md'>
+          ta="center"
+          mb="md"
+        >
           Sign Up
         </Title>
 
         <form
           onSubmit={handleSubmit}
-          style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+        >
           <Group grow>
             <TextInput
-              label='First Name'
-              placeholder='Enter your first name'
+              label="First Name"
+              placeholder="Enter your first name"
               value={firstName}
               onChange={(e) => setFirstName(e.currentTarget.value)}
               required
               withAsterisk={false}
+              minLength={3}
             />
             <TextInput
-              label='Last Name'
-              placeholder='Enter your last name'
+              label="Last Name"
+              placeholder="Enter your last name"
               value={lastName}
               onChange={(e) => setLastName(e.currentTarget.value)}
               required
               withAsterisk={false}
+              minLength={3}
             />
           </Group>
           <TextInput
-            label='Email Address'
-            placeholder='Enter your email address'
+            label="Email Address"
+            placeholder="Enter your email address"
             value={email}
             onChange={handleEmailChange}
             required
             withAsterisk={false}
           />
           <TextInput
-            label='Password'
-            placeholder='Enter your password'
-            type='password'
+            label="Password"
+            placeholder="Enter your password"
+            type="password"
             value={password}
             onChange={handlePasswordChange}
             required
             withAsterisk={false}
+            minLength={8}
           />
           <TextInput
-            label='Confirm Password'
-            placeholder='Confirm your password'
-            type='password'
+            label="Confirm Password"
+            placeholder="Confirm your password"
+            type="password"
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
             required
             withAsterisk={false}
+            minLength={8}
           />
           <Checkbox
-            label='I agree that all the information provided is accurate and true.'
+            label="I agree that all the information provided is accurate and true."
             checked={agree}
             onChange={handleAgreeChange}
             required
           />
           {error && (
-            <Text color='red' fz={15} ta={"center"}>
+            <Text c="red" fz={15} ta={"center"}>
               {error}
             </Text>
           )}
           <Button
-            type='submit'
+            type="submit"
             h={40}
             fz={17}
             loading={isLoading}
-            radius='xl'
+            radius="xl"
             disabled={!agree}
-            mt='md'>
+            mt="md"
+          >
             Sign Up
           </Button>
-          <Flex w='100%' justify='center' align='center' mt='10px'>
-            <Text color='#000814'>Already have an account?</Text>
+          <Flex w="100%" justify="center" align="center" mt="10px">
+            <Text c="#000814">Already have an account?</Text>
             <Button
               component={Link}
-              to='/login'
-              variant='subtle'
+              to="/login"
+              variant="subtle"
               style={{
                 height: "30px",
                 fontSize: "16px",
                 borderRadius: "15px",
                 marginLeft: "10px",
                 padding: "0 10px",
-              }}>
+              }}
+            >
               Login
             </Button>
           </Flex>

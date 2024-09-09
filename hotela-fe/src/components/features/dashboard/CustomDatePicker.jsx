@@ -1,49 +1,67 @@
-/* eslint-disable react/prop-types */
 import PropTypes from "prop-types";
 import { DatePickerInput } from "@mantine/dates";
 import { Flex } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 
-function CustomDatePicker({ label, value, placeholder, onChange }) {
-  const isMobile = useMediaQuery("(max-width: 767px)"); // Adjusted for mobile view
+function CustomDatePicker({
+  label,
+  value,
+  placeholder,
+  onChange,
+  checkInData,
+}) {
+  const isMobile = useMediaQuery("(max-width: 767px)");
+
+  // Add one day to checkInData for the minDate of the Check Out
+  const nextDay = new Date(checkInData);
+  if (checkInData) {
+    nextDay.setDate(checkInData.getDate() + 1);
+  }
+
+  console.log(checkInData);
 
   return (
     <Flex
       w={{ base: "100%", sm: 110 }}
       p={{ base: 2, sm: 0 }}
       style={(theme) => ({
-        borderRight: !isMobile && `1px solid ${theme.colors.blue[6]}`, // Add right border if not mobile
-        height: isMobile ? "auto" : "50px", // Set height for non-mobile
+        borderRight: !isMobile && `1px solid ${theme.colors.blue[6]}`,
+        height: isMobile ? "auto" : "50px",
         flexDirection: "column",
-        border: isMobile ? `1px solid ${theme.colors.blue[6]}` : "", // Apply border if mobile
-      })}>
+        border: isMobile ? `1px solid ${theme.colors.blue[6]}` : "",
+      })}
+    >
       <DatePickerInput
         value={value}
         onChange={onChange}
         label={label}
-        minDate={new Date()}
-        valueFormat='YYYY MMM DD'
+        minDate={label === "Check In" ? new Date() : nextDay}
+        valueFormat="YYYY MMM DD"
         placeholder={placeholder}
-        variant='unstyled'
+        variant="unstyled"
+        disabled={
+          label === "Check out" &&
+          (checkInData === null || checkInData === undefined)
+        }
         styles={(theme) => ({
           input: {
-            boxShadow: "none", // Remove shadow
-            padding: 0, // Remove padding
+            boxShadow: "none",
+            padding: 0,
             marginTop: !isMobile && -7,
             fontWeight: 500,
-            width: "100%", // Ensure the input takes the full width
-            border: isMobile ? `1px solid ${theme.colors.blue[6]}` : "none", // Add blue border on mobile
+            width: "100%",
+            border: isMobile ? `1px solid ${theme.colors.blue[6]}` : "none",
           },
           label: {
-            textAlign: "start", // Align label to start
-            marginBottom: 0, // Space between label and input
-            alignSelf: "flex-start", // Ensure the label aligns at the start
-            width: "100%", // Make sure the label takes full width
+            textAlign: "start",
+            marginBottom: 0,
+            alignSelf: "flex-start",
+            width: "100%",
             color: "#000814",
           },
           placeholder: {
-            color: theme.colors.gray[5], // Placeholder text color
-            textAlign: "start", // Align placeholder text to start
+            color: theme.colors.gray[5],
+            textAlign: "start",
           },
         })}
       />
@@ -54,6 +72,9 @@ function CustomDatePicker({ label, value, placeholder, onChange }) {
 CustomDatePicker.propTypes = {
   label: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
+  value: PropTypes.instanceOf(Date),
+  onChange: PropTypes.func.isRequired,
+  checkInData: PropTypes.instanceOf(Date),
 };
 
 export default CustomDatePicker;
