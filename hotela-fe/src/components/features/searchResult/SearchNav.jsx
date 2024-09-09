@@ -91,7 +91,6 @@ function SearchNav({
           </Box>
           <Stack h={"25%"} align='center' justify='center'>
             <Link to={"/map"}>
-              {" "}
               <Anchor target='_blank' ta={"center"} fz={13} fw={600}>
                 View on a map
               </Anchor>
