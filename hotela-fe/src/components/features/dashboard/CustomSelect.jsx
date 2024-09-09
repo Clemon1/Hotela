@@ -16,7 +16,7 @@ function CustomSelect({
 
   return (
     <Select
-      variant='unstyled'
+      variant="unstyled"
       rightSection={icon}
       onChange={onChange}
       label={label}
@@ -28,8 +28,9 @@ function CustomSelect({
       }}
       searchable
       limit={5}
-      nothingFoundMessage='Nothing found...'
+      nothingFoundMessage="Nothing found..."
       clearable
+      allowDeselect={false}
       p={{ base: 2, sm: 0 }}
       styles={(theme) => ({
         root: {

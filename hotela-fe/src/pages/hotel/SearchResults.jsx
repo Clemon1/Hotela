@@ -12,7 +12,7 @@ function SearchResults() {
   const [location, setLocation] = useState(searchParams.get("location") || "");
   const [checkIn, setCheckIn] = useState(searchParams.get("checkIn") || null);
   const [checkOut, setCheckOut] = useState(
-    searchParams.get("checkOut") || null,
+    searchParams.get("checkOut") || null
   );
   const [guest, setGuest] = useState(searchParams.get("guest") || "");
   // const location = searchParams.get("location");
@@ -31,7 +31,7 @@ function SearchResults() {
       minPrice: price[0],
       maxPrice: price[1],
     }),
-    [location, price],
+    [location, price]
   );
   const { data = [], isLoading } = useSearchHotelsQuery(queryArgs, {});
   const [value] = useDebounce(data, 1000);
@@ -52,6 +52,33 @@ function SearchResults() {
     });
   };
 
+  const handleCheckInChange = (newCheckInDate) => {
+    // Ensure newCheckInDate is a Date object
+    const newCheckIn = new Date(newCheckInDate);
+    const currentCheckOut = checkOut ? new Date(checkOut) : null;
+
+    console.log("New Check-In Date:", newCheckIn);
+    console.log("Current Check-Out Date:", currentCheckOut);
+
+    // Check if we should adjust the check-out date
+    const shouldAdjustCheckOut =
+      currentCheckOut &&
+      newCheckIn &&
+      newCheckIn.getTime() > currentCheckOut.getTime();
+
+    console.log("Should Adjust Check-Out:", shouldAdjustCheckOut);
+
+    // Set the new check-in date
+    setCheckIn(newCheckIn);
+
+    // If the new check-in date is later than the current check-out date, add one day to the check-out date
+    if (shouldAdjustCheckOut) {
+      const newCheckOut = new Date(newCheckIn);
+      newCheckOut.setDate(newCheckOut.getDate() + 1);
+      setCheckOut(newCheckOut);
+    }
+  };
+
   const [opened, { open, close }] = useDisclosure(false);
   const isMobile = useMediaQuery("(max-width: 991px)");
 
@@ -63,7 +90,7 @@ function SearchResults() {
             location={location}
             onChange1={setLocation}
             checkIn={checkIn}
-            onChange2={setCheckIn}
+            onChange2={handleCheckInChange}
             checkOut={checkOut}
             onChange3={setCheckOut}
             guest={guest}
@@ -91,8 +118,22 @@ function SearchResults() {
           opened={opened}
           onClose={close}
           fullScreen
-          withCloseButton={false}>
-          <SearchNav onClose={close} />
+          withCloseButton={false}
+        >
+          <SearchNav
+            onClose={close}
+            location={location}
+            onChange1={setLocation}
+            checkIn={checkIn}
+            onChange2={handleCheckInChange}
+            checkOut={checkOut}
+            onChange3={handleCheckInChange}
+            guest={guest}
+            onChange4={setGuest}
+            price={price}
+            handleSubmit={handleSubmit}
+            setPrice={setPrice}
+          />
         </Modal>
       )}
     </Box>

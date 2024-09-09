@@ -46,6 +46,14 @@ function SearchNav({
     setSelectedStar(star);
   };
 
+  // Set the nextDay null because it brings error if i set as checkIn
+  let nextDay = null;
+
+  if (checkIn instanceof Date && !isNaN(checkIn)) {
+    // Add one day to the checkIn date
+    nextDay = new Date(checkIn);
+    nextDay.setDate(checkIn.getDate() + 1);
+  }
   return (
     <Box c={"#000814"}>
       <Box
@@ -55,8 +63,9 @@ function SearchNav({
           boxShadow: theme.shadows.sm,
           margin: -13,
         }}
-        pr={{ md: 60 }}>
-        <Group justify='space-between' mb='md'>
+        pr={{ md: 60 }}
+      >
+        <Group justify="space-between" mb="md">
           <IoArrowBack
             style={{ display: isMobile ? "none" : "block" }}
             size={30}
@@ -74,7 +83,8 @@ function SearchNav({
             borderRadius: "1rem",
             cursor: "pointer",
           }}
-          my={10}>
+          my={10}
+        >
           <Box h={"75%"}>
             <Image
               src={googleMap}
@@ -85,20 +95,21 @@ function SearchNav({
               }}
             />
           </Box>
-          <Stack h={"25%"} align='center' justify='center'>
+          <Stack h={"25%"} align="center" justify="center">
             <Anchor
-              href='https://mantine.dev/'
-              target='_blank'
+              href="https://mantine.dev/"
+              target="_blank"
               ta={"center"}
               fz={13}
-              fw={600}>
+              fw={600}
+            >
               View on a map
             </Anchor>
           </Stack>
         </Box>
 
         <form onSubmit={handleSubmit}>
-          <Stack spacing='md'>
+          <Stack spacing="md">
             <Select
               label={"Location"}
               data={cities}
@@ -107,9 +118,10 @@ function SearchNav({
               limit={5}
               onChange={onChange1}
               searchable
+              allowDeselect={false}
             />
             <DatePickerInput
-              valueFormat='YYYY MMM DD'
+              valueFormat="YYYY MMM DD"
               label={"CheckIn"}
               radius={"md"}
               minDate={new Date()}
@@ -117,12 +129,13 @@ function SearchNav({
               onChange={onChange2}
             />
             <DatePickerInput
-              valueFormat='YYYY MMM DD'
+              valueFormat="YYYY MMM DD"
               label={"CheckOut"}
               radius={"md"}
-              minDate={new Date()}
+              minDate={nextDay}
               value={new Date(checkOut)}
               onChange={onChange3}
+              disabled={!checkIn} // Disable if checkIn is not set
             />
             <Select
               label={"Guest"}
@@ -131,58 +144,60 @@ function SearchNav({
               value={guest}
               onChange={onChange4}
             />
-            <Button type='submit' bg={"#1668e3"} fullWidth radius={"xl"}>
+            <Button type="submit" bg={"#1668e3"} fullWidth radius={"xl"}>
               Search
             </Button>
           </Stack>
         </form>
       </Box>
 
-      <Divider mb='md' />
+      <Divider mb="md" />
 
-      <Stack spacing='md' gap={5}>
+      <Stack spacing="md" gap={5}>
         <Title order={4}>Your budget (Per night)</Title>
         <Group>
           <Text>£{price[0]}</Text> - <Text>£{price[1]}</Text>
         </Group>
         <RangeSlider
-          size='md'
+          size="md"
           showLabelOnHover={false}
           min={1}
           max={10000}
           step={1}
           value={price}
           onChange={setPrice}
+          onChangeEnd={onClose}
         />
       </Stack>
 
-      <Divider my='md' />
-      <Stack spacing='md'>
+      <Divider my="md" />
+      <Stack spacing="md">
         <Title order={4}>Popular Searches</Title>
-        <Checkbox label='Budget hostel' />
-        <Checkbox label='Breakfast included' />
-        <Checkbox label='Free airport shuttle' />
-        <Checkbox label='Pet friendly' />
+        <Checkbox label="Budget hostel" />
+        <Checkbox label="Breakfast included" />
+        <Checkbox label="Free airport shuttle" />
+        <Checkbox label="Pet friendly" />
       </Stack>
 
-      <Divider my='md' />
+      <Divider my="md" />
 
-      <Stack spacing='md'>
+      <Stack spacing="md">
         <Title order={4}>Property Class</Title>
         <Group>
           {["Any", "5", "4", "3", "2", "1"].map((star, index) => (
             <Badge
               key={index}
-              variant='filled'
+              variant="filled"
               color={selectedStar === star ? "blue" : "gray"}
-              size='lg'
+              size="lg"
               onClick={() => handleStarClick(star)}
               style={{
                 display: "flex",
                 alignItems: "center",
                 cursor: "pointer",
                 transition: "background-color 0.3s ease",
-              }}>
+              }}
+            >
               {star === "Any" ? (
                 "Any"
               ) : (
