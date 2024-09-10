@@ -26,6 +26,18 @@ export const getAllBookings = async (req, res) => {
   }
 };
 
+export const getTotalRevenue = async (req, res) => {
+  try {
+    const bookingTotal = await bookings.find();
+    const totalRevenue = bookingTotal.reduce(
+      (sum, booking) => sum + booking.price,
+      0,
+    );
+    res.status(200).json({ total: totalRevenue });
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+};
 // get all users bookings
 export const getUserBookings = async (req, res) => {
   try {

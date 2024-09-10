@@ -3,6 +3,7 @@ import {
   createHotel,
   deleteHotel,
   geoHotels,
+  getAllHotels,
   getHotelByID,
   rateAndComment,
   searchHotels,
@@ -11,6 +12,7 @@ import {
 import { upload } from "../middlewares/multer/upload.js";
 const router = Router();
 
+router.get("/", getAllHotels);
 router.get("/search", searchHotels);
 router.get("/searchGeo", geoHotels);
 router.get("/search/:id", getHotelByID);

@@ -7,6 +7,7 @@ import hotelRouter from "./routes/hotel.js";
 import roomRouter from "./routes/roomType.js";
 import locationRouter from "./routes/location.js";
 import bookingRouter from "./routes/booking.js";
+import analysisRouter from "./routes/analysisRoute.js";
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5500;
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
 });
 
 app.use(`${API_PATH}/user`, userRouter);
+app.use(`${API_PATH}/analysis`, analysisRouter);
 app.use(`${API_PATH}/hotels`, hotelRouter);
 app.use(`${API_PATH}/location`, locationRouter);
 app.use(`${API_PATH}/rooms`, roomRouter);

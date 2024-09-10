@@ -21,14 +21,12 @@ export const singleLocation = async (req, res) => {
 
 export const createLocation = async (req, res) => {
   try {
-    const { name, country } = req.body;
-    const images = req.file ? req.file.path : null;
-    const newArea = await location.create({
-      name,
-      country,
-      images,
-    });
-    res.status(201).json(newArea);
+    const { name } = req.body;
+
+    const insertedCities = await location.insertMany(
+      cities.map((city) => ({ name: city })),
+    );
+    res.status(201).json(insertedCities);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

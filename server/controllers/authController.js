@@ -103,7 +103,7 @@ export const adminLogin = async (req, res) => {
     if (!user) {
       return res.status(401).json("User not found");
     }
-    if (user.role !== "admin") {
+    if (user.role !== "Admin") {
       return res.status(401).json("You are not allowed to login here");
     }
     const isMatched = await bcrypt.compare(req.body.password, user.password);
@@ -172,10 +172,7 @@ export const verifyOTP = async (req, res) => {
 // get all users
 export const getAllUser = async (req, res) => {
   try {
-    const activeUsers = req.user;
-    console.log(activeUsers);
-
-    const user = await users.find();
+    const user = await users.find({ role: "User" });
 
     res.status(200).json(user);
   } catch (err) {
@@ -198,6 +195,7 @@ export const getSingleUser = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+// Get favorite hotels for a user
 export const getUserFavourites = async (req, res) => {
   try {
     const { id } = req.params;

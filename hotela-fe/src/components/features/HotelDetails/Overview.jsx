@@ -29,17 +29,15 @@ function Overview({ amenities }) {
           <Group align='start' gap={{ base: 0, sm: 50 }}>
             <Stack spacing='lg'>
               {amenities?.map((feature) => (
-                <Group key={feature?._id}>
-                  {feature?.name === "Free WiFi" ? (
+                <Group key={feature}>
+                  {feature === "Free WiFi" ? (
                     <IoWifi />
-                  ) : feature?.name === "Swimming Pool" ? (
+                  ) : feature === "Swimming Pool" ? (
                     <IoWater />
                   ) : (
-                    feature?.name === "Air conditioning" && (
-                      <TbAirConditioning />
-                    )
+                    feature === "Air conditioning" && <TbAirConditioning />
                   )}
-                  <Text fz={14}>{feature?.name}</Text>
+                  <Text fz={14}>{feature}</Text>
                 </Group>
               ))}
             </Stack>

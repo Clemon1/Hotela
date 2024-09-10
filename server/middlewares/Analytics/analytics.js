@@ -41,3 +41,48 @@ export const getMonthlyCounts = async (model, year) => {
   // Reverse the array to have the counts from January to December of the year
   return monthlyCounts.reverse();
 };
+export const getMonthlyRevenue = async (model, year, statuses) => {
+  const monthlyRevenue = [];
+  let startDate = new Date(year, 0, 1); // January 1 of the given year
+
+  for (let month = 0; month < 12; month++) {
+    const endDate = endOfMonth(startDate);
+
+    try {
+      const revenue = await model.aggregate([
+        {
+          $match: {
+            checkIn: {
+              $gte: startDate,
+              $lte: endDate,
+            },
+            bookingStatus: { $in: statuses },
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            total: { $sum: "$price" },
+          },
+        },
+      ]);
+
+      const monthName = startDate.toLocaleDateString("default", {
+        month: "short",
+      });
+      const totalRevenue = revenue.length > 0 ? revenue[0].total : 0;
+      monthlyRevenue.push({ month: monthName, revenue: totalRevenue });
+
+      startDate = addMonths(startDate, 1);
+    } catch (error) {
+      console.error(
+        "Error fetching monthly revenue for model:",
+        model.modelName,
+        error,
+      );
+      throw new Error(`Error fetching monthly revenue for ${model.modelName}`);
+    }
+  }
+
+  return monthlyRevenue;
+};

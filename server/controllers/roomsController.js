@@ -32,6 +32,7 @@ export const createRooms = async (req, res) => {
       description,
       noOfRooms,
       amenities,
+      category,
       maxOccupancy,
     } = req.body;
     const images = req.files["roomImages"]
@@ -44,6 +45,7 @@ export const createRooms = async (req, res) => {
       price,
       description,
       images,
+      category,
       amenities,
       noOfRooms,
       maxOccupancy,

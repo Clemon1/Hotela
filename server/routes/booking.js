@@ -2,7 +2,9 @@ import { Router } from "express";
 import {
   checkSessionSuccess,
   cryptoPayment,
+  getAllBookings,
   getSingleBookings,
+  getTotalRevenue,
   getUserBookings,
   newBooking,
   stripePayment,
@@ -11,6 +13,8 @@ import {
 import { verifyToken } from "../middlewares/JWT.js";
 const router = Router();
 
+router.get("/", getAllBookings);
+router.get("/revenue", getTotalRevenue);
 router.get("/userBooking", verifyToken, getUserBookings);
 router.get("/userBooking/:id", getSingleBookings);
 router.post("/createBooking", newBooking);

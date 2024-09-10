@@ -193,7 +193,7 @@ function SearchMain({
   // ];
   const user = useSelector(currentUser);
   const { data: singleUser = {}, isLoading: favLoad } = useGetSingleUserQuery(
-    user?.userInfo?._id
+    user?.userInfo?._id,
   );
 
   const [addToFavorite] = useAddToFavouriteMutation();
@@ -239,25 +239,23 @@ function SearchMain({
         order={4}
         fz={{ base: 15, xs: 20, sm: 27 }}
         ta={isMobile && "center"}
-        mb={isMobile && 5}
-      >
+        mb={isMobile && 5}>
         {location}, {checkIn && format(checkIn, "d MMM")} -{" "}
         {checkOut && format(checkOut, "d MMM")}, {guest} guests
       </Title>
 
       <Flex
-        align="center"
+        align='center'
         justify={{ base: "center", md: "space-between" }}
         mb={20}
-        gap={20}
-      >
+        gap={20}>
         {!isMobile &&
           (roomData?.length <= 0 ? (
-            <Text fz="md" fw={500}>
+            <Text fz='md' fw={500}>
               No Properties found.
             </Text>
           ) : (
-            <Text fz="md" fw={500}>
+            <Text fz='md' fw={500}>
               {roomData?.length}+ Properties
             </Text>
           ))}
@@ -266,8 +264,7 @@ function SearchMain({
           <Button
             display={{ base: "block", md: "none" }}
             w={200}
-            onClick={onOpen}
-          >
+            onClick={onOpen}>
             Filter and Map
           </Button>
         )}
@@ -275,15 +272,15 @@ function SearchMain({
         <Select
           label={isMobile ? "" : "Sort by"}
           fw={600}
-          defaultValue="Recommended"
-          placeholder="Pick value"
+          defaultValue='Recommended'
+          placeholder='Pick value'
           data={[
             "Recommended",
             "Price: high to low",
             "Price: low to high",
             "Star rating",
           ]}
-          variant="unstyled"
+          variant='unstyled'
           styles={(theme) => ({
             input: {
               border: "1px solid gray",
@@ -296,36 +293,35 @@ function SearchMain({
 
       {isMobile &&
         (roomData?.length <= 0 ? (
-          <Text fz="xs" ta={"center"} mb={10} mt={-15}>
+          <Text fz='xs' ta={"center"} mb={10} mt={-15}>
             No Properties found.
           </Text>
         ) : (
-          <Text fz="xs" ta={"center"} mb={10} mt={-15}>
+          <Text fz='xs' ta={"center"} mb={10} mt={-15}>
             {roomData?.length}+ Properties
           </Text>
         ))}
 
       <Stack gap={20}>
         {isLoading && (
-          <Flex w="100%" h={"60vh"} justify={"center"} align={"center"} py={10}>
-            <Loader color="blue" size="xl" type="dots" />;
+          <Flex w='100%' h={"60vh"} justify={"center"} align={"center"} py={10}>
+            <Loader color='blue' size='xl' type='dots' />;
           </Flex>
         )}
 
         {!roomData || roomData?.length === 0 ? (
           <Flex
-            w="100%"
-            p="lg"
+            w='100%'
+            p='lg'
             ta={"center"}
             mih={"60vh"}
             align={"center"}
-            justify={"center"}
-          >
-            <Stack spacing="md" align="center">
+            justify={"center"}>
+            <Stack spacing='md' align='center'>
               <Title order={1} size={isMobile ? 24 : 36}>
                 No hotel in {location}.
               </Title>
-              <Text size={isMobile ? "sm" : "md"} c="dimmed">
+              <Text size={isMobile ? "sm" : "md"} c='dimmed'>
                 Start exploring our options in other locations and book your
                 stay to see them here!
               </Text>
@@ -341,8 +337,7 @@ function SearchMain({
                 boxShadow: "1px 0px 4px 4px rgba(0, 0, 0, 0.1)",
                 height: "45vh",
               }}
-              gap={14}
-            >
+              gap={14}>
               <Box w={isMobile ? "100%" : "35%"} h={"auto"} pos={"relative"}>
                 {room?.images.map(
                   (url, i) =>
@@ -350,13 +345,13 @@ function SearchMain({
                       <Image
                         key={i}
                         src={`http://localhost:5000/${url}`}
-                        fit="cover"
+                        fit='cover'
                         h={"100%"}
                         style={{
                           borderRadius: "15px",
                         }}
                       />
-                    )
+                    ),
                 )}
                 <Button
                   onClick={() => handleFavouriteClick(room._id)}
@@ -377,12 +372,11 @@ function SearchMain({
                   bg={"rgba(255, 255, 255, 0.9)"}
                   loading={favLoad}
                   w={18}
-                  h={35}
-                >
+                  h={35}>
                   {singleUser?.favourites?.includes(room._id) ? (
-                    <FaHeart color="#dd0426" size={16} />
+                    <FaHeart color='#dd0426' size={16} />
                   ) : (
-                    <CiHeart color="#ff6347" size={18} />
+                    <CiHeart color='#ff6347' size={18} />
                   )}
                 </Button>
               </Box>
@@ -391,12 +385,10 @@ function SearchMain({
                 direction={"column"}
                 p={10}
                 gap={13}
-                w={isMobile ? "100%" : "75%"}
-              >
+                w={isMobile ? "100%" : "75%"}>
                 <Link
-                  to={`/HotelDetails?name=${room?.name}&reg=${room?._id}&checkIn=${checkIn}&checkOut=${checkOut}&guest=${guest}`}
-                >
-                  <Group justify="space-between" align="flex-start">
+                  to={`/HotelDetails?name=${room?.name}&reg=${room?._id}&checkIn=${checkIn}&checkOut=${checkOut}&guest=${guest}`}>
+                  <Group justify='space-between' align='flex-start'>
                     <Stack gap={0}>
                       <Title order={4}>{room?.name}</Title>
                       <Text fz={14} c={"gray"}>
@@ -404,20 +396,20 @@ function SearchMain({
                       </Text>
 
                       {room.cancellation && (
-                        <Text size="xs" c="gray" mt={1}>
+                        <Text size='xs' c='gray' mt={1}>
                           Free cancellation
                         </Text>
                       )}
 
                       {room.BreakfastIncluded && (
-                        <Text size="xs" c="gray" mt={1}>
+                        <Text size='xs' c='gray' mt={1}>
                           Breakfast included
                         </Text>
                       )}
                     </Stack>
 
                     <Group gap={8}>
-                      <Stack align="end" justify="center" gap="0">
+                      <Stack align='end' justify='center' gap='0'>
                         {room?.averageRating === 0 && (
                           <Text fz={16} c={"red"} fw={600}>
                             Poor
@@ -451,7 +443,7 @@ function SearchMain({
                       </Stack>
 
                       <Badge
-                        variant="light"
+                        variant='light'
                         color={
                           room?.averageRating === 0
                             ? "red"
@@ -461,18 +453,17 @@ function SearchMain({
                         }
                         fz={16}
                         py={20}
-                        radius={"md"}
-                      >
+                        radius={"md"}>
                         {room?.averageRating?.toFixed(1)}
                       </Badge>
                     </Group>
                   </Group>
 
-                  <Group align="center" justify="space-between">
+                  <Group align='center' justify='space-between'>
                     <Stack gap={0}>
                       {room?.amenities.map((peak, i) => (
                         <Text c={"#252422"} fz={12} fw={500} key={i}>
-                          {peak.name}
+                          {peak}
                         </Text>
                       ))}
                     </Stack>
@@ -480,23 +471,22 @@ function SearchMain({
                       <Text ta={"end"} fw={600}>
                         £{room?.price}
                       </Text>
-                      <Text fz={12} c="gray">
+                      <Text fz={12} c='gray'>
                         {differenceInDays(endDate, startDate)} nights, {guest}{" "}
                         guests
                       </Text>
                     </Stack>
                   </Group>
 
-                  <Group align="center" justify="space-between">
+                  <Group align='center' justify='space-between'>
                     <Group>
                       {room?.breakFast === true && (
                         <Badge
-                          color="#1668e3"
+                          color='#1668e3'
                           py={13}
                           px={13}
-                          variant="outline"
-                          fz={12}
-                        >
+                          variant='outline'
+                          fz={12}>
                           Breakfast Included
                         </Badge>
                       )}
@@ -515,7 +505,7 @@ function SearchMain({
           total={data.length}
           value={activePage}
           onChange={setPage}
-          mt="sm"
+          mt='sm'
         />
       </Flex>
     </Box>

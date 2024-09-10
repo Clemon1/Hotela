@@ -17,11 +17,7 @@ const hotelSchema = new Schema(
         type: String,
       },
     ],
-    amenities: [
-      {
-        name: String,
-      },
-    ],
+    amenities: [],
     location: { type: Schema.Types.ObjectId, ref: "Location", required: true },
     geoLocation: {
       type: {

@@ -27,7 +27,7 @@ const limiter = rateLimit({
   // store: ... , // Redis, Memcached, etc. See below.
 });
 //get all users
-router.get("/", verifyToken, getAllUser);
+router.get("/", getAllUser);
 router.get("/userAnalysis", getUserAnalysis);
 // get user by Id
 router.get("/profile/:id", getSingleUser);
