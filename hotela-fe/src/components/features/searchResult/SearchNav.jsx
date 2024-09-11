@@ -85,8 +85,9 @@ function SearchNav({
             cursor: "pointer",
           }}
           my={10}>
-          <Box h={"75%"}>
-            <NavLink to={"/map"}>
+          <NavLink
+            to={`/map?location=${location}&guest=${guest}&checkIn=${checkIn}&checkOut=${checkOut}`}>
+            <Box h={"75%"}>
               <Image
                 src={googleMap}
                 h={"100%"}
@@ -95,15 +96,13 @@ function SearchNav({
                   borderTopRightRadius: "1rem",
                 }}
               />
-            </NavLink>
-          </Box>
-          <Stack h={"25%"} align='center' justify='center'>
-            <Link to={"/map"}>
+            </Box>
+            <Stack h={"25%"} align='center' justify='center'>
               <Anchor target='_blank' ta={"center"} fz={13} fw={600}>
                 View on a map
               </Anchor>
-            </Link>
-          </Stack>
+            </Stack>
+          </NavLink>
         </Box>
 
         <form onSubmit={handleSubmit}>

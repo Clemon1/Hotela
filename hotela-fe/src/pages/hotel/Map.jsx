@@ -5,13 +5,21 @@ import hotelDetails1 from "../../assets/hotelDetails1.jpg";
 import { useState, useRef, useEffect } from "react";
 import { useMemo } from "react";
 import { useSearchHotelsQuery } from "../../Store/Slices/hotelSlice";
+import { useSearchParams } from "react-router-dom";
 
 function Map() {
   const [selectedHotel, setSelectedHotel] = useState(null);
   const sidebarRef = useRef(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [location, setLocation] = useState(searchParams.get("location") || "");
+  const [checkIn, setCheckIn] = useState(searchParams.get("checkIn") || null);
+  const [checkOut, setCheckOut] = useState(
+    searchParams.get("checkOut") || null,
+  );
+  const [guest, setGuest] = useState(searchParams.get("guest") || "");
   const queryArgs = useMemo(
     () => ({
-      locationName: "Manchester",
+      locationName: location,
       name: "",
       minRating: "",
       minPrice: "",

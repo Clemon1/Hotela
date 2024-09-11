@@ -40,7 +40,7 @@ const ReportBooking = () => {
         justify={"center"}
         align={"center"}>
         <Text c={"rgb(41, 61, 64)"} fz={25} fw={700}>
-          Bookinito
+          Hotela Report
         </Text>
       </Flex>
       <Flex w={"100%"} pb={5} justify={"space-between"} align={"center"}>

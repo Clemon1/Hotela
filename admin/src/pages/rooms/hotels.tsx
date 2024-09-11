@@ -18,19 +18,13 @@ import {
   IconTrashFilled,
 } from "@tabler/icons-react";
 import SearchFilter from "../../components/searchFilter";
-import {
-  useGetAllRoomQuery,
-  useGetVacantRoomQuery,
-} from "../../redux/RTK_Query/roomSlice";
+import { useGetAllRoomQuery } from "../../redux/RTK_Query/roomSlice";
 
 import { Link } from "react-router-dom";
 import { useGetAllHotelsQuery } from "../../redux/RTK_Query/hotelSlice";
 
 const Hotels = () => {
-  const [search, setSearch] = useState<string>("");
-  const { data: available, isLoading: roomLoad } = useGetVacantRoomQuery();
-  const { data: rooms = [], isLoading } = useGetAllRoomQuery(search);
-  const { data: hotels = [] } = useGetAllHotelsQuery();
+  const { data: hotels = [], isLoading } = useGetAllHotelsQuery();
 
   function chunk<T>(array: T[], size: number): T[][] {
     if (!array.length) {
@@ -48,7 +42,7 @@ const Hotels = () => {
   const boxtype = [
     {
       name: "Total Hotel",
-      total: roomLoad ? (
+      total: isLoading ? (
         <Loader color='#006d77' size='md' type='dots' />
       ) : hotels?.length <= 0 ? (
         0

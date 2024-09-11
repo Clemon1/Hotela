@@ -108,11 +108,11 @@ const MapSideBar = React.forwardRef(({ hotels, onHotelClick }, ref) => {
           <Stack gap={2} mt='md'>
             {hotel.amenities.map((amenity, index) => (
               <Group gap={10} key={index} spacing='xs'>
-                {amenity.name === "Free Wi-Fi"
+                {amenity === "Free Wi-Fi"
                   ? (icon = <FaWifi color={theme.colors.blue[6]} />)
-                  : amenity.name === "Complimentary breakfast"
+                  : amenity === "Complimentary breakfast"
                   ? (icon = <FaCoffee color='orange' />)
-                  : amenity.name === "Fitness center"
+                  : amenity === "Fitness center"
                   ? (icon = <FaDumbbell color='green' />)
                   : (icon = <FaDotCircle color={theme.colors.blue[6]} />)}
                 <Text
@@ -123,7 +123,7 @@ const MapSideBar = React.forwardRef(({ hotels, onHotelClick }, ref) => {
                     whiteSpace: "nowrap",
                     textOverflow: "ellipsis",
                   }}>
-                  {amenity.name}
+                  {amenity}
                 </Text>
               </Group>
             ))}

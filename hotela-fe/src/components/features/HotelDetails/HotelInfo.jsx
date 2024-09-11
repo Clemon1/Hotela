@@ -29,14 +29,42 @@ function HotelInfo({
         </Stack>
         <Group gap={8}>
           <Stack align='end' justify='center' gap='0'>
-            <Text fz={16} c={"green"} fw={600}>
-              Excellent
-            </Text>
+            {rating === 0 && (
+              <Text fz={16} c={"red"} fw={600}>
+                Poor
+              </Text>
+            )}
+            {rating > 0 && rating < 2 && (
+              <Text fz={16} c={"orange"} fw={600}>
+                Poor
+              </Text>
+            )}
+            {rating >= 2 && rating < 3.5 && (
+              <Text fz={16} c={"orange"} fw={600}>
+                Good
+              </Text>
+            )}
+            {rating >= 3.5 && rating < 4.5 && (
+              <Text fz={16} c={"teal"} fw={600}>
+                Very Good
+              </Text>
+            )}
+            {rating >= 4.5 && (
+              <Text fz={16} c={"teal"} fw={600}>
+                Excellent
+              </Text>
+            )}
+
             <Text fz={11} c={"gray"}>
               {visitor} reviews
             </Text>
           </Stack>
-          <Badge variant='light' color='green' fz={16} py={20} radius={"md"}>
+          <Badge
+            variant='light'
+            color={rating === 0 ? "red" : rating < 3.5 ? "orange" : "teal"}
+            fz={16}
+            py={20}
+            radius={"md"}>
             {rating?.toFixed(1)}
           </Badge>
         </Group>

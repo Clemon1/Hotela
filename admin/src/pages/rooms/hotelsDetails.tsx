@@ -4,27 +4,32 @@ import {
   Button,
   Card,
   Flex,
+  Group,
   Image,
   Loader,
   NumberFormatter,
   SimpleGrid,
+  Stack,
   Text,
+  Title,
 } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import Layout from "../../components/layout";
 import { Link, useParams } from "react-router-dom";
 import { useSingleHotelQuery } from "../../redux/RTK_Query/hotelSlice";
+import { useGetAllRoomQuery } from "../../redux/RTK_Query/roomSlice";
 
 const HotelDetails = () => {
   const { id } = useParams();
   const { data: hotel, isLoading } = useSingleHotelQuery(`${id}`);
+  const { data: room, isLoading: roomLoad } = useGetAllRoomQuery(`${id}`);
   console.log("rooms", hotel);
 
   return (
     <Layout>
       <>
         <Flex w={"100%"} justify={"center"} flex={1}>
-          {isLoading ? (
+          {isLoading && roomLoad ? (
             <>
               <Card
                 radius={"md"}
@@ -150,6 +155,67 @@ const HotelDetails = () => {
                     </Text>
                   </Flex>
                 </SimpleGrid>
+              </Flex>
+              <Flex w={"100%"} py={4}>
+                <Text fw={500} fz={23}>
+                  Rooms
+                </Text>
+              </Flex>
+              <Flex w={"100%"} justify={"center"} gap={20} py={30}>
+                {room?.map((room) => (
+                  <Flex
+                    key={room._id}
+                    direction={"column"}
+                    w={"35%"}
+                    h={"fit-content"}
+                    align={"flex-start"}>
+                    <Box mb='md' style={{ position: "relative" }}>
+                      <Carousel h={300} loop>
+                        {room.images.map((url, i) => (
+                          <Carousel.Slide key={i}>
+                            <Image
+                              src={`http://localhost:5000/${url}`}
+                              alt={room.name}
+                              radius='md'
+                              height={300}
+                            />
+                          </Carousel.Slide>
+                        ))}
+                      </Carousel>
+                    </Box>
+                    <Stack gap={10} px='md' pb={"xl"}>
+                      <Title order={3} c={"#000814"}>
+                        {room.name}
+                      </Title>
+                      <Stack gap={10}>
+                        {room.amenities.map((a, i) => (
+                          <Text key={i} fz='sm' c={"#000814"}>
+                            {a}
+                          </Text>
+                        ))}
+                      </Stack>
+                      <Group align='center'>
+                        <Text fz='32' fw={600} c='green'>
+                          £{room.price}
+                        </Text>
+                      </Group>
+
+                      <Text fz='sm' c={"#000814"}>
+                        £{room.price} total
+                      </Text>
+                      <Text fz='sm' c={"#000814"}>
+                        {room.priceDetails}
+                      </Text>
+
+                      <Text fz='sm' c={"#000814"}>
+                        {room.taxesFees}
+                      </Text>
+                      <Text fz='xs' weight={500} c='red'>
+                        {room.availability}
+                      </Text>
+                    </Stack>
+                  </Flex>
+                ))}
               </Flex>
             </Card>
           )}
