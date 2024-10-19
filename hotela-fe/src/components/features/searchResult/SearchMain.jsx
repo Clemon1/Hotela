@@ -36,6 +36,8 @@ function SearchMain({
   checkOut,
   guest,
 }) {
+  const serverURL2 = import.meta.env.VITE_serverURL2;
+
   // const roomData = [
   //   {
   //     id: 1,
@@ -344,7 +346,7 @@ function SearchMain({
                     i === 0 && (
                       <Image
                         key={i}
-                        src={`http://localhost:5000/${url}`}
+                        src={`serverURL2/${url}`}
                         fit='cover'
                         h={"100%"}
                         style={{
