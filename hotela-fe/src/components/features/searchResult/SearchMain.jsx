@@ -346,7 +346,7 @@ function SearchMain({
                     i === 0 && (
                       <Image
                         key={i}
-                        src={`serverURL2/${url}`}
+                        src={`${serverURL2}/${url}`}
                         fit='cover'
                         h={"100%"}
                         style={{

@@ -4,6 +4,7 @@ import { Container, SimpleGrid, Image, Box } from "@mantine/core";
 
 const HotelImages = ({ ImagesProp }) => {
   console.log("Images", ImagesProp);
+  const serverURL2 = import.meta.env.VITE_serverURL2;
 
   return (
     <Container my='md' maw={"1200px"} w={"100%"} mt={20} h={"50vh !important"}>
@@ -15,7 +16,7 @@ const HotelImages = ({ ImagesProp }) => {
                 index === 0 && (
                   <Image
                     key={index}
-                    src={`http://localhost:5000/${url}`}
+                    src={`${serverURL2}/${url}`}
                     h='100%'
                     radius='lg'
                     style={{ objectFit: "cover" }}
@@ -38,7 +39,7 @@ const HotelImages = ({ ImagesProp }) => {
           {ImagesProp?.map((url, index) => (
             <Carousel.Slide key={index}>
               <Image
-                src={`http://localhost:5000/${url}`}
+                src={`${serverURL2}/${url}`}
                 alt='Hotel Detail 1'
                 radius='md'
                 height={"100%"}

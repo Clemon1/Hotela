@@ -13,6 +13,8 @@ import {
 import { differenceInDays, format } from "date-fns";
 
 function RoomInfo({ name, images, price, checkIn, checkOut, guest }) {
+  const serverURL2 = import.meta.env.VITE_serverURL2;
+
   const numberOfDays = differenceInDays(new Date(checkOut), new Date(checkIn));
 
   const totalCharge = price * numberOfDays;
@@ -41,7 +43,7 @@ function RoomInfo({ name, images, price, checkIn, checkOut, guest }) {
         {images?.map((url, index) => (
           <Carousel.Slide key={index}>
             <Image
-              src={`http://localhost:5000/${url}`}
+              src={`${serverURL2}/${url}`}
               alt='Hotel Detail 1'
               radius='md'
               height={300}

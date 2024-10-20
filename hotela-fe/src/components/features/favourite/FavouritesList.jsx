@@ -24,6 +24,8 @@ import { Link, useSearchParams } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
 function FavouritesList({ favouriteList, currentUser }) {
+  const serverURL2 = import.meta.env.VITE_serverURL2;
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [checkIn] = useState(new Date(Date.now()) || "");
@@ -101,7 +103,7 @@ function FavouritesList({ favouriteList, currentUser }) {
                   i === 0 && (
                     <Image
                       key={i}
-                      src={`http://localhost:5000/${url}`}
+                      src={`${serverURL2}/${url}`}
                       fit='cover'
                       h={"100%"}
                       style={{

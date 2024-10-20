@@ -28,6 +28,8 @@ import CustomDatePicker from "../dashboard/CustomDatePicker";
 import { differenceInDays } from "date-fns";
 
 function RoomCard({ room, hotelId, totalDays, checkIn, checkOut, guest }) {
+  const serverURL2 = import.meta.env.VITE_serverURL2;
+
   return (
     <Paper shadow='xs' p='md' radius='md'>
       <Box mb='md' style={{ position: "relative" }}>
@@ -35,7 +37,7 @@ function RoomCard({ room, hotelId, totalDays, checkIn, checkOut, guest }) {
           {room.images.map((url, i) => (
             <Carousel.Slide key={i}>
               <Image
-                src={`http://localhost:5000/${url}`}
+                src={`${serverURL2}/${url}`}
                 alt={room.name}
                 radius='md'
                 height={300}

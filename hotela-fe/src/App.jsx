@@ -1,23 +1,25 @@
+import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./styles/App.css";
 import Applayout from "./general/Applayout";
-import NotFound from "./pages/404/NotFound";
-import Login from "./pages/auth/Login";
-import SignUp from "./pages/auth/SignUp";
-import ConfirmAccount from "./pages/auth/ConfirmAccount";
-import ForgotPassword from "./pages/auth/ForgotPassword";
-import ResetPassword from "./pages/auth/ResetPassword";
-import Profile from "./pages/general/Profile";
-import Dashboard from "./pages/general/Dashboard";
-import RoomDetails from "./pages/rooms/RoomDetails";
-import SearchResults from "./pages/hotel/SearchResults";
-import HotelDetails from "./pages/hotel/HotelDetails";
-import ResetPasswordOTP from "./pages/auth/ResetPasswordOTP";
-import BookingHistory from "./pages/rooms/BookingHistory";
-import Favourite from "./pages/hotel/Favourite";
-import Map from "./pages/hotel/Map";
-import SuccessPayment from "./pages/paymentStatus/success";
-import CancelledPayment from "./pages/paymentStatus/cancelled";
+import Loading from "./components/loader/loader";
+const NotFound = lazy(() => import("./pages/404/NotFound"));
+const Login = lazy(() => import("./pages/auth/Login"));
+const SignUp = lazy(() => import("./pages/auth/SignUp"));
+const ConfirmAccount = lazy(() => import("./pages/auth/ConfirmAccount"));
+const ForgotPassword = lazy(() => import("./pages/auth/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/auth/ResetPassword"));
+const Profile = lazy(() => import("./pages/general/Profile"));
+const Dashboard = lazy(() => import("./pages/general/Dashboard"));
+const RoomDetails = lazy(() => import("./pages/rooms/RoomDetails"));
+const SearchResults = lazy(() => import("./pages/hotel/SearchResults"));
+const HotelDetails = lazy(() => import("./pages/hotel/HotelDetails"));
+const ResetPasswordOTP = lazy(() => import("./pages/auth/ResetPasswordOTP"));
+const BookingHistory = lazy(() => import("./pages/rooms/BookingHistory"));
+const Favourite = lazy(() => import("./pages/hotel/Favourite"));
+const Map = lazy(() => import("./pages/hotel/Map"));
+const SuccessPayment = lazy(() => import("./pages/paymentStatus/success"));
+const CancelledPayment = lazy(() => import("./pages/paymentStatus/cancelled"));
 
 function App() {
   const router = createBrowserRouter([
@@ -95,7 +97,11 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <Suspense fallback={<Loading />}>
+      <RouterProvider router={router} />;
+    </Suspense>
+  );
 }
 
 export default App;
