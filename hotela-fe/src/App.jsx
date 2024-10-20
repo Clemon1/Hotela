@@ -96,7 +96,7 @@ function App() {
       ],
     },
   ]);
-
+  // added suspence and lazy loading
   return (
     <Suspense fallback={<Loading />}>
       <RouterProvider router={router} />;
